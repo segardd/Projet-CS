@@ -6,6 +6,7 @@
 package InterfaceGraphique;
 
 import Sound.Sound;
+import Modele.SiegeModele;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Font;
@@ -15,11 +16,18 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import javax.swing.BorderFactory;
 import javax.swing.JButton;
+import javax.swing.JComboBox;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Calendar;
+import java.util.Date;
+import javax.swing.ComboBoxModel;
+
 
 /**
  *
@@ -28,15 +36,19 @@ import javax.swing.JTextField;
 public class SiegeView extends JFrame{
     //<editor-fold desc="Attributs">
     private Sound Sound;
+    private SiegeModele modele = new SiegeModele();
     private Dessin zoneDessin;
     private int largeur = 1500;
     private int hauteur = 900;
     private Dimension dimension = new Dimension(largeur,hauteur);
-    private JTextField txf_date_CA = new JTextField(30);
-    private JTextField txf_ref_article = new JTextField(30);
+    private JTextField txf_date_JJ = new JTextField(2);
+    private JTextField txf_date_MM = new JTextField(2);
+    private JTextField txf_date_AAAA = new JTextField(4);
+    private JComboBox cmb_ref_article;
     private JTextField txf_quantite_article = new JTextField(30);
-    private JLabel lbl_calculer_chiffre_affaire,lbl_date_CA,lbl_chiffre_affaire,lbl_ajouter_produit,lbl_ref_article,lbl_quantite_article;
+    private JLabel lbl_calculer_chiffre_affaire,lbl_chiffre_affaire_valeur,lbl_date_CA,lbl_chiffre_affaire,lbl_ajouter_produit,lbl_ref_article,lbl_quantite_article;
     private JButton btn_quitter,btn_calculer_CA,btn_ajouter;
+    //private JDatePicker dtp;
     //</editor-fold>
     
     //<editor-fold desc="Constructeur">
@@ -51,31 +63,52 @@ public class SiegeView extends JFrame{
         zoneDessin.setBorder(BorderFactory.createEtchedBorder());
         
         //<editor-fold desc="JTextFields">
-        txf_date_CA.setVisible(true);
-        txf_date_CA.setBackground(Color.white);
-        txf_date_CA.setBorder(BorderFactory.createLineBorder(Color.black));
-        txf_date_CA.setFont(new Font("Calibri", Font.PLAIN, 18));
-        txf_date_CA.setHorizontalAlignment(JTextField.CENTER);
-        txf_date_CA.setSelectedTextColor(Color.orange);
-        txf_date_CA.setForeground(Color.gray);
-        zoneDessin.add(txf_date_CA);
+        txf_date_JJ.setVisible(true);
+        txf_date_JJ.setBackground(Color.white);
+        txf_date_JJ.setBorder(BorderFactory.createLineBorder(Color.black));
+        txf_date_JJ.setFont(new Font("Calibri", Font.PLAIN, 18));
+        txf_date_JJ.setHorizontalAlignment(JTextField.CENTER);
+        txf_date_JJ.setSelectedTextColor(Color.orange);
+        txf_date_JJ.setForeground(Color.black);
+        txf_date_JJ.setText("JJ");
+        zoneDessin.add(txf_date_JJ);
         
-        txf_ref_article.setVisible(true);
+        txf_date_MM.setVisible(true);
+        txf_date_MM.setBackground(Color.white);
+        txf_date_MM.setBorder(BorderFactory.createLineBorder(Color.black));
+        txf_date_MM.setFont(new Font("Calibri", Font.PLAIN, 18));
+        txf_date_MM.setHorizontalAlignment(JTextField.CENTER);
+        txf_date_MM.setSelectedTextColor(Color.orange);
+        txf_date_MM.setForeground(Color.black);
+        txf_date_MM.setText("MM");
+        zoneDessin.add(txf_date_MM);
+        
+        txf_date_AAAA.setVisible(true);
+        txf_date_AAAA.setBackground(Color.white);
+        txf_date_AAAA.setBorder(BorderFactory.createLineBorder(Color.black));
+        txf_date_AAAA.setFont(new Font("Calibri", Font.PLAIN, 18));
+        txf_date_AAAA.setHorizontalAlignment(JTextField.CENTER);
+        txf_date_AAAA.setSelectedTextColor(Color.orange);
+        txf_date_AAAA.setForeground(Color.black);
+        txf_date_AAAA.setText("AAAA");
+        zoneDessin.add(txf_date_AAAA);
+        
+        /*txf_ref_article.setVisible(true);
         txf_ref_article.setBackground(Color.white);
         txf_ref_article.setBorder(BorderFactory.createLineBorder(Color.black));
         txf_ref_article.setFont(new Font("Calibri", Font.PLAIN, 18));
         txf_ref_article.setHorizontalAlignment(JTextField.CENTER);
         txf_ref_article.setSelectedTextColor(Color.red);
         txf_ref_article.setForeground(Color.gray);
-        zoneDessin.add(txf_ref_article);
+        zoneDessin.add(txf_ref_article);*/
         
         txf_quantite_article.setVisible(true);
         txf_quantite_article.setBackground(Color.white);
         txf_quantite_article.setBorder(BorderFactory.createLineBorder(Color.black));
-        txf_quantite_article.setFont(new Font("Roboto", Font.PLAIN, 18));
+        txf_quantite_article.setFont(new Font("Calibri", Font.PLAIN, 18));
         txf_quantite_article.setHorizontalAlignment(JTextField.CENTER);
         txf_quantite_article.setSelectedTextColor(Color.blue);
-        txf_quantite_article.setForeground(Color.gray);
+        txf_quantite_article.setForeground(Color.black);
         zoneDessin.add(txf_quantite_article);
         //</editor-fold>
         
@@ -83,21 +116,24 @@ public class SiegeView extends JFrame{
         lbl_calculer_chiffre_affaire = new JLabel();
         lbl_date_CA = new JLabel();
         lbl_chiffre_affaire = new JLabel();
+        lbl_chiffre_affaire_valeur = new JLabel();
         lbl_ajouter_produit = new JLabel();
         lbl_ref_article = new JLabel();
         lbl_quantite_article = new JLabel();
         
         
-        lbl_calculer_chiffre_affaire.setFont(new Font("Roboto", Font.PLAIN, 24));
+        lbl_calculer_chiffre_affaire.setFont(new Font("Calibri", Font.PLAIN, 24));
         lbl_date_CA.setFont(new Font("Calibri", Font.PLAIN, 18));
         lbl_chiffre_affaire.setFont(new Font("Calibri", Font.PLAIN, 18));
-        lbl_ajouter_produit.setFont(new Font("Roboto", Font.PLAIN, 24));
+        lbl_chiffre_affaire_valeur.setFont(new Font("Calibri", Font.PLAIN, 18));
+        lbl_ajouter_produit.setFont(new Font("Calibri", Font.PLAIN, 24));
         lbl_ref_article.setFont(new Font("Calibri", Font.PLAIN, 18));
-        lbl_quantite_article.setFont(new Font("Roboto", Font.PLAIN, 18));
+        lbl_quantite_article.setFont(new Font("Calibri", Font.PLAIN, 18));
         
         lbl_calculer_chiffre_affaire.setForeground(Color.black);
         lbl_date_CA.setForeground(Color.black);
         lbl_chiffre_affaire.setForeground(Color.black);
+        lbl_chiffre_affaire_valeur.setForeground(Color.black);
         lbl_ajouter_produit.setForeground(Color.black);
         lbl_ref_article.setForeground(Color.black);
         lbl_quantite_article.setForeground(Color.black);
@@ -105,6 +141,7 @@ public class SiegeView extends JFrame{
         lbl_calculer_chiffre_affaire.setText("Calculer le chiffre d'affaire");
         lbl_date_CA.setText("Indiquez une date pour le calcul du Chiffre d'affaire : ");
         lbl_chiffre_affaire.setText("Chiffre d'affaire : ");
+        lbl_chiffre_affaire_valeur.setText("...");
         lbl_ajouter_produit.setText("Ajouter un produit");
         lbl_ref_article.setText("Veuillez selectionner la référence de l'article : ");
         lbl_quantite_article.setText("Veuillez indiquer la quantité de l'article à ajouter : ");
@@ -112,6 +149,7 @@ public class SiegeView extends JFrame{
         lbl_calculer_chiffre_affaire.setVisible(true);
         lbl_date_CA.setVisible(true);
         lbl_chiffre_affaire.setVisible(false);
+        lbl_chiffre_affaire_valeur.setVisible(false);
         lbl_ajouter_produit.setVisible(true);
         lbl_ref_article.setVisible(true);
         lbl_quantite_article.setVisible(true);
@@ -119,9 +157,24 @@ public class SiegeView extends JFrame{
         zoneDessin.add(lbl_calculer_chiffre_affaire);
         zoneDessin.add(lbl_date_CA);
         zoneDessin.add(lbl_chiffre_affaire);
+        zoneDessin.add(lbl_chiffre_affaire_valeur);
         zoneDessin.add(lbl_ajouter_produit);
         zoneDessin.add(lbl_ref_article);
         zoneDessin.add(lbl_quantite_article);
+        //</editor-fold>
+        
+        //<editor-fold desc="JComboBox">
+        cmb_ref_article = new JComboBox();
+        cmb_ref_article.setFont(new Font("Calibri", Font.PLAIN, 18));
+        modele.initArticles();
+        //cmb_ref_article.setSize(200, 40);
+        
+        cmb_ref_article.addItem("----------------------------");
+        for(int i = 0;i < modele.getLesArticles().size(); i++){
+            cmb_ref_article.addItem(modele.getLesArticles().get(i).getReference());
+        }
+        cmb_ref_article.setVisible(true);
+        zoneDessin.add(cmb_ref_article);
         //</editor-fold>
         
         //<editor-fold desc="JButton">
@@ -168,6 +221,8 @@ public class SiegeView extends JFrame{
             }
         });
         //</editor-fold>
+           
+        //zoneDessin.add(dtp);
         
         zoneDessin.setVisible(true);
         this.getContentPane().add(zoneDessin);
@@ -182,27 +237,43 @@ public class SiegeView extends JFrame{
         
         public Dessin() {
             //image = Toolkit.getDefaultToolkit().getImage("src/ResourcesTicTacToe/image_fond_quadrillage.png");
+        	Sound = new Sound("/Ressources/musique2.wav");
+            Sound.play();
         }
         
         @Override
         public void paintComponent(Graphics g) {
             super.paintComponent(g);
             
-            Sound = new Sound("/Ressources/musique1.wav");
-            Sound.play();
+            
             lbl_calculer_chiffre_affaire.setBounds(100, 100, 400, 40);
             lbl_date_CA.setBounds(200, 200, 400, 40);
-            txf_date_CA.setBounds(largeur/2-100, 200, 200, 40);
+            txf_date_JJ.setBounds(largeur/2-100, 200, 40, 40);
+            txf_date_MM.setBounds(largeur/2-50, 200, 40, 40);
+            txf_date_AAAA.setBounds(largeur/2, 200, 80, 40);
             lbl_chiffre_affaire.setBounds(200, 250, 400, 40);
             if(lbl_chiffre_affaire.isVisible()){
                 btn_calculer_CA.setBounds(largeur/2-100, 300, 200, 40);
+                lbl_chiffre_affaire_valeur.setBounds(largeur/2-100, 250, 200, 40);
+                try {
+                    Date date = new Date(Integer.parseInt(txf_date_JJ.getText()),
+                        Integer.parseInt(txf_date_MM.getText()),
+                        Integer.parseInt(txf_date_AAAA.getText()));
+                    lbl_chiffre_affaire_valeur.setText("" + modele.getChiffreAffaire(date));
+                } catch(Exception e){
+                    //e.printStackTrace();
+                    lbl_chiffre_affaire_valeur.setText("Erreur de date");
+                }
+                
+                
+                lbl_chiffre_affaire_valeur.setVisible(true);
             } else {
                 btn_calculer_CA.setBounds(largeur/2-100, 250, 200, 40);
             }
             lbl_ajouter_produit.setBounds(100, 400, 200, 40);
             lbl_ref_article.setBounds(200, 450, 400, 40);
             lbl_quantite_article.setBounds(200, 500, 400, 40);
-            txf_ref_article.setBounds(largeur/2-100, 450, 200, 40);
+            cmb_ref_article.setBounds(largeur/2-100, 450, 200, 32);
             txf_quantite_article.setBounds(largeur/2-100, 500, 200, 40);
             btn_ajouter.setBounds(largeur/2-100, 550, 200, 40);
             btn_quitter.setBounds(largeur/2-100, hauteur-100, 200, 40);
