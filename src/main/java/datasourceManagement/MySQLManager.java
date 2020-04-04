@@ -42,7 +42,7 @@ public class MySQLManager {
             // handle the error
         }
 		try {
-		    conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/heptatlon", "root", "");
+		    conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/heptathlon", "root", "");
 			} catch (SQLException ex) {
 				System.out.println("SQLException: " + ex.getMessage());
 				System.out.println("SQLState: " + ex.getSQLState());

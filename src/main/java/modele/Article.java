@@ -55,4 +55,25 @@ public class Article {
         RelationArticleFacture articleFacture= new RelationArticleFacture(quantite);
         articleFacture.setId_fature(id_facture);
     }*/
+    
+    public String toString() {
+        StringBuilder string= new StringBuilder();
+        string.append("idArticle: ");
+        string.append(this.idArticle);
+        string.append(" ");
+        string.append("reference: ");
+        string.append(this.reference);
+        string.append(" ");
+        string.append("id_famille: ");
+        string.append(this.id_famille);
+        string.append(" ");
+        string.append("nombre_exemplaire: ");
+        string.append(this.nombre_exemplaire);
+        string.append(" ");
+        string.append("prix_unitaire");
+        string.append(this.prix_unitaire);
+        string.append(" ");
+        
+        return string.toString();
+    }
 }

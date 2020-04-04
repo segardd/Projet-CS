@@ -1,6 +1,15 @@
 package daoFactory;
 
 import dao.dao;
+import modele.Article;
+import modele.Client;
+import modele.Facture;
+import modele.Famille;
+import modele.Magasin;
+import modele.ModePaiement;
+import modele.Promotion;
+import modele.RelationArticleFacture;
+import modele.RelationArticleMagasin;
 import dao.PromotionDAOMySQL;
 import dao.RelationArticleFactureDAOMySQL;
 import dao.RelationArticleMagasinDAOMySQL;
@@ -17,23 +26,24 @@ public abstract class DAOFactory{
 		JSON
 	}
 	
+	public abstract dao<Article> getArticleDAO();
 
-	public abstract dao getClientDAO();
+	public abstract dao<Client> getClientDAO();
     
-    public abstract dao getFactureDAO();
+    public abstract dao<Facture> getFactureDAO();
     
-       public abstract dao getFamilleDAO();
+       public abstract dao<Famille> getFamilleDAO();
        
-        public abstract dao getMagasinDAO();
+        public abstract dao<Magasin> getMagasinDAO();
         
-        public abstract dao getModePaiementDAO();
+        public abstract dao<ModePaiement> getModePaiementDAO();
         
         
-        public abstract dao getPromotionDAO();
+        public abstract dao<Promotion> getPromotionDAO();
         
-        public abstract dao getRelationArticleFactureDAO();
+        public abstract dao<RelationArticleFacture> getRelationArticleFactureDAO();
         
-        public abstract dao getRelationArticleMagasinDAO();
+        public abstract dao<RelationArticleMagasin> getRelationArticleMagasinDAO();
 
 	
 	public static DAOFactory getFactory(SourcesDonnees sd) 

@@ -3,6 +3,7 @@ package dao;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.LinkedList;
+import modele.Article;
 
 import datasourceManagement.MySQLManager;
 import modele.Article;
@@ -10,13 +11,13 @@ import modele.Article;
 
 
 public class ArticleDAOMySQL extends dao<Article>{
-	private static ArticleDAOMySQL instance;
+	private static dao<Article> instance;
 	
 	private ArticleDAOMySQL() {
 		
 	}
 	
-	public static synchronized ArticleDAOMySQL getInstance() {
+	public static synchronized dao<Article> getInstance() {
 		
 		if (instance == null) {
 			instance = new ArticleDAOMySQL();
@@ -27,7 +28,7 @@ public class ArticleDAOMySQL extends dao<Article>{
     @Override
     public Article find(long id) {
        
-        StringBuilder req= new StringBuilder("SELECT * FROM article WHERE id_article=");
+        StringBuilder req= new StringBuilder("SELECT * FROM article WHERE idArticle=");
         req.append(id);
         ResultSet result=MySQLManager.getInstance().getData(req.toString());
         Article article=null;
@@ -50,7 +51,7 @@ public class ArticleDAOMySQL extends dao<Article>{
         // TODO Auto-generated method stub
         String req= 
                 "INSERT INTO article (reference,ID_famille,prix_unitaire,nombre_exemplaire)"
-                + " VALUES("+obj.getReference()+","+obj.getId_famille()+","+obj.getPrix_unitaire()+","+obj.getNombre_exemplaire()+")";
+                + " VALUES('"+obj.getReference()+"',"+obj.getId_famille()+","+obj.getPrix_unitaire()+","+obj.getNombre_exemplaire()+")";
         
                     
         obj.setIdArticle(MySQLManager.getInstance().setData(req));
@@ -61,10 +62,10 @@ public class ArticleDAOMySQL extends dao<Article>{
     public Article update(Article obj) {
         // TODO Auto-generated method stub
         String req="UPDATE article SET reference='"+obj.getReference()+"',"
-                + "ID_famille=" + obj.getId_famille()+","
+                + "ID_famille= '" + obj.getId_famille()+"',"
                 + "prix_unitaire="+obj.getPrix_unitaire()+","
                  + "nombre_exemplaire="+obj.getNombre_exemplaire()+""
-                         + "WHERE idArticle="+obj.getIdArticle();
+                         + " WHERE idArticle= "+obj.getIdArticle();
         MySQLManager.getInstance().setData(req);
         return obj;
                 

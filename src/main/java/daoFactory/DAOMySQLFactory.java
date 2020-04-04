@@ -1,6 +1,7 @@
 package daoFactory;
 
 import dao.dao;
+import dao.ArticleDAOMySQL;
 import dao.ClientDAOMySQL;
 import dao.FactureDAOMySQL;
 import dao.FamilleDAOMySQL;
@@ -23,6 +24,10 @@ public class DAOMySQLFactory extends DAOFactory{
 		}
 		return instance;		
 	}
+	
+	public dao getArticleDAO() {
+        return ArticleDAOMySQL.getInstance();
+    };
 
 	public dao getClientDAO() {
 		return ClientDAOMySQL.getInstance();
