@@ -1,12 +1,15 @@
 package modele;
 
 import java.sql.Date;
+import java.util.LinkedList;
 
 public class Facture {
     private int idFacture;
     private int id_magasin;
     private int id_mode_paiement;
     private int idClient;
+    private LinkedList<RelationArticleFacture> articlesFac= new LinkedList<RelationArticleFacture>();
+    
     public int getIdClient() {
         return idClient;
     }
@@ -51,6 +54,22 @@ public class Facture {
     }
     public void setDate_facture(Date date_facture) {
         this.date_facture = date_facture;
+    }
+    
+    
+    public void setArticles(LinkedList<RelationArticleFacture> articles) {
+        this.articlesFac=articles;
+    }
+    
+    public LinkedList<RelationArticleFacture> getArticles() {
+        return this.articlesFac;
+    }
+    
+    public void addArticle(Article article, int quantite) {
+        RelationArticleFacture rel= new RelationArticleFacture(quantite);
+        rel.setId_facture(this.idFacture);
+        rel.setId_article(article.getIdArticle());
+        this.articlesFac.add(rel);
     }
     
     

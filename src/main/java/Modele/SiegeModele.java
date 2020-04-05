@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package Modele;
+package modele;
 
 import java.util.ArrayList;
 import java.util.Date;
@@ -18,7 +18,7 @@ public class SiegeModele {
     //<editor-fold desc="Attributs">
     Date date;
     Double chiffreAffaire;
-    List<ArticleDAO> lesArticles = new ArrayList<ArticleDAO>();
+    List<Article> lesArticles = new ArrayList<Article>();
     int nombreArticle;
     //</editor-fold>
     
@@ -40,11 +40,11 @@ public class SiegeModele {
         this.chiffreAffaire = chiffreAffaire;
     }
 
-    public List<ArticleDAO> getLesArticles() {
+    public List<Article> getLesArticles() {
         return lesArticles;
     }
 
-    public void setLesArticles(List<ArticleDAO> lesArticles) {
+    public void setLesArticles(List<Article> lesArticles) {
         this.lesArticles = lesArticles;
     }
 
@@ -59,9 +59,9 @@ public class SiegeModele {
     
     //<editor-fold desc="Méthodes">
     public void initArticles(){
-        lesArticles.add(new ArticleDAO("Short Homme", 1, 30.0, 5));
-        lesArticles.add(new ArticleDAO("Short Femme", 1, 30.0, 5));
-        lesArticles.add(new ArticleDAO("Chronometre", 1, 10.0, 5));
+        lesArticles.add(new Article("Short Homme", 30.0, 5));
+        lesArticles.add(new Article("Short Femme", 30.0, 5));
+        lesArticles.add(new Article("Chronometre", 10.0, 5));
     }
     
     public Double calculCA(){

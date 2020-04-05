@@ -7,11 +7,14 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.LinkedList;
 import datasourceManagement.MySQLManager;
+import modele.Facture;
 import modele.Magasin;
+import modele.RelationArticleFacture;
 
 
 public class MagasinDAOMySQL extends dao<Magasin> {
     public static MagasinDAOMySQL instance;
+    private static FactureDAOMySQL factureManager= FactureDAOMySQL.getInstance();
 
     private MagasinDAOMySQL() {
         
@@ -39,6 +42,8 @@ public class MagasinDAOMySQL extends dao<Magasin> {
                         result.getString("adresse")
                           );
                   magasin.setIdMagasin(result.getInt("id"));
+                  
+                  magasin.setFactures(factureManager.findByMagasin(magasin.getIdMagasin()));
                 
                 
             }
@@ -58,16 +63,36 @@ public class MagasinDAOMySQL extends dao<Magasin> {
         
                     
         obj.setIdMagasin(MySQLManager.getInstance().setData(req));
+        
+        for(Facture rel: obj.getFactures() ) {
+            rel.setId_magasin(obj.getIdMagasin());
+        }
+        factureManager.saveall(obj.getFactures());
         return obj;
     }
 
     @Override
     public Magasin update(Magasin obj) {
+        LinkedList<Facture> updateFacture= new LinkedList<Facture>();
         String req="UPDATE magasin SET ville='"+obj.getVille()+"',"
                 + "departement='" + obj.getDepartement()+"',"
                 + "adresse='"+obj.getAdresse()+"'"
                         + " WHERE idMagasin="+obj.getIdMagasin();
         MySQLManager.getInstance().setData(req);
+        
+        //lien, factures du magasin
+        for (Facture rel: obj.getFactures() ) {
+            if (rel.getIdFacture()==0) {
+                rel.setIdFacture(factureManager.create(rel).getIdFacture());
+                
+            }
+            else {
+                
+                rel=factureManager.update(rel);
+            }
+            updateFacture.add(rel);
+        }
+        obj.setFactures(updateFacture);
         return obj;
     }
 
@@ -105,7 +130,10 @@ public class MagasinDAOMySQL extends dao<Magasin> {
                       result.getString("adresse")
                         );
                 magasin.setIdMagasin(result.getInt("id"));
-             // on verra aussi pour les liens
+                
+             // lien
+                magasin.setFactures(factureManager.findByMagasin(magasin.getIdMagasin()));
+                
                 magasins.add(magasin);
             }       
         }

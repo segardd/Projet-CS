@@ -6,7 +6,11 @@
 package InterfaceGraphique;
 
 import Sound.Sound;
-import Modele.SiegeModele;
+import dao.dao;
+import daoFactory.DAOFactory;
+import daoFactory.DAOFactory.SourcesDonnees;
+import modele.Article;
+import modele.SiegeModele;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Font;
@@ -48,6 +52,8 @@ public class SiegeView extends JFrame{
     private JTextField txf_quantite_article = new JTextField(30);
     private JLabel lbl_calculer_chiffre_affaire,lbl_chiffre_affaire_valeur,lbl_date_CA,lbl_chiffre_affaire,lbl_ajouter_produit,lbl_ref_article,lbl_quantite_article;
     private JButton btn_quitter,btn_calculer_CA,btn_ajouter;
+    private DAOFactory factory=DAOFactory.getFactory(SourcesDonnees.mySQL);
+    private dao<Article> ArticlesManager=factory.getArticleDAO();
     //private JDatePicker dtp;
     //</editor-fold>
     
@@ -170,8 +176,8 @@ public class SiegeView extends JFrame{
         //cmb_ref_article.setSize(200, 40);
         
         cmb_ref_article.addItem("----------------------------");
-        for(int i = 0;i < modele.getLesArticles().size(); i++){
-            cmb_ref_article.addItem(modele.getLesArticles().get(i).getReference());
+        for(int i = 0;i < ArticlesManager.findall().size(); i++){
+            cmb_ref_article.addItem(ArticlesManager.findall().get(i).getReference());
         }
         cmb_ref_article.setVisible(true);
         zoneDessin.add(cmb_ref_article);

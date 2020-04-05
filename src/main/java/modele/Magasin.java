@@ -49,6 +49,16 @@ public class Magasin implements MesFactures{
         this.factures.add(factures);
         
     }
+
+    public LinkedList<Facture> getFactures() {
+        return factures;
+    }
+
+    public void setFactures(LinkedList<Facture> factures) {
+        this.factures = factures;
+    }
+    
+    
     
     
     

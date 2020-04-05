@@ -163,7 +163,7 @@ public class RelationArticleFactureDAOMySQL extends dao<RelationArticleFacture> 
         return artfacs;
     }
     
-    public LinkedList<RelationArticleFacture> findByMagasin(long id){
+    public LinkedList<RelationArticleFacture> findByFacture(long id){
         String req = "SELECT * From artfac WHERE ID_Facture= "+id;
         LinkedList<RelationArticleFacture> artfacs= new LinkedList<RelationArticleFacture>();
         ResultSet result = MySQLManager.getInstance().getData(req);
@@ -182,7 +182,7 @@ public class RelationArticleFactureDAOMySQL extends dao<RelationArticleFacture> 
         }
         catch(Exception e){
             System.out.println(e.toString());
-            System.out.println("pas compte");
+            System.out.println("pas factures");
         }
         return artfacs;
     }

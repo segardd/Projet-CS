@@ -8,10 +8,12 @@ import java.sql.Statement;
 import java.util.LinkedList;
 import datasourceManagement.MySQLManager;
 import modele.Facture;
+import modele.RelationArticleFacture;
 
 
 public class FactureDAOMySQL extends dao<Facture> {
     public static FactureDAOMySQL instance;
+    private static  RelationArticleFactureDAOMySQL relArtFacManager= RelationArticleFactureDAOMySQL.getInstance();
 
     private FactureDAOMySQL() {
         
@@ -41,6 +43,8 @@ public class FactureDAOMySQL extends dao<Facture> {
                 facture.setId_magasin(result.getInt("ID_magasin"));
                 facture.setId_mode_paiement(result.getInt("ID_mode_paiement"));
                 
+                facture.setArticles(RelationArticleFactureDAOMySQL.getInstance().findByFacture(id));
+                
                 
                 
             }
@@ -60,6 +64,11 @@ public class FactureDAOMySQL extends dao<Facture> {
         
                     
         obj.setIdFacture(MySQLManager.getInstance().setData(req));
+        
+        for(RelationArticleFacture rel: obj.getArticles() ) {
+            rel.setId_facture(obj.getIdFacture());
+        }
+        relArtFacManager.saveall(obj.getArticles());
         return obj;
     }
 
@@ -72,6 +81,17 @@ public class FactureDAOMySQL extends dao<Facture> {
                  + "date_facturation="+obj.getDate_facture()+""
                          + "WHERE idFacture="+obj.getIdFacture();
         MySQLManager.getInstance().setData(req);
+       
+        for (RelationArticleFacture rel: obj.getArticles() ) {
+            if (rel.getId_art_fac()==0) {
+                rel.setId_art_fac(relArtFacManager.create(rel).getId_art_fac());
+            }
+            else {
+                
+                rel=relArtFacManager.update(rel);
+            }
+        }
+        
         return obj;
     }
 
@@ -79,6 +99,10 @@ public class FactureDAOMySQL extends dao<Facture> {
     public void delete(Facture obj) {
         String req="DELETE FROM facture WHERE idFacture="+obj.getIdFacture();
         MySQLManager.getInstance().setData(req);
+        
+        for(RelationArticleFacture rel : obj.getArticles()) {
+            relArtFacManager.delete(rel);                       //DELETE CASCADE
+        }
 
     }
 
@@ -111,6 +135,8 @@ public class FactureDAOMySQL extends dao<Facture> {
                 facture.setId_magasin(result.getInt("ID_magasin"));
                 facture.setId_mode_paiement(result.getInt("ID_mode_paiement"));
              // on verra aussi pour les liens
+                facture.setArticles(RelationArticleFactureDAOMySQL.getInstance().findByFacture(facture.getIdFacture()));
+                
                 factures.add(facture);
             }       
         }
@@ -121,5 +147,37 @@ public class FactureDAOMySQL extends dao<Facture> {
         return factures;
         
     }
+    
+    public LinkedList<Facture> findByMagasin(long id) {
+        // TODO Auto-generated method stub
+        String req = "SELECT * From facture WHERE ID_magasin= "+id;
+        LinkedList<Facture> factures= new LinkedList<Facture>();
+        ResultSet result = MySQLManager.getInstance().getData(req);
+        Facture facture = null;
+        try {
+            while(result.next()) {
+                facture=new Facture(
+                        result.getDouble("totale_facture"),
+                        result.getDate("date_facturation")
+                        );
+                facture.setIdFacture(result.getInt("idFacture"));
+                facture.setId_magasin(result.getInt("ID_magasin"));
+                facture.setId_mode_paiement(result.getInt("ID_mode_paiement"));
+             // on verra aussi pour les liens
+                facture.setArticles(RelationArticleFactureDAOMySQL.getInstance().findByFacture(facture.getIdFacture()));
+                
+                factures.add(facture);
+            }       
+        }
+        catch(Exception e){
+            System.out.println(e.toString());
+            System.out.println("pas facture");
+        }
+        return factures;
+        
+    }
+    
+    
+    
 
 }
