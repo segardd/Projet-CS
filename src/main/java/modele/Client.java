@@ -1,11 +1,12 @@
 package modele;
 
+import java.io.Serializable;
 import java.sql.Date;
 import java.util.LinkedList;
 
 import modele.modeleinterface.MesFactures;
 
-public class Client implements MesFactures{
+public class Client implements MesFactures, Serializable{
     private int idClient;
     private String nom;
     private String prenom;

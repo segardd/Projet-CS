@@ -1,8 +1,9 @@
 package modele;
 
+import java.io.Serializable;
 import java.util.LinkedList;
 
-public class Article {
+public class Article implements Serializable {
     private int idArticle;
     private String reference;
     private double prix_unitaire;

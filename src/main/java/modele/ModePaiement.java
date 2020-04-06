@@ -1,11 +1,12 @@
 package modele;
 
+import java.io.Serializable;
 import java.sql.Date;
 import java.util.LinkedList;
 
 import modele.modeleinterface.MesFactures;
 
-public class ModePaiement implements MesFactures{
+public class ModePaiement implements MesFactures, Serializable{
     private int idMode_paiement;
     private String intitule_paiement;
     private LinkedList<Facture> factures= new LinkedList<Facture>();

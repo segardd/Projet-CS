@@ -1,5 +1,6 @@
 package modele;
 
+import java.io.Serializable;
 import java.util.LinkedList;
 
 import modele.modeleinterface.MesFactures;
@@ -7,7 +8,7 @@ import modele.modeleinterface.MesFactures;
 
 
 
-public class Magasin implements MesFactures{
+public class Magasin implements MesFactures, Serializable{
     private int idMagasin;
     private String ville;
     private String  departement;
