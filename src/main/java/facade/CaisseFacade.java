@@ -15,11 +15,15 @@ import modele.Facture;
 import modele.Magasin;
 import modele.ModePaiement;
 <<<<<<< HEAD
+<<<<<<< HEAD
 //import modele.RelationArticleFacture;
 =======
 import modele.RelationArticleFacture;
 import serveur.magasin.PosteCaisseFonctionnalite;
 >>>>>>> donatien
+=======
+import modele.RelationArticleFacture;
+>>>>>>> alexis
 
 
 public class CaisseFacade implements PosteCaisseFonctionnalite{
@@ -30,9 +34,13 @@ public class CaisseFacade implements PosteCaisseFonctionnalite{
     private dao<Client> clienManager= factory.getClientDAO();
     private dao<Facture> factureManager= factory.getFactureDAO();
     private dao<Magasin> magasinManager= factory.getMagasinDAO();
+<<<<<<< HEAD
     //private dao<RelationArticleFacture> relationManager= factory.getRelationArticleFactureDAO();
 =======
 >>>>>>> donatien
+=======
+    private dao<RelationArticleFacture> relationManager= factory.getRelationArticleFactureDAO();
+>>>>>>> alexis
     
 private static CaisseFacade instance;
 
@@ -72,18 +80,22 @@ private static CaisseFacade instance;
      * @param mode , mode de paiement choisis
      * @return la facture payée
      */
-    /*public Facture PayerFacture(Facture facture, ModePaiement mode ) {
+    public Facture PayerFacture(Facture facture, ModePaiement mode) {
         facture.setId_mode_paiement(mode.getIdMode_paiement());
         facture=factureManager.update(facture);
         
 <<<<<<< HEAD
         
+<<<<<<< HEAD
     }*/
 =======
         return null;
         
     }
 >>>>>>> donatien
+=======
+    }
+>>>>>>> alexis
     
     /**
      * 
