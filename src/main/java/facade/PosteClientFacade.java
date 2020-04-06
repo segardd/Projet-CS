@@ -3,6 +3,7 @@ package facade;
 import java.util.LinkedList;
 
 import modele.Article;
+import modele.Famille;
 
 public class PosteClientFacade {
     
@@ -39,7 +40,16 @@ public class PosteClientFacade {
      * @param famille
      * @return la liste d'article
      */
-public LinkedList<Article> articleDeLaFamille(Famille famille){
+    public LinkedList<Article> articleDeLaFamille(Famille famille){
         
+    }
+    
+    /**
+     * 
+     * @param ref de l'article
+     * @return l'intitulé de la famille de l'article
+     */
+    public String intituleDeLaFamille(String ref){
+        return "Famille";
     }
 }
