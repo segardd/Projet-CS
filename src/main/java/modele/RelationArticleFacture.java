@@ -1,6 +1,8 @@
 package modele;
 
-public class RelationArticleFacture {
+import java.io.Serializable;
+
+public class RelationArticleFacture  implements Serializable {
     
     private int quantite;
     private int id_art_fac;

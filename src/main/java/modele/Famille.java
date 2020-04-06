@@ -1,8 +1,9 @@
 package modele;
 
+import java.io.Serializable;
 import java.util.LinkedList;
 
-public class Famille {
+public class Famille  implements Serializable {
     private int idFamille;
     private String intitule;
     private LinkedList<Article> articles= new LinkedList<Article>();

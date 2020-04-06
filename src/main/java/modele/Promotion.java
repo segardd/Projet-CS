@@ -1,8 +1,9 @@
 package modele;
 
+import java.io.Serializable;
 import java.sql.Date;
 
-public class Promotion {
+public class Promotion  implements Serializable  {
     private int idPromotion;
     private int valeur_pourcentage;
     private double valeur_brute;

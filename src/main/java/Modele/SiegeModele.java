@@ -5,6 +5,7 @@
  */
 package modele;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -13,7 +14,7 @@ import java.util.List;
  *
  * @author utilisateur
  */
-public class SiegeModele {
+public class SiegeModele  implements Serializable {
     
     //<editor-fold desc="Attributs">
     Date date;

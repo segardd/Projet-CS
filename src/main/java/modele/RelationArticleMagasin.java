@@ -1,6 +1,8 @@
 package modele;
 
-public class RelationArticleMagasin {
+import java.io.Serializable;
+
+public class RelationArticleMagasin implements Serializable  {
     private int en_stock;
     private int id_art_mag;
     public int getId_art_mag() {

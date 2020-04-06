@@ -1,9 +1,10 @@
 package modele;
 
+import java.io.Serializable;
 import java.sql.Date;
 import java.util.LinkedList;
 
-public class Facture {
+public class Facture  implements Serializable {
     private int idFacture;
     private int id_magasin;
     private int id_mode_paiement;
