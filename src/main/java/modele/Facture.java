@@ -1,7 +1,7 @@
 package modele;
 
 import java.io.Serializable;
-import java.sql.Date;
+import java.util.Date;
 import java.util.LinkedList;
 
 public class Facture  implements Serializable {
@@ -72,6 +72,36 @@ public class Facture  implements Serializable {
         rel.setId_article(article.getIdArticle());
         this.articlesFac.add(rel);
     }
+    
+    public String toString() {
+        StringBuilder mafacture= new StringBuilder();
+        mafacture.append("Numéro facture: ");
+        mafacture.append(this.idFacture);
+        mafacture.append("/r");
+        
+        mafacture.append("Numéro magasin: ");
+        mafacture.append(this.id_magasin);
+        mafacture.append("/r");
+        
+        mafacture.append("Numéro paiement: ");
+        mafacture.append(this.id_mode_paiement);
+        mafacture.append("/r");
+        
+        mafacture.append("Détails: /r");
+        for(RelationArticleFacture rel: this.articlesFac) {
+            mafacture.append(rel.getId_article()+" "+rel.getLarticle().getReference()+" x"+rel.getQuantite()+" "+
+        rel.getLarticle().getPrix_unitaire()*rel.getQuantite()+"/r");
+        }
+        mafacture.append("TOTAL: ");
+        mafacture.append(this.totale_facture);
+        
+        return mafacture.toString();
+        
+        
+        
+        
+    }
+    
     
     
 }

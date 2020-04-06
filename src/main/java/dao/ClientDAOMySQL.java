@@ -1,5 +1,6 @@
 package dao;
 
+import java.io.Serializable;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -10,7 +11,7 @@ import datasourceManagement.MySQLManager;
 import modele.Client;
 
 
-public class ClientDAOMySQL extends dao<Client> {
+public class ClientDAOMySQL extends dao<Client>  implements Serializable{
     public static ClientDAOMySQL instance;
 
     private ClientDAOMySQL() {

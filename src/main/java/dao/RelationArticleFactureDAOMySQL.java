@@ -1,5 +1,6 @@
 package dao;
 
+import java.io.Serializable;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -7,11 +8,14 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.LinkedList;
 import datasourceManagement.MySQLManager;
+import modele.Article;
 import modele.RelationArticleFacture;
 
 
-public class RelationArticleFactureDAOMySQL extends dao<RelationArticleFacture> {
+public class RelationArticleFactureDAOMySQL extends dao<RelationArticleFacture>  implements Serializable{
     public static RelationArticleFactureDAOMySQL instance;
+    private dao<Article> articleManager= ArticleDAOMySQL.getInstance();
+    
 
     private RelationArticleFactureDAOMySQL() {
         
@@ -39,6 +43,10 @@ public class RelationArticleFactureDAOMySQL extends dao<RelationArticleFacture> 
                 artfac.setId_art_fac(result.getInt("idRelationArticleFacture"));
                 artfac.setId_article(result.getInt("ID_Article"));
                 artfac.setId_facture(result.getInt("ID_Facture"));
+                
+                //get Larticle de la relation
+                artfac.setLarticle(articleManager.find(artfac.getId_article()));
+                
                 
                 
             }
@@ -77,8 +85,8 @@ public class RelationArticleFactureDAOMySQL extends dao<RelationArticleFacture> 
     @Override
     public RelationArticleFacture create(RelationArticleFacture obj) {
         String req= 
-                "INSERT INTO artfac (quantite)"
-                + " VALUES("+obj.getQuantite()+")";
+                "INSERT INTO rt_art_fac (ID_Article,ID_Facture,quantite)"
+                + " VALUES("+obj.getId_article()+","+obj.getId_facture()+","+obj.getQuantite()+")";
         
                     
         obj.setId_art_fac(MySQLManager.getInstance().setData(req));
@@ -87,7 +95,9 @@ public class RelationArticleFactureDAOMySQL extends dao<RelationArticleFacture> 
 
     @Override
     public RelationArticleFacture update(RelationArticleFacture obj) {
-        String req="UPDATE artfac SET quantite='"+obj.getQuantite()+"'"
+        String req="UPDATE rt_art_fac SET quantite='"+obj.getQuantite()+"',"
+                + "ID_Article= "+obj.getId_article()+","
+                +"ID_Facture= "+obj.getId_facture()
                          + " WHERE idRelationArticleFacture="+obj.getId_art_fac();
         MySQLManager.getInstance().setData(req);
         return obj;
@@ -95,7 +105,7 @@ public class RelationArticleFactureDAOMySQL extends dao<RelationArticleFacture> 
 
     @Override
     public void delete(RelationArticleFacture obj) {
-        String req="DELETE FROM artfac WHERE idRelationArticleFacture="+obj.getId_art_fac();
+        String req="DELETE FROM rt_art_fac WHERE idRelationArticleFacture="+obj.getId_art_fac();
         MySQLManager.getInstance().setData(req);
 
     }
@@ -115,7 +125,7 @@ public class RelationArticleFactureDAOMySQL extends dao<RelationArticleFacture> 
     @Override
     public LinkedList<RelationArticleFacture> findall() {
         // TODO Auto-generated method stub
-        String req = "SELECT * From artfac";
+        String req = "SELECT * From rt_art_fac";
         LinkedList<RelationArticleFacture> artfacs= new LinkedList<RelationArticleFacture>();
         ResultSet result = MySQLManager.getInstance().getData(req);
         RelationArticleFacture artfac = null;
@@ -140,7 +150,7 @@ public class RelationArticleFactureDAOMySQL extends dao<RelationArticleFacture> 
     }
     
     public LinkedList<RelationArticleFacture> findByArticle(long id){
-        String req = "SELECT * From artfac WHERE ID_Article= "+id;
+        String req = "SELECT * From rt_art_fac WHERE ID_Article= "+id;
         LinkedList<RelationArticleFacture> artfacs= new LinkedList<RelationArticleFacture>();
         ResultSet result = MySQLManager.getInstance().getData(req);
         RelationArticleFacture artfac = null;
@@ -164,7 +174,7 @@ public class RelationArticleFactureDAOMySQL extends dao<RelationArticleFacture> 
     }
     
     public LinkedList<RelationArticleFacture> findByFacture(long id){
-        String req = "SELECT * From artfac WHERE ID_Facture= "+id;
+        String req = "SELECT * From rt_art_fac WHERE ID_Facture= "+id;
         LinkedList<RelationArticleFacture> artfacs= new LinkedList<RelationArticleFacture>();
         ResultSet result = MySQLManager.getInstance().getData(req);
         RelationArticleFacture artfac = null;

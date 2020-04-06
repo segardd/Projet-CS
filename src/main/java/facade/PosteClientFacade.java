@@ -1,7 +1,7 @@
 package facade;
 
-import java.util.LinkedList;
 
+<<<<<<< HEAD
 import modele.Article;
 import modele.Famille;
 
@@ -53,3 +53,5 @@ public class PosteClientFacade {
         return "Famille";
     }
 }
+=======
+>>>>>>> donatien

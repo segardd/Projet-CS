@@ -1,5 +1,6 @@
 package dao;
 
+import java.io.Serializable;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -11,7 +12,7 @@ import modele.RelationArticleFacture;
 import modele.RelationArticleMagasin;
 
 
-public class RelationArticleMagasinDAOMySQL extends dao<RelationArticleMagasin> {
+public class RelationArticleMagasinDAOMySQL extends dao<RelationArticleMagasin>  implements Serializable{
     public static RelationArticleMagasinDAOMySQL instance;
 
     private RelationArticleMagasinDAOMySQL() {

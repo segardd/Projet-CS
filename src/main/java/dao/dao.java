@@ -1,11 +1,12 @@
 package dao;
 
+import java.io.Serializable;
 import java.lang.reflect.InvocationTargetException;
 import java.util.LinkedList;
 
 import datasourceManagement.*;
 
-public abstract class dao<T> {
+public abstract class dao<T>  implements Serializable{
 
     private static dao instance;
 
