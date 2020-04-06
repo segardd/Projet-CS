@@ -1,5 +1,6 @@
 package dao;
 
+import java.io.Serializable;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -12,7 +13,7 @@ import modele.Magasin;
 import modele.RelationArticleFacture;
 
 
-public class MagasinDAOMySQL extends dao<Magasin> {
+public class MagasinDAOMySQL extends dao<Magasin>  implements Serializable{
     public static MagasinDAOMySQL instance;
     private static FactureDAOMySQL factureManager= FactureDAOMySQL.getInstance();
 

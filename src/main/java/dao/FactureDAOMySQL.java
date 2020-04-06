@@ -1,5 +1,6 @@
 package dao;
 
+import java.io.Serializable;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -11,7 +12,7 @@ import modele.Facture;
 import modele.RelationArticleFacture;
 
 
-public class FactureDAOMySQL extends dao<Facture> {
+public class FactureDAOMySQL extends dao<Facture>  implements Serializable{
     public static FactureDAOMySQL instance;
     private static  RelationArticleFactureDAOMySQL relArtFacManager= RelationArticleFactureDAOMySQL.getInstance();
 
@@ -60,13 +61,13 @@ public class FactureDAOMySQL extends dao<Facture> {
     public Facture create(Facture obj) {
         String req= 
                 "INSERT INTO facture (ID_magasin, ID_client, ID_mode_paiement, totale_facture, date_facturation)"
-                + " VALUES("+obj.getId_magasin()+","+obj.getIdClient()+","+obj.getTotale_facture()+","+obj.getDate_facture()+")";
+                + " VALUES("+obj.getId_magasin()+","+obj.getIdClient()+","+obj.getId_mode_paiement()+","+obj.getTotale_facture()+",'"+obj.getDate_facture()+"')";
         
                     
         obj.setIdFacture(MySQLManager.getInstance().setData(req));
         
-        for(RelationArticleFacture rel: obj.getArticles() ) {
-            rel.setId_facture(obj.getIdFacture());
+        for(int i=0; i<obj.getArticles().size(); i++ ) {
+            obj.getArticles().get(i).setId_facture(obj.getIdFacture());
         }
         relArtFacManager.saveall(obj.getArticles());
         return obj;

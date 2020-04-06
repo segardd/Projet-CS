@@ -8,8 +8,36 @@ public class RelationArticleFacture  implements Serializable {
     private int id_art_fac;
     private int id_article;
     private int id_facture;
+    private Article Larticle;
+    private Facture LaFacture;
     
     
+    public Article getLarticle() {
+        return Larticle;
+    }
+
+
+
+    public void setLarticle(Article larticle) {
+        Larticle = larticle;
+        this.id_article=larticle.getIdArticle();
+    }
+
+
+
+    public Facture getLaFacture() {
+        return LaFacture;
+    }
+
+
+
+    public void setLaFacture(Facture laFacture) {
+        LaFacture = laFacture;
+        this.id_facture=laFacture.getIdFacture();
+    }
+
+
+
     public RelationArticleFacture(int quantite) {
         super();
         this.quantite = quantite;

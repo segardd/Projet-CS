@@ -1,5 +1,6 @@
 package dao;
 
+import java.io.Serializable;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -10,7 +11,7 @@ import datasourceManagement.MySQLManager;
 import modele.Promotion;
 
 
-public class PromotionDAOMySQL extends dao<Promotion> {
+public class PromotionDAOMySQL extends dao<Promotion>  implements Serializable{
     public static PromotionDAOMySQL instance;
 
     private PromotionDAOMySQL() {

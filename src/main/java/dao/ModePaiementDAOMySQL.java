@@ -1,5 +1,6 @@
 package dao;
 
+import java.io.Serializable;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -10,7 +11,7 @@ import datasourceManagement.MySQLManager;
 import modele.ModePaiement;
 
 
-public class ModePaiementDAOMySQL extends dao<ModePaiement> {
+public class ModePaiementDAOMySQL extends dao<ModePaiement>  implements Serializable{
     public static ModePaiementDAOMySQL instance;
 
     private ModePaiementDAOMySQL() {

@@ -1,5 +1,6 @@
 package dao;
 
+import java.io.Serializable;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.LinkedList;
@@ -10,7 +11,7 @@ import modele.Article;
 
 
 
-public class ArticleDAOMySQL extends dao<Article>{
+public class ArticleDAOMySQL extends dao<Article>  implements Serializable{
 	private static dao<Article> instance;
 	
 	private ArticleDAOMySQL() {
@@ -36,7 +37,7 @@ public class ArticleDAOMySQL extends dao<Article>{
             if (result.next()) {
                 article=new Article(result.getString("reference"),result.getDouble("prix_unitaire"),result.getInt("nombre_exemplaire"));
                 article.setId_famille((result.getInt("ID_famille")));
-                
+                article.setIdArticle(result.getInt("idArticle"));
                 
             }
         } catch (SQLException e) {

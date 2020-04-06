@@ -20,4 +20,11 @@
 		<nature>org.eclipse.jdt.core.javanature</nature>
 		<nature>org.eclipse.m2e.core.maven2Nature</nature>
 	</natures>
+	<linkedResources>
+		<link>
+			<name>jfr</name>
+			<type>2</type>
+			<location>D:/Program Files/Java/jdk-12.0.2/lib/jfr</location>
+		</link>
+	</linkedResources>
 </projectDescription>

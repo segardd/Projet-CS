@@ -1,12 +1,13 @@
 package datasourceManagement;
 
+import java.io.Serializable;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 
-public class MySQLManager {
+public class MySQLManager  implements Serializable{
 	private static MySQLManager instance;
 	private Connection conn = null;
 	

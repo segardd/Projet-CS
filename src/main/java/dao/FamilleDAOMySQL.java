@@ -1,5 +1,6 @@
 package dao;
 
+import java.io.Serializable;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -10,7 +11,7 @@ import datasourceManagement.MySQLManager;
 import modele.Famille;
 
 
-public class FamilleDAOMySQL extends dao<Famille> {
+public class FamilleDAOMySQL extends dao<Famille>  implements Serializable{
     public static FamilleDAOMySQL instance;
 
     private FamilleDAOMySQL() {
