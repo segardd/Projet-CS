@@ -11,6 +11,7 @@ import daoFactory.DAOFactory;
 import daoFactory.DAOFactory.SourcesDonnees;
 import modele.Article;
 import modele.SiegeModele;
+
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Font;
@@ -48,12 +49,12 @@ public class SiegeView extends JFrame{
     private JTextField txf_date_JJ = new JTextField(2);
     private JTextField txf_date_MM = new JTextField(2);
     private JTextField txf_date_AAAA = new JTextField(4);
-    private JComboBox cmb_ref_article;
-    private JTextField txf_quantite_article = new JTextField(30);
-    private JLabel lbl_calculer_chiffre_affaire,lbl_chiffre_affaire_valeur,lbl_date_CA,lbl_chiffre_affaire,lbl_ajouter_produit,lbl_ref_article,lbl_quantite_article;
-    private JButton btn_quitter,btn_calculer_CA,btn_ajouter;
+    //private JComboBox cmb_ref_article;
+    //private JTextField txf_quantite_article = new JTextField(30);
+    private JLabel lbl_calculer_chiffre_affaire,lbl_chiffre_affaire_valeur,lbl_date_CA,lbl_chiffre_affaire/*,lbl_ajouter_produit,lbl_ref_article,lbl_quantite_article*/;
+    private JButton btn_quitter,btn_calculer_CA/*,btn_ajouter*/;
     private DAOFactory factory=DAOFactory.getFactory(SourcesDonnees.mySQL);
-    private dao<Article> ArticlesManager=factory.getArticleDAO();
+    //private dao<Article> ArticlesManager=factory.getArticleDAO();
     //private JDatePicker dtp;
     //</editor-fold>
     
@@ -108,14 +109,14 @@ public class SiegeView extends JFrame{
         txf_ref_article.setForeground(Color.gray);
         zoneDessin.add(txf_ref_article);*/
         
-        txf_quantite_article.setVisible(true);
+        /*txf_quantite_article.setVisible(true);
         txf_quantite_article.setBackground(Color.white);
         txf_quantite_article.setBorder(BorderFactory.createLineBorder(Color.black));
         txf_quantite_article.setFont(new Font("Calibri", Font.PLAIN, 18));
         txf_quantite_article.setHorizontalAlignment(JTextField.CENTER);
         txf_quantite_article.setSelectedTextColor(Color.blue);
         txf_quantite_article.setForeground(Color.black);
-        zoneDessin.add(txf_quantite_article);
+        zoneDessin.add(txf_quantite_article);*/
         //</editor-fold>
         
         //<editor-fold desc="JLabel">
@@ -123,54 +124,54 @@ public class SiegeView extends JFrame{
         lbl_date_CA = new JLabel();
         lbl_chiffre_affaire = new JLabel();
         lbl_chiffre_affaire_valeur = new JLabel();
-        lbl_ajouter_produit = new JLabel();
+        /*lbl_ajouter_produit = new JLabel();
         lbl_ref_article = new JLabel();
-        lbl_quantite_article = new JLabel();
+        lbl_quantite_article = new JLabel();*/
         
         
         lbl_calculer_chiffre_affaire.setFont(new Font("Calibri", Font.PLAIN, 24));
         lbl_date_CA.setFont(new Font("Calibri", Font.PLAIN, 18));
         lbl_chiffre_affaire.setFont(new Font("Calibri", Font.PLAIN, 18));
         lbl_chiffre_affaire_valeur.setFont(new Font("Calibri", Font.PLAIN, 18));
-        lbl_ajouter_produit.setFont(new Font("Calibri", Font.PLAIN, 24));
+        /*lbl_ajouter_produit.setFont(new Font("Calibri", Font.PLAIN, 24));
         lbl_ref_article.setFont(new Font("Calibri", Font.PLAIN, 18));
-        lbl_quantite_article.setFont(new Font("Calibri", Font.PLAIN, 18));
+        lbl_quantite_article.setFont(new Font("Calibri", Font.PLAIN, 18));*/
         
         lbl_calculer_chiffre_affaire.setForeground(Color.black);
         lbl_date_CA.setForeground(Color.black);
         lbl_chiffre_affaire.setForeground(Color.black);
         lbl_chiffre_affaire_valeur.setForeground(Color.black);
-        lbl_ajouter_produit.setForeground(Color.black);
+        /*lbl_ajouter_produit.setForeground(Color.black);
         lbl_ref_article.setForeground(Color.black);
-        lbl_quantite_article.setForeground(Color.black);
+        lbl_quantite_article.setForeground(Color.black);*/
         
         lbl_calculer_chiffre_affaire.setText("Calculer le chiffre d'affaire");
         lbl_date_CA.setText("Indiquez une date pour le calcul du Chiffre d'affaire : ");
         lbl_chiffre_affaire.setText("Chiffre d'affaire : ");
         lbl_chiffre_affaire_valeur.setText("...");
-        lbl_ajouter_produit.setText("Ajouter un produit");
+        /*lbl_ajouter_produit.setText("Ajouter un produit");
         lbl_ref_article.setText("Veuillez selectionner la référence de l'article : ");
-        lbl_quantite_article.setText("Veuillez indiquer la quantité de l'article à ajouter : ");
+        lbl_quantite_article.setText("Veuillez indiquer la quantité de l'article à ajouter : ");*/
         
         lbl_calculer_chiffre_affaire.setVisible(true);
         lbl_date_CA.setVisible(true);
         lbl_chiffre_affaire.setVisible(false);
         lbl_chiffre_affaire_valeur.setVisible(false);
-        lbl_ajouter_produit.setVisible(true);
+        /*lbl_ajouter_produit.setVisible(true);
         lbl_ref_article.setVisible(true);
-        lbl_quantite_article.setVisible(true);
+        lbl_quantite_article.setVisible(true);*/
         
         zoneDessin.add(lbl_calculer_chiffre_affaire);
         zoneDessin.add(lbl_date_CA);
         zoneDessin.add(lbl_chiffre_affaire);
         zoneDessin.add(lbl_chiffre_affaire_valeur);
-        zoneDessin.add(lbl_ajouter_produit);
+        /*zoneDessin.add(lbl_ajouter_produit);
         zoneDessin.add(lbl_ref_article);
-        zoneDessin.add(lbl_quantite_article);
+        zoneDessin.add(lbl_quantite_article);*/
         //</editor-fold>
         
         //<editor-fold desc="JComboBox">
-        cmb_ref_article = new JComboBox();
+        /*cmb_ref_article = new JComboBox();
         cmb_ref_article.setFont(new Font("Calibri", Font.PLAIN, 18));
         modele.initArticles();
         //cmb_ref_article.setSize(200, 40);
@@ -180,7 +181,7 @@ public class SiegeView extends JFrame{
             cmb_ref_article.addItem(ArticlesManager.findall().get(i).getReference());
         }
         cmb_ref_article.setVisible(true);
-        zoneDessin.add(cmb_ref_article);
+        zoneDessin.add(cmb_ref_article);*/
         //</editor-fold>
         
         //<editor-fold desc="JButton">
@@ -198,12 +199,18 @@ public class SiegeView extends JFrame{
             }
         });
         
-        btn_ajouter = new JButton();
+        /*btn_ajouter = new JButton();
         btn_ajouter.setFont(new Font("Calibri", Font.PLAIN, 18));
         btn_ajouter.setForeground(Color.black);
         btn_ajouter.setText("Remettre en stock");
         btn_ajouter.setVisible(true);
         zoneDessin.add(btn_ajouter);
+        
+        btn_ajouter.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				ajouterArticle();
+			}
+		});*/
         
         btn_quitter = new JButton();
         btn_quitter.setFont(new Font("Calibri", Font.PLAIN, 18));
@@ -237,6 +244,11 @@ public class SiegeView extends JFrame{
         this.setVisible(true);
     }
     //</editor-fold>
+    
+    /*private void ajouterArticle()
+	{
+		
+	}*/
     
     public class Dessin extends JPanel {
         //private Integer menu;
@@ -276,12 +288,12 @@ public class SiegeView extends JFrame{
             } else {
                 btn_calculer_CA.setBounds(largeur/2-100, 250, 200, 40);
             }
-            lbl_ajouter_produit.setBounds(100, 400, 200, 40);
+            /*lbl_ajouter_produit.setBounds(100, 400, 200, 40);
             lbl_ref_article.setBounds(200, 450, 400, 40);
             lbl_quantite_article.setBounds(200, 500, 400, 40);
             cmb_ref_article.setBounds(largeur/2-100, 450, 200, 32);
             txf_quantite_article.setBounds(largeur/2-100, 500, 200, 40);
-            btn_ajouter.setBounds(largeur/2-100, 550, 200, 40);
+            btn_ajouter.setBounds(largeur/2-100, 550, 200, 40);*/
             btn_quitter.setBounds(largeur/2-100, hauteur-100, 200, 40);
             
         }

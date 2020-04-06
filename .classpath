@@ -41,6 +41,6 @@
 			<attribute name="m2e-apt" value="true"/>
 		</attributes>
 	</classpathentry>
-	<classpathentry kind="lib" path="D:/Users/donat/eclipse-workspace/Exo 2/lib/mysql-connector-java-5.0.5/mysql-connector-java-5.0.5-bin.jar"/>
+	<classpathentry kind="lib" path="C:/Users/utilisateur/Downloads/mysql-connector-java-5.1.15-bin.jar"/>
 	<classpathentry kind="output" path="target/classes"/>
 </classpath>

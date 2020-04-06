@@ -3,7 +3,6 @@ package dao;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.LinkedList;
-import modele.Article;
 
 import datasourceManagement.MySQLManager;
 import modele.Article;
