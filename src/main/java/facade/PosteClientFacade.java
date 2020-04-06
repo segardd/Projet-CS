@@ -2,17 +2,34 @@ package facade;
 
 import java.util.LinkedList;
 
+import dao.ArticleDAOMySQL;
+import dao.RelationArticleMagasinDAOMySQL;
+import dao.dao;
+import daoFactory.DAOFactory;
+import daoFactory.DAOFactory.SourcesDonnees;
+import daoFactory.DAOMySQLFactory;
 import modele.Article;
 import modele.Famille;
+import modele.Magasin;
+import modele.RelationArticleMagasin;
 
 public class PosteClientFacade {
+	
+	DAOFactory factory=DAOFactory.getFactory(SourcesDonnees.mySQL);
+    dao<Article> articleManager = factory.getArticleDAO();
+    dao<Famille> familleManager = factory.getFamilleDAO();
+    dao<Magasin> magasinManager = factory.getMagasinDAO();
+    dao<RelationArticleMagasin> relationArticleMagasinManager = factory.getRelationArticleMagasinDAO();
     
     /**
      * 
      * @return la liste d'Article du magasin courant
      */
     public LinkedList<Article> stock(){
-        
+    	/*LinkedList<Article> LesArticles = new LinkedList<Article>();
+		
+		LesArticles = ArticleDAOMySQL.getInstance().findall();*/
+		return ArticleDAOMySQL.getInstance().findall();
     }
     
     /**
@@ -22,7 +39,8 @@ public class PosteClientFacade {
      * @return l'article du magasin
      */
     public Article StockArticleDansMagasin(int id_article, int id_magasin) {
-        
+    	RelationArticleMagasinDAOMySQL.getInstance().find(id_article,id_magasin);
+    	return 
     }
     
     

@@ -10,7 +10,7 @@ import modele.Client;
 import modele.Facture;
 import modele.Magasin;
 import modele.ModePaiement;
-//import modele.RelationArticleFacture;
+import modele.RelationArticleFacture;
 
 public class CaisseFacade {
     
@@ -19,7 +19,7 @@ public class CaisseFacade {
     private dao<Client> clienManager= factory.getClientDAO();
     private dao<Facture> factureManager= factory.getFactureDAO();
     private dao<Magasin> magasinManager= factory.getMagasinDAO();
-    //private dao<RelationArticleFacture> relationManager= factory.getRelationArticleFactureDAO();
+    private dao<RelationArticleFacture> relationManager= factory.getRelationArticleFactureDAO();
     
     
     
@@ -34,12 +34,12 @@ public class CaisseFacade {
      * @param mode , mode de paiement choisis
      * @return la facture payée
      */
-    /*public Facture PayerFacture(Facture facture, ModePaiement mode ) {
+    public Facture PayerFacture(Facture facture, ModePaiement mode) {
         facture.setId_mode_paiement(mode.getIdMode_paiement());
         facture=factureManager.update(facture);
         
         
-    }*/
+    }
     
     /**
      * 
