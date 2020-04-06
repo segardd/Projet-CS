@@ -39,7 +39,7 @@ public class testALaMano {
         try {
             Registry registry = LocateRegistry.getRegistry(host);
             PosteCaisseFonctionnalite stub = (PosteCaisseFonctionnalite) registry.lookup("rmi://localhost/Hello");
-            //System.out.println("response: " + response);<<
+            //System.out.println("response: " + response);
        
         
         LinkedList<Article> articles=new LinkedList<Article>();

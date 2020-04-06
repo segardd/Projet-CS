@@ -8,12 +8,14 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.LinkedList;
 import datasourceManagement.MySQLManager;
+import modele.Article;
 import modele.RelationArticleFacture;
 import modele.RelationArticleMagasin;
 
 
 public class RelationArticleMagasinDAOMySQL extends dao<RelationArticleMagasin>  implements Serializable{
     public static RelationArticleMagasinDAOMySQL instance;
+    private dao<Article> articleManager= ArticleDAOMySQL.getInstance();
 
     private RelationArticleMagasinDAOMySQL() {
         
@@ -41,6 +43,9 @@ public class RelationArticleMagasinDAOMySQL extends dao<RelationArticleMagasin> 
                 artmag.setId_art_mag(result.getInt("idRelationArticleMagasin"));
                 artmag.setId_article(result.getInt("ID_article"));
                 artmag.setId_magasin(result.getInt("ID_magasin"));
+                
+              //get Article de la relation
+                artmag.setArticle(articleManager.find(artmag.getId_article()));
                 
                 
             }

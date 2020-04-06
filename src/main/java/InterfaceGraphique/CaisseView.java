@@ -40,7 +40,7 @@ public class CaisseView extends JFrame {
     //<editor-fold desc="Attributs">
 	private Sound Sound;
 	private CaisseModele modele = new CaisseModele();
-	private CaisseFacade pcFacade = new CaisseFacade();
+	//private CaisseFacade pcFacade = new CaisseFacade();
 	private int idMagasin = 1; //Amiens
     private Dessin zoneDessin;
     private int largeur = 1500;

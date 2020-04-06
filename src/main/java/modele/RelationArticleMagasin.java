@@ -3,8 +3,21 @@ package modele;
 import java.io.Serializable;
 
 public class RelationArticleMagasin implements Serializable  {
+	private Article article;
     private int en_stock;
-    private int id_art_mag;
+	private int id_art_mag;
+	private int id_magasin;
+    private int id_article;
+	
+	public Article getArticle() {
+		return article;
+	}
+
+	public void setArticle(Article article) {
+		this.article = article;
+		this.id_article = article.getIdArticle();
+	}
+	
     public int getId_art_mag() {
         return id_art_mag;
     }
@@ -12,10 +25,7 @@ public class RelationArticleMagasin implements Serializable  {
     public void setId_art_mag(int id_art_mag) {
         this.id_art_mag = id_art_mag;
     }
-
-    private int id_magasin;
-    private int id_article;
-
+    
     public RelationArticleMagasin(int en_stock) {
         super();
         this.en_stock = en_stock;

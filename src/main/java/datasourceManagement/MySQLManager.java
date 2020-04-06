@@ -7,7 +7,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 
-public class MySQLManager  implements Serializable{
+public class MySQLManager implements Serializable{
 	private static MySQLManager instance;
 	private Connection conn = null;
 	
@@ -44,6 +44,7 @@ public class MySQLManager  implements Serializable{
         }
 		try {
 		    conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/heptathlon", "root", "");
+		    
 			} catch (SQLException ex) {
 				System.out.println("SQLException: " + ex.getMessage());
 				System.out.println("SQLState: " + ex.getSQLState());
@@ -74,7 +75,7 @@ public class MySQLManager  implements Serializable{
 		int res=0;
 		Statement stmt = null;
 		ResultSet rs;
-
+		
 		try {
 		    stmt = conn.createStatement();
 		    res = stmt.executeUpdate(req, Statement.RETURN_GENERATED_KEYS);

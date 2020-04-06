@@ -1,22 +1,24 @@
 package facade;
 
+import java.rmi.RemoteException;
+import java.util.LinkedList;
 
-<<<<<<< HEAD
-<<<<<<< HEAD
-=======
 import dao.ArticleDAOMySQL;
 import dao.RelationArticleMagasinDAOMySQL;
 import dao.dao;
 import daoFactory.DAOFactory;
 import daoFactory.DAOFactory.SourcesDonnees;
 import daoFactory.DAOMySQLFactory;
->>>>>>> alexis
+
 import modele.Article;
 import modele.Famille;
 import modele.Magasin;
+import modele.RelationArticleFacture;
 import modele.RelationArticleMagasin;
+import serveur.magasin.PosteCaisseFonctionnalite;
+import serveur.magasin.PosteClientFonctionnalite;
 
-public class PosteClientFacade {
+public class PosteClientFacade implements PosteClientFonctionnalite {
 	
 	DAOFactory factory=DAOFactory.getFactory(SourcesDonnees.mySQL);
     dao<Article> articleManager = factory.getArticleDAO();
@@ -41,9 +43,9 @@ public class PosteClientFacade {
      * @param id_magasin l'id du magasin
      * @return l'article du magasin
      */
-    public Article StockArticleDansMagasin(int id_article, int id_magasin) {
-    	RelationArticleMagasinDAOMySQL.getInstance().find(id_article,id_magasin);
-    	return 
+    public RelationArticleMagasin StockArticleDansMagasin(int id_article, int id_magasin) {
+    	RelationArticleMagasinDAOMySQL.getInstance().find(id_article, id_magasin);
+    	//return 
     }
     
     
@@ -74,5 +76,3 @@ public class PosteClientFacade {
         return "Famille";
     }
 }
-=======
->>>>>>> donatien

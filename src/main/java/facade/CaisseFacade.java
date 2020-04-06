@@ -14,48 +14,42 @@ import modele.Client;
 import modele.Facture;
 import modele.Magasin;
 import modele.ModePaiement;
-<<<<<<< HEAD
-<<<<<<< HEAD
-//import modele.RelationArticleFacture;
-=======
+
 import modele.RelationArticleFacture;
 import serveur.magasin.PosteCaisseFonctionnalite;
->>>>>>> donatien
-=======
+
 import modele.RelationArticleFacture;
->>>>>>> alexis
+
 
 
 public class CaisseFacade implements PosteCaisseFonctionnalite{
     
-<<<<<<< HEAD
+
     private DAOFactory factory=DAOFactory.getFactory(SourcesDonnees.mySQL);
     private dao<Article> articleManager=factory.getArticleDAO();
     private dao<Client> clienManager= factory.getClientDAO();
     private dao<Facture> factureManager= factory.getFactureDAO();
     private dao<Magasin> magasinManager= factory.getMagasinDAO();
-<<<<<<< HEAD
+
     //private dao<RelationArticleFacture> relationManager= factory.getRelationArticleFactureDAO();
-=======
->>>>>>> donatien
-=======
+
     private dao<RelationArticleFacture> relationManager= factory.getRelationArticleFactureDAO();
->>>>>>> alexis
+
     
-private static CaisseFacade instance;
+	private static CaisseFacade instance;
 
     
     private CaisseFacade() {
        
-   }
+    }
    
-   public static synchronized CaisseFacade getInstance() {
+    public static synchronized CaisseFacade getInstance() {
        
        if (instance == null) {
            instance = new CaisseFacade();
        }
        return instance;     
-   }
+    }
     
     public String editerFacture(LinkedList<RelationArticleFacture> articles) {   //
         
@@ -83,20 +77,9 @@ private static CaisseFacade instance;
     public Facture PayerFacture(Facture facture, ModePaiement mode) {
         facture.setId_mode_paiement(mode.getIdMode_paiement());
         facture=factureManager.update(facture);
-        
-<<<<<<< HEAD
-        
-<<<<<<< HEAD
-    }*/
-=======
         return null;
-        
     }
->>>>>>> donatien
-=======
-    }
->>>>>>> alexis
-    
+
     /**
      * 
      * @param id , id du magasin dont on veut les factures
