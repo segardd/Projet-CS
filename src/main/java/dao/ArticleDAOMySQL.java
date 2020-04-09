@@ -138,6 +138,26 @@ public static synchronized ArticleDAOMySQL getInstance() {
         return arts;
     }
     
+    public Article findArticleByRef(String ref) {
+    	String req = "SELECT * From article WHERE reference= "+ref;
+    	ResultSet result = MySQLManager.getInstance().getData(req);
+        Article art = null;
+        try {
+            while(result.next()) {
+            	art.setIdArticle(result.getInt("idArticle"));
+                art.setReference(result.getString("reference"));
+                art.setId_famille(result.getInt("ID_famille"));
+                art.setPrix_unitaire(result.getDouble("prix_unitaire"));
+                art.setNombre_exemplaire(result.getInt("nombre_exemplaire"));
+            }       
+        }
+        catch(Exception e){
+            System.out.println(e.toString());
+            System.out.println("pas compte");
+        }
+        return art;
+    }
+    
     public LinkedList<Article> findByFamile(Famille famille){
     	String req = "SELECT * From article WHERE ID_famille= "+famille.getIdFamille();
     	LinkedList<Article> arts= new LinkedList<Article>();
@@ -159,21 +179,5 @@ public static synchronized ArticleDAOMySQL getInstance() {
             System.out.println("pas compte");
         }
         return arts;
-    }
-    
-    public String findIntituleByRef(String ref){
-    	String req = "SELECT intitule From article,famille WHERE reference= " + ref + "AND ID_famille= idFamille";
-    	ResultSet result = MySQLManager.getInstance().getData(req);
-        String intitule = null;
-        try {
-            while(result.next()) {
-            	intitule = result.getString("intitule");
-            }       
-        }
-        catch(Exception e){
-            System.out.println(e.toString());
-            System.out.println("pas compte");
-        }
-        return intitule;
     }
 }

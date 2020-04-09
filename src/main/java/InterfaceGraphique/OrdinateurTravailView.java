@@ -29,12 +29,14 @@ import javax.swing.table.JTableHeader;
 import javax.swing.table.TableColumnModel;
 
 import Sound.Sound;
+import dao.ArticleDAOMySQL;
 import dao.dao;
 import daoFactory.DAOFactory;
 import daoFactory.DAOFactory.SourcesDonnees;
 import facade.PosteClientFacade;
 import modele.Article;
 import modele.OrdinateurTravailModele;
+import modele.RelationArticleMagasin;
 
 /**
  *
@@ -44,7 +46,7 @@ public class OrdinateurTravailView extends JFrame {
     //<editor-fold desc="Attributs">
 	private Sound Sound;
 	private OrdinateurTravailModele modele = new OrdinateurTravailModele();
-	private PosteClientFacade pcFacade = new PosteClientFacade();
+	//private PosteClientFacade pcFacade = new PosteClientFacade();
 	private int idMagasin = 1; //Amiens
     private Dessin zoneDessin;
     private int largeur = 1500;
@@ -59,6 +61,7 @@ public class OrdinateurTravailView extends JFrame {
     private JTable tab_stock;
     private Object[][] donnees = {{" "," "," "," "," "}};
     private JTableHeader header;
+    private String[] colonnes = {"Référence", "prix", "en stock", "famille"};
     
     private DAOFactory factory=DAOFactory.getFactory(SourcesDonnees.mySQL);
     private dao<Article> ArticlesManager=factory.getArticleDAO();
@@ -161,7 +164,7 @@ public class OrdinateurTravailView extends JFrame {
 					consulterStock();
 					
 				} else {
-					consulterStock(ArticlesManager.findall().get(cmb_ref_article.getSelectedIndex()).getIdArticle(), idMagasin);
+					consulterStock(/*ArticlesManager.findall().get(*/cmb_ref_article.getSelectedIndex()/*).getIdArticle()*/, idMagasin);
 				}
 			}
 		});
@@ -209,7 +212,7 @@ public class OrdinateurTravailView extends JFrame {
         });
         //</editor-fold>
         
-        String[] colonnes = {"Référence", "prix", "en stock", "famille"};
+        
         
         
         tab_stock = new JTable(donnees, colonnes);
@@ -243,26 +246,31 @@ public class OrdinateurTravailView extends JFrame {
     	//System.out.println("consulter tous");
     	Object[][] donnees2 = {};
     	donnees = donnees2;
-    	LinkedList<Article> lesArticles = pcFacade.stock();
+    	LinkedList<Article> lesArticles = PosteClientFacade.getInstance().stock();
     	for(int i = 0; i < lesArticles.size(); i++) {
     		donnees[i][0] = lesArticles.get(i).getReference();
     		donnees[i][1] = lesArticles.get(i).getPrix_unitaire();
     		donnees[i][2] = lesArticles.get(i).getNombre_exemplaire();
-    		donnees[i][3] = pcFacade.intituleDeLaFamille(lesArticles.get(i).getReference());
+    		donnees[i][3] = PosteClientFacade.getInstance().intituleDeLaFamille(lesArticles.get(i).getReference());
     	}
     	zoneDessin.repaint();
     }
     
     private void consulterStock(int idArticle, int idMagasin) {
-    	//System.out.println("consulter article");
-    	Object[][] donnees2 = {};
-    	donnees = donnees2;
-    	Article Article = pcFacade.StockArticleDansMagasin(idArticle, idMagasin);
+    	System.out.println("consulter article : idArticle= " + idArticle + " , idMagasin=" + idMagasin);
+    	/*Object[][] donnees2 = {};
+    	donnees = donnees2.clone();*/
+    	RelationArticleMagasin ArtMag = PosteClientFacade.getInstance().StockArticleDansMagasin(idArticle, idMagasin);
+    	Article Article = ArticleDAOMySQL.getInstance().find(ArtMag.getId_article());
+    	System.out.println("reference : " + Article.getReference());
+    	//Object[][] donnees2 = {{"" + Article.getReference(),""+ Article.getPrix_unitaire(),""+ ArtMag.getEn_stock(),"" +PosteClientFacade.getInstance().intituleDeLaFamille(Article.getReference())}};
     	donnees[0][0] = Article.getReference();
     	donnees[0][1] = Article.getPrix_unitaire();
-    	donnees[0][2] = Article.getNombre_exemplaire();
-    	donnees[0][3] = pcFacade.intituleDeLaFamille(Article.getReference());
-    	zoneDessin.repaint();
+    	donnees[0][2] = ArtMag.getEn_stock();
+    	donnees[0][3] = PosteClientFacade.getInstance().intituleDeLaFamille(Article.getReference());
+    	//tab_stock = new JTable(donnees2, colonnes);
+    	tab_stock.repaint();
+    	//zoneDessin.repaint();
     }
     
     public class Dessin extends JPanel {

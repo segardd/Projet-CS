@@ -90,6 +90,15 @@ public class PosteClientFacade implements PosteClientFonctionnalite {
         return FamilleDAOMySQL.getInstance().findIntituleByRef(ref);
     }
     
+    /**
+     * 
+     * @param ref de l'article
+     * @return l'intitulé de la famille de l'article
+     */
+    public Article findArticleByRef(String ref) {
+        return ArticleDAOMySQL.getInstance().findArticleByRef(ref);
+    }
+    
     public static void main(String[] args) {
         
         

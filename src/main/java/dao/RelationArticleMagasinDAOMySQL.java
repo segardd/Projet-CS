@@ -95,14 +95,14 @@ public class RelationArticleMagasinDAOMySQL extends dao<RelationArticleMagasin> 
     @Override
     public RelationArticleMagasin update(RelationArticleMagasin obj) {
         String req="UPDATE artmag SET en_stock='"+obj.getEn_stock()+"'"
-                         + " WHERE idRelationArticleMagasin="+obj.getId_art_mag();
+                         + " WHERE idRT_Art_Mag="+obj.getId_art_mag();
         MySQLManager.getInstance().setData(req);
         return obj;
     }
 
     @Override
     public void delete(RelationArticleMagasin obj) {
-        String req="DELETE FROM artmag WHERE idRelationArticleMagasin="+obj.getId_art_mag();
+        String req="DELETE FROM artmag WHERE idRT_Art_Mag="+obj.getId_art_mag();
         MySQLManager.getInstance().setData(req);
 
     }
@@ -131,7 +131,7 @@ public class RelationArticleMagasinDAOMySQL extends dao<RelationArticleMagasin> 
                 artmag=new RelationArticleMagasin(
                         result.getInt("en_stock")
                         );
-                artmag.setId_art_mag(result.getInt("idRelationArticleMagasin"));
+                artmag.setId_art_mag(result.getInt("idRT_Art_Mag"));
                 artmag.setId_article(result.getInt("ID_article"));
                 artmag.setId_magasin(result.getInt("ID_magasin"));
              // on verra aussi pour les liens
@@ -153,7 +153,7 @@ public class RelationArticleMagasinDAOMySQL extends dao<RelationArticleMagasin> 
         try {
             while(result.next()) {
                 artmag=new RelationArticleMagasin(result.getInt("en_stock"));
-                artmag.setId_art_mag(result.getInt("idRelationArticleMagasin"));
+                artmag.setId_art_mag(result.getInt("idRT_Art_Mag"));
                 artmag.setId_article(result.getInt("ID_article"));
                 artmag.setId_magasin(result.getInt("ID_magasin"));
             }       
@@ -173,7 +173,7 @@ public class RelationArticleMagasinDAOMySQL extends dao<RelationArticleMagasin> 
         try {
             while(result.next()) {
                 artmag=new RelationArticleMagasin(result.getInt("en_stock"));
-                artmag.setId_art_mag(result.getInt("idRelationArticleMagasin"));
+                artmag.setId_art_mag(result.getInt("idRT_Art_Mag"));
                 artmag.setId_article(result.getInt("ID_article"));
                 artmag.setId_magasin(result.getInt("ID_magasin"));
              // on verra aussi pour les liens
@@ -195,7 +195,7 @@ public class RelationArticleMagasinDAOMySQL extends dao<RelationArticleMagasin> 
         try {
             while(result.next()) {
                 artmag=new RelationArticleMagasin(result.getInt("en_stock"));
-                artmag.setId_art_mag(result.getInt("idRelationArticleMagasin"));
+                artmag.setId_art_mag(result.getInt("idRT_Art_Mag"));
                 artmag.setId_article(result.getInt("ID_article"));
                 artmag.setId_magasin(result.getInt("ID_magasin"));
              // on verra aussi pour les liens
