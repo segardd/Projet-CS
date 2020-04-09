@@ -5,6 +5,7 @@ import java.lang.reflect.InvocationTargetException;
 import java.util.LinkedList;
 
 import datasourceManagement.*;
+import modele.Article;
 
 public abstract class dao<T>  implements Serializable{
 
@@ -43,5 +44,4 @@ public abstract class dao<T>  implements Serializable{
     public abstract void saveall(LinkedList<T> obj);
 
     public abstract LinkedList<T> findall();
-
 }

@@ -4,6 +4,7 @@ import java.rmi.RemoteException;
 import java.util.LinkedList;
 
 import dao.ArticleDAOMySQL;
+import dao.FamilleDAOMySQL;
 import dao.RelationArticleMagasinDAOMySQL;
 import dao.dao;
 import daoFactory.DAOFactory;
@@ -26,14 +27,25 @@ public class PosteClientFacade implements PosteClientFonctionnalite {
     dao<Magasin> magasinManager = factory.getMagasinDAO();
     dao<RelationArticleMagasin> relationArticleMagasinManager = factory.getRelationArticleMagasinDAO();
     
+    private static PosteClientFacade instance;
+    
+    private PosteClientFacade() {
+    	
+    }
+    
+    public static synchronized PosteClientFacade getInstance() {
+        
+        if (instance == null) {
+            instance = new PosteClientFacade();
+        }
+        return instance;     
+     }
+    
     /**
      * 
      * @return la liste d'Article du magasin courant
      */
     public LinkedList<Article> stock(){
-    	/*LinkedList<Article> LesArticles = new LinkedList<Article>();
-		
-		LesArticles = ArticleDAOMySQL.getInstance().findall();*/
 		return ArticleDAOMySQL.getInstance().findall();
     }
     
@@ -44,8 +56,7 @@ public class PosteClientFacade implements PosteClientFonctionnalite {
      * @return l'article du magasin
      */
     public RelationArticleMagasin StockArticleDansMagasin(int id_article, int id_magasin) {
-    	RelationArticleMagasinDAOMySQL.getInstance().find(id_article, id_magasin);
-    	//return 
+    	return (RelationArticleMagasinDAOMySQL.getInstance().findByArticleMagasin(id_article, id_magasin));
     }
     
     
@@ -54,8 +65,8 @@ public class PosteClientFacade implements PosteClientFonctionnalite {
      * @param ref ref de la famille
      * @return liste d'articles de la famille
      */
-    public LinkedList<Article> articleDeLaFamilleParRef(String ref){
-        
+    public LinkedList<Article> articleDeLaFamilleParRef(String ref) {
+        return ArticleDAOMySQL.getInstance().findByRef(ref);
     }
     
     /**
@@ -63,8 +74,8 @@ public class PosteClientFacade implements PosteClientFonctionnalite {
      * @param famille
      * @return la liste d'article
      */
-    public LinkedList<Article> articleDeLaFamille(Famille famille){
-        
+    public LinkedList<Article> articleDeLaFamille(Famille famille) {
+    	return ArticleDAOMySQL.getInstance().findByFamile(famille);
     }
     
     /**
@@ -72,7 +83,7 @@ public class PosteClientFacade implements PosteClientFonctionnalite {
      * @param ref de l'article
      * @return l'intitulé de la famille de l'article
      */
-    public String intituleDeLaFamille(String ref){
-        return "Famille";
+    public String intituleDeLaFamille(String ref) {
+        return FamilleDAOMySQL.getInstance().findIntituleByRef(ref);
     }
 }

@@ -31,7 +31,7 @@ public interface PosteClientFonctionnalite extends Remote{
      * @param id_magasin , id du magasin
      * @return l'article du magasin
      */
-	public Article StockArticleDansMagasin(int id_article, int id_magasin) throws RemoteException;
+	public RelationArticleMagasin StockArticleDansMagasin(int id_article, int id_magasin) throws RemoteException;
 	
 	/**
      * 
@@ -39,6 +39,13 @@ public interface PosteClientFonctionnalite extends Remote{
      * @return les articles de la même famille.
      */
 	public LinkedList<Article> articleDeLaFamilleParRef(String ref) throws RemoteException;
+	
+	/**
+     * 
+     * @param famille , objet famille
+     * @return les articles cette famille.
+     */
+	public LinkedList<Article> articleDeLaFamille(Famille famille) throws RemoteException;
 	
 	/**
      * 
