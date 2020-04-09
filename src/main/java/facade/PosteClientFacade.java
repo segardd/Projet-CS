@@ -1,6 +1,9 @@
 package facade;
 
 import java.rmi.RemoteException;
+import java.rmi.registry.LocateRegistry;
+import java.rmi.registry.Registry;
+import java.rmi.server.UnicastRemoteObject;
 import java.util.LinkedList;
 
 import dao.ArticleDAOMySQL;
@@ -85,5 +88,28 @@ public class PosteClientFacade implements PosteClientFonctionnalite {
      */
     public String intituleDeLaFamille(String ref) {
         return FamilleDAOMySQL.getInstance().findIntituleByRef(ref);
+    }
+    
+    public static void main(String[] args) {
+        
+        
+        System.setProperty("java.rmi.server.hostname", "localhost");
+        try {
+          
+            PosteClientFacade obj = PosteClientFacade.getInstance();
+          PosteClientFonctionnalite stub = (PosteClientFonctionnalite) UnicastRemoteObject.exportObject(obj, 0);
+
+          // Bind the remote object's stub in the registry
+          Registry registry = LocateRegistry.getRegistry();
+          // il faudrait indiquer le  n° du magasin dans le lien
+          // ou faire en sorte qu'on puisse instancier un registry pour chacun des
+          // magasins
+          registry.bind("rmi://localhost/Client", stub);
+
+          System.err.println("Server ready");
+      } catch (Exception e) {
+          System.err.println("Server exception: " + e.toString());
+          e.printStackTrace();
+      }
     }
 }

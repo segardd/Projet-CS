@@ -100,7 +100,7 @@ public class CaisseFacade implements PosteCaisseFonctionnalite{
 
           // Bind the remote object's stub in the registry
           Registry registry = LocateRegistry.getRegistry();
-          registry.bind("rmi://localhost/Hello", stub);
+          registry.bind("rmi://localhost/Caisse", stub);
 
           System.err.println("Server ready");
       } catch (Exception e) {

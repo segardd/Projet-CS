@@ -38,7 +38,7 @@ public class testALaMano {
         String host = (args.length < 1) ? null : args[0];
         try {
             Registry registry = LocateRegistry.getRegistry(host);
-            PosteCaisseFonctionnalite stub = (PosteCaisseFonctionnalite) registry.lookup("rmi://localhost/Hello");
+            PosteCaisseFonctionnalite stub = (PosteCaisseFonctionnalite) registry.lookup("rmi://localhost/Caisse");
             //System.out.println("response: " + response);
        
         
