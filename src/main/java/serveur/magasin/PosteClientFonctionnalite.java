@@ -53,5 +53,7 @@ public interface PosteClientFonctionnalite extends Remote{
      * @return l'intitulé de la famille de l'article.
      */
 	public String intituleDeLaFamille(String ref) throws RemoteException;
+	
+	
 
 }
