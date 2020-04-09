@@ -181,4 +181,20 @@ public static synchronized ArticleDAOMySQL getInstance() {
         }
         return arts;
     }
+    
+    public Double prixArticle(String ref) {
+    	String req = "SELECT prix_unitaire From article WHERE reference = '"+ ref + "'";
+    	ResultSet result = MySQLManager.getInstance().getData(req);
+    	Double value = 0.0;
+    	try {
+            while(result.next()) {
+                value = result.getDouble("prix_unitaire");
+            }       
+        }
+        catch(Exception e){
+            System.out.println(e.toString());
+            System.out.println("pas compte");
+        }
+        return value;
+    }
 }

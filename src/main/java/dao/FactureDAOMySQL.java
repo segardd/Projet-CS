@@ -177,8 +177,4 @@ public class FactureDAOMySQL extends dao<Facture>  implements Serializable{
         return factures;
         
     }
-    
-    
-    
-
 }

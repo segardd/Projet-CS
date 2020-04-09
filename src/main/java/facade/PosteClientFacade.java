@@ -17,9 +17,7 @@ import daoFactory.DAOMySQLFactory;
 import modele.Article;
 import modele.Famille;
 import modele.Magasin;
-import modele.RelationArticleFacture;
 import modele.RelationArticleMagasin;
-import serveur.magasin.PosteCaisseFonctionnalite;
 import serveur.magasin.PosteClientFonctionnalite;
 
 public class PosteClientFacade implements PosteClientFonctionnalite {

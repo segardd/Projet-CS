@@ -51,8 +51,6 @@ import serveur.magasin.PosteClientFonctionnalite;
 public class OrdinateurTravailView extends JFrame {
     // <editor-fold desc="Attributs">
     private Sound Sound;
-    private OrdinateurTravailModele modele = new OrdinateurTravailModele();
-    // private PosteClientFacade pcFacade = new PosteClientFacade();
     private int idMagasin = 1; // Amiens
     private Dessin zoneDessin;
     private int largeur = 1500;
@@ -162,8 +160,6 @@ public class OrdinateurTravailView extends JFrame {
         // <editor-fold desc="JComboBox">
         cmb_ref_article = new JComboBox();
         cmb_ref_article.setFont(new Font("Calibri", Font.PLAIN, 18));
-        modele.initArticles();
-        // cmb_ref_article.setSize(200, 40);
 
         cmb_ref_article.addItem("----------------------------");
         try {

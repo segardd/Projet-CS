@@ -6,6 +6,7 @@ import java.rmi.server.UnicastRemoteObject;
 import java.util.Date;
 import java.util.LinkedList;
 
+import dao.ArticleDAOMySQL;
 import dao.dao;
 import daoFactory.DAOFactory;
 import daoFactory.DAOFactory.SourcesDonnees;
@@ -49,6 +50,18 @@ public class CaisseFacade implements PosteCaisseFonctionnalite{
            instance = new CaisseFacade();
        }
        return instance;     
+    }
+    
+    /**
+     * 
+     * @return la liste d'Article du magasin courant
+     */
+    public LinkedList<Article> stock(){
+		return ArticleDAOMySQL.getInstance().findall();
+    }
+    
+    public Double prixArticle(String ref) {
+    	return ArticleDAOMySQL.getInstance().prixArticle(ref);
     }
     
     public String editerFacture(LinkedList<RelationArticleFacture> articles) {   //

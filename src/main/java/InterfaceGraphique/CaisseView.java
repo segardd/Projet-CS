@@ -13,6 +13,9 @@ import java.awt.Point;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.Console;
+import java.rmi.RemoteException;
+import java.rmi.registry.LocateRegistry;
+import java.rmi.registry.Registry;
 
 import javax.swing.BorderFactory;
 import javax.swing.JButton;
@@ -34,6 +37,7 @@ import modele.CaisseModele;
 import modele.Client;
 import modele.Facture;
 import modele.Magasin;
+import serveur.magasin.PosteCaisseFonctionnalite;
 
 /**
  *
@@ -42,8 +46,6 @@ import modele.Magasin;
 public class CaisseView extends JFrame {
     //<editor-fold desc="Attributs">
 	private Sound Sound;
-	private CaisseModele modele = new CaisseModele();
-	//private CaisseFacade pcFacade = new CaisseFacade();
 	private int idMagasin = 1; //Amiens
     private Dessin zoneDessin;
     private int largeur = 1500;
@@ -56,17 +58,25 @@ public class CaisseView extends JFrame {
     private JTextArea txa_liste_article_gauche, txa_liste_article_droite;
     private JButton btn_ajouter_article, btn_payer_facture, btn_consulter_facture, btn_quitter;
     
-    private DAOFactory factory=DAOFactory.getFactory(SourcesDonnees.mySQL);
-    private dao<Article> articleManager=factory.getArticleDAO();
-    /*private dao<Article> articleManager=factory.getArticleDAO();
-    private dao<Client> clienManager= factory.getClientDAO();
-    private dao<Facture> factureManager= factory.getFactureDAO();
-    private dao<Magasin> magasinManager= factory.getMagasinDAO();*/
+    // classe façade qu'on récupère à partir de RMI
+    PosteCaisseFonctionnalite facadePosteCaisse = null;
     //</editor-fold>
     
     //<editor-fold desc="Constructeur">
     public CaisseView(){
         super();
+        
+     // On récupère notre connexion à notre façade
+        try {
+            Registry registry = LocateRegistry.getRegistry();
+            facadePosteCaisse = (PosteCaisseFonctionnalite) registry.lookup("rmi://localhost/Caisse");
+            System.out.println("connecté au server");
+        } catch (Exception e) {
+            // TODO: handle exception
+            System.out.println("non connecté au server");
+            e.printStackTrace();
+        }
+        
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         this.setUndecorated(true);
         
@@ -116,13 +126,16 @@ public class CaisseView extends JFrame {
       //<editor-fold desc="JComboBox">
         cmb_ref_article = new JComboBox();
         cmb_ref_article.setFont(new Font("Calibri", Font.PLAIN, 18));
-        modele.initArticles();
-        //cmb_ref_article.setSize(200, 40);
         
         cmb_ref_article.addItem("----------------------------");
-        for(int i = 0;i < articleManager.findall().size(); i++){
-            cmb_ref_article.addItem(articleManager.findall().get(i).getReference());
-        }
+        try {
+			for (int i = 0; i < facadePosteCaisse.stock().size(); i++) {
+			    cmb_ref_article.addItem(facadePosteCaisse.stock().get(i).getReference());
+			}
+		} catch (RemoteException e1) {
+			// TODO Auto-generated catch block
+			//e1.printStackTrace();
+		}
         cmb_ref_article.setVisible(true);
         zoneDessin.add(cmb_ref_article);
         //</editor-fold>
@@ -171,6 +184,20 @@ public class CaisseView extends JFrame {
         btn_ajouter_article.setText("Ajouter");
         btn_ajouter_article.setVisible(true);
         zoneDessin.add(btn_ajouter_article);
+        btn_ajouter_article.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                if (cmb_ref_article.getSelectedIndex() == 0) {
+                	JOptionPane jop = new JOptionPane();    	
+                	jop.showMessageDialog(null, 
+                      "Veuillez sélectionner un article", 
+                      "Aucune sélection",
+                      JOptionPane.ERROR_MESSAGE);
+
+                } else {
+                	ajouterArticle(cmb_ref_article.getSelectedIndex());
+                }
+            }
+        });
         
         btn_payer_facture = new JButton();
         btn_payer_facture.setFont(new Font("Calibri", Font.PLAIN, 18));
@@ -178,6 +205,11 @@ public class CaisseView extends JFrame {
         btn_payer_facture.setText("Payer");
         btn_payer_facture.setVisible(true);
         zoneDessin.add(btn_payer_facture);
+        btn_payer_facture.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                payerFacture();
+            }
+        });
         
         btn_consulter_facture = new JButton();
         btn_consulter_facture.setFont(new Font("Calibri", Font.PLAIN, 18));
@@ -185,6 +217,11 @@ public class CaisseView extends JFrame {
         btn_consulter_facture.setText("Consulter");
         btn_consulter_facture.setVisible(true);
         zoneDessin.add(btn_consulter_facture);
+        btn_consulter_facture.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                consulterFacture();
+            }
+        });
         
         btn_quitter = new JButton();
         btn_quitter.setFont(new Font("Calibri", Font.PLAIN, 18));
@@ -216,6 +253,40 @@ public class CaisseView extends JFrame {
         this.setVisible(true);
     }
     //</editor-fold>
+    
+    public void ajouterArticle(int idArticle){
+    	if (txf_quantite.getText().trim() == "") {
+    		JOptionPane jop = new JOptionPane();    	
+        	jop.showMessageDialog(null, 
+              "Veuillez indiquer une quantité", 
+              "Aucune quantité",
+              JOptionPane.ERROR_MESSAGE);
+    	} else {
+    		Double prix_unitaire;
+			try {
+				prix_unitaire = facadePosteCaisse.prixArticle(cmb_ref_article.getSelectedItem().toString());
+			} catch (RemoteException e) {
+				prix_unitaire = 0.0;
+				JOptionPane jop = new JOptionPane();    	
+	        	jop.showMessageDialog(null, 
+	              "Erreur lors du chargement du prix", 
+	              "Prix Inconnu",
+	              JOptionPane.ERROR_MESSAGE);
+				//e.printStackTrace();
+			}
+    		txa_liste_article_gauche.setText(txa_liste_article_gauche + "</br>" + cmb_ref_article.getSelectedItem().toString() 
+    				+ " x" + (Integer) Integer.parseInt(txf_quantite.getText()) + " " + (Double) Double.parseDouble(txf_quantite.getText())*prix_unitaire);
+    	}
+    	
+    }
+    
+    public void payerFacture(){
+    	
+    }
+    
+    public void consulterFacture(){
+    	
+    }
     
     public class Dessin extends JPanel {
         //private Integer menu;

@@ -28,7 +28,24 @@ public interface PosteCaisseFonctionnalite extends Remote{
     static dao<Magasin> magasinManager= factory.getMagasinDAO();
     
 
+    /**
+     * 
+     * @return la liste des articles en stocks.
+     */
+	public LinkedList<Article> stock() throws RemoteException;
+	
+	/**
+	 * 
+     * @param ref , la reference de l'article
+     * @return le prix unitaire de l'article.
+     */
+	public Double prixArticle(String ref) throws RemoteException;
     
+	/**
+     * 
+     * @param articles , liste des articles de la facture
+     * @return facture sous forme de chaine de caractère
+     */
     public String editerFacture(LinkedList<RelationArticleFacture> articles) throws RemoteException;
     
     /**
