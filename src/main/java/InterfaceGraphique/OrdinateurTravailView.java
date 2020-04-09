@@ -65,14 +65,14 @@ public class OrdinateurTravailView extends JFrame {
             lbl_ref_article, lbl_quantite_article;
     private JButton btn_consulter_stock, btn_consulter_famille, btn_ajouter, btn_quitter;
     private JTable tab_stock;
-    private Object[][] donnees = { { " ", " ", " ", " ", " " } };
+    private Object[][] donnees = { { " ", " ", " ", " ", " " }, { " ", " ", " ", " ", " " }, { " ", " ", " ", " ", " " }, { " ", " ", " ", " ", " " }, { " ", " ", " ", " ", " " } };
     private JTableHeader header;
     private String[] colonnes = { "Référence", "prix", "en stock", "famille" };
 
     // Normalement ce sera pas disponible à partir du client mais par
     // l'intermédiaire de la façade
-    // private DAOFactory factory=DAOFactory.getFactory(SourcesDonnees.mySQL);
-    // private dao<Article> ArticlesManager=factory.getArticleDAO();
+    //private DAOFactory factory=DAOFactory.getFactory(SourcesDonnees.mySQL);
+    //private dao<Article> ArticlesManager=factory.getArticleDAO();
 
     // classe façade qu'on récupère à partir de RMI
     PosteClientFonctionnalite facadePosteClient = null;
@@ -85,7 +85,8 @@ public class OrdinateurTravailView extends JFrame {
 
         // On récupère notre connexion à notre façade
         try {
-            facadePosteClient = (PosteClientFonctionnalite) Naming.lookup("rmi://localhost/Caisse");
+            Registry registry = LocateRegistry.getRegistry();
+            facadePosteClient = (PosteClientFonctionnalite) registry.lookup("rmi://localhost/Client");
 
         } catch (Exception e) {
             // TODO: handle exception
@@ -165,9 +166,14 @@ public class OrdinateurTravailView extends JFrame {
         // cmb_ref_article.setSize(200, 40);
 
         cmb_ref_article.addItem("----------------------------");
-        for (int i = 0; i < ArticlesManager.findall().size(); i++) {
-            cmb_ref_article.addItem(ArticlesManager.findall().get(i).getReference());
-        }
+        try {
+			for (int i = 0; i < facadePosteClient.stock().size(); i++) {
+			    cmb_ref_article.addItem(facadePosteClient.stock().get(i).getReference());
+			}
+		} catch (RemoteException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		}
         cmb_ref_article.setVisible(true);
         zoneDessin.add(cmb_ref_article);
         // </editor-fold>
@@ -186,8 +192,7 @@ public class OrdinateurTravailView extends JFrame {
                     consulterStock();
 
                 } else {
-                    consulterStock(/* ArticlesManager.findall().get( */cmb_ref_article
-                            .getSelectedIndex()/* ).getIdArticle() */, idMagasin);
+                    consulterStock(cmb_ref_article.getSelectedIndex(), idMagasin);
                 }
             }
         });
@@ -198,6 +203,12 @@ public class OrdinateurTravailView extends JFrame {
         btn_consulter_famille.setText("Consulter les articles de la même famille");
         btn_consulter_famille.setVisible(true);
         zoneDessin.add(btn_consulter_famille);
+        
+        btn_consulter_famille.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+            	consulterFamille(cmb_ref_article.getSelectedIndex(), idMagasin);
+            }
+        });
 
         btn_ajouter = new JButton();
         btn_ajouter.setFont(new Font("Calibri", Font.PLAIN, 18));
@@ -255,29 +266,67 @@ public class OrdinateurTravailView extends JFrame {
     // </editor-fold>
 
     private void ajouterArticle() {
-        // System.out.println("ajout");
+        System.out.println("ajout : " + cmb_ref_article.getSelectedItem().toString());
+        try {
+            // appel grace au serveur
+            System.out.println("appel serveur rmi");
+            System.out.println("try");
+            Article article = facadePosteClient.findArticleByRef(cmb_ref_article.getSelectedItem().toString());
+            System.out.println("try2");
+            article.setNombre_exemplaire(article.getNombre_exemplaire() + (Integer) Integer.parseInt(txf_quantite_article.getText()));
+            facadePosteClient.remettreEnStock(article);
+            System.out.println("succés");
+        } catch (RemoteException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        }
+        zoneDessin.repaint();
+    }
+    
+    private void consulterFamille(int idArticle, int idMagasin) {
+    	try {
+            // appel grace au serveur
+            System.out.println("appel serveur rmi");
+            LinkedList<Article> lesArticles = facadePosteClient.articleDeLaFamilleParRef(cmb_ref_article.getSelectedItem().toString());
+            for (int i = 0; i < lesArticles.size(); i++) {
+                donnees[i][0] = lesArticles.get(i).getReference();
+                donnees[i][1] = lesArticles.get(i).getPrix_unitaire();
+                donnees[i][2] = lesArticles.get(i).getNombre_exemplaire();
+                donnees[i][3] = facadePosteClient.intituleDeLaFamille(lesArticles.get(i).getReference());
+            }
+            tab_stock.repaint();
+        } catch (RemoteException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        }
+        
         zoneDessin.repaint();
     }
 
     private void consulterStock() {
-        // System.out.println("consulter tous");
-        Object[][] donnees2 = {};
-        donnees = donnees2;
-        LinkedList<Article> lesArticles = PosteClientFacade.getInstance().stock();
-        for (int i = 0; i < lesArticles.size(); i++) {
-            donnees[i][0] = lesArticles.get(i).getReference();
-            donnees[i][1] = lesArticles.get(i).getPrix_unitaire();
-            donnees[i][2] = lesArticles.get(i).getNombre_exemplaire();
-            donnees[i][3] = PosteClientFacade.getInstance().intituleDeLaFamille(lesArticles.get(i).getReference());
+        System.out.println("consulter tous");
+        
+        try {
+            // appel grace au serveur
+            System.out.println("appel serveur rmi");
+            LinkedList<Article> lesArticles = facadePosteClient.stock();
+            for (int i = 0; i < lesArticles.size(); i++) {
+                donnees[i][0] = lesArticles.get(i).getReference();
+                donnees[i][1] = lesArticles.get(i).getPrix_unitaire();
+                donnees[i][2] = lesArticles.get(i).getNombre_exemplaire();
+                donnees[i][3] = facadePosteClient.intituleDeLaFamille(lesArticles.get(i).getReference());
+            }
+            tab_stock.repaint();
+        } catch (RemoteException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
         }
+        
         zoneDessin.repaint();
     }
 
     private void consulterStock(int idArticle, int idMagasin) {
         System.out.println("consulter article : idArticle= " + idArticle + " , idMagasin=" + idMagasin);
-        /*
-         * Object[][] donnees2 = {}; donnees = donnees2.clone();
-         */
 
         RelationArticleMagasin ArtMag;
 
@@ -294,7 +343,7 @@ public class OrdinateurTravailView extends JFrame {
             donnees[0][0] = Article.getReference();
             donnees[0][1] = Article.getPrix_unitaire();
             donnees[0][2] = ArtMag.getEn_stock();
-            donnees[0][3] = PosteClientFacade.getInstance().intituleDeLaFamille(Article.getReference());
+            donnees[0][3] = facadePosteClient.intituleDeLaFamille(Article.getReference());
             // tab_stock = new JTable(donnees2, colonnes);
             tab_stock.repaint();
             // zoneDessin.repaint();

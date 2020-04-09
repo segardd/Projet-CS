@@ -114,7 +114,8 @@ public class FamilleDAOMySQL extends dao<Famille>  implements Serializable{
     }
 
     public String findIntituleByRef(String ref){
-    	String req = "SELECT intitule From article,famille WHERE reference= " + ref + "AND ID_famille= idFamille";
+    	System.out.println("ref : " + ref);
+    	String req = "SELECT intitule From famille WHERE idFamille IN ( SELECT ID_famille FROM article WHERE reference = '" + ref + "')";
     	ResultSet result = MySQLManager.getInstance().getData(req);
         String intitule = null;
         try {

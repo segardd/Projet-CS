@@ -31,7 +31,7 @@ public class RelationArticleMagasinDAOMySQL extends dao<RelationArticleMagasin> 
 
     @Override
     public RelationArticleMagasin find(long id) {
-        StringBuilder req= new StringBuilder("SELECT * FROM rt_art_mag WHERE idRT_Art_Mag=");
+        StringBuilder req= new StringBuilder("SELECT * FROM rt_art_mag WHERE idRT_Art_Mag=" + id);
         req.append(id);
         ResultSet result=MySQLManager.getInstance().getData(req.toString());
         RelationArticleMagasin artmag=null;
@@ -40,7 +40,7 @@ public class RelationArticleMagasinDAOMySQL extends dao<RelationArticleMagasin> 
                 artmag=new RelationArticleMagasin(
                         result.getInt("en_stock")
                         );
-                artmag.setId_art_mag(result.getInt("idRelationArticleMagasin"));
+                artmag.setId_art_mag(result.getInt("idRT_Art_Mag"));
                 artmag.setId_article(result.getInt("ID_article"));
                 artmag.setId_magasin(result.getInt("ID_magasin"));
                 
@@ -58,8 +58,8 @@ public class RelationArticleMagasinDAOMySQL extends dao<RelationArticleMagasin> 
     }
     
     public RelationArticleFacture find(long id_art, long id_mag) {
-        StringBuilder req= new StringBuilder("SELECT * FROM rt_art_fac WHERE ID_magasin= "+ id_mag+
-                " AND ID_article= " + id_art);
+        StringBuilder req= new StringBuilder("SELECT * FROM rt_art_fac WHERE ID_magasin= '"+ id_mag+
+                "' AND ID_article= " + id_art);
         ResultSet result=MySQLManager.getInstance().getData(req.toString());
         RelationArticleFacture artfac=null;
         try {
@@ -67,7 +67,7 @@ public class RelationArticleMagasinDAOMySQL extends dao<RelationArticleMagasin> 
                 artfac=new RelationArticleFacture(
                         result.getInt("quantite")
                         );
-                artfac.setId_art_fac(result.getInt("idRelationArticleFacture"));
+                artfac.setId_art_fac(result.getInt("idRT_Art_Mag"));
                 artfac.setId_article(result.getInt("ID_Article"));
                 artfac.setId_facture(result.getInt("ID_Facture"));
                 
@@ -147,7 +147,7 @@ public class RelationArticleMagasinDAOMySQL extends dao<RelationArticleMagasin> 
     }
     
     public RelationArticleMagasin findByArticleMagasin(long id_art, long id_mag) {
-    	String req = "SELECT * From rt_art_mag WHERE ID_article= "+ id_art + " AND ID_magasin= " + id_mag;
+    	String req = "SELECT * From rt_art_mag WHERE ID_article= '"+ id_art + "' AND ID_magasin= '" + id_mag + "'";
         ResultSet result = MySQLManager.getInstance().getData(req);
         RelationArticleMagasin artmag = null;
         try {
@@ -166,7 +166,7 @@ public class RelationArticleMagasinDAOMySQL extends dao<RelationArticleMagasin> 
     }
     
     public LinkedList<RelationArticleMagasin> findByArticle(long id){
-        String req = "SELECT * From artmag WHERE ID_article= "+id;
+        String req = "SELECT * From artmag WHERE ID_article= '"+id +"'";
         LinkedList<RelationArticleMagasin> artmags= new LinkedList<RelationArticleMagasin>();
         ResultSet result = MySQLManager.getInstance().getData(req);
         RelationArticleMagasin artmag = null;
@@ -188,7 +188,7 @@ public class RelationArticleMagasinDAOMySQL extends dao<RelationArticleMagasin> 
     }
     
     public LinkedList<RelationArticleMagasin> findByMagasin(long id){
-        String req = "SELECT * From artmag WHERE ID_magasin= "+id;
+        String req = "SELECT * From artmag WHERE ID_magasin= '"+id+"'";
         LinkedList<RelationArticleMagasin> artmags= new LinkedList<RelationArticleMagasin>();
         ResultSet result = MySQLManager.getInstance().getData(req);
         RelationArticleMagasin artmag = null;

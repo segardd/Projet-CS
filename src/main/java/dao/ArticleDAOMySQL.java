@@ -66,7 +66,7 @@ public static synchronized ArticleDAOMySQL getInstance() {
                 + "ID_famille= '" + obj.getId_famille()+"',"
                 + "prix_unitaire="+obj.getPrix_unitaire()+","
                  + "nombre_exemplaire="+obj.getNombre_exemplaire()+""
-                         + " WHERE idArticle= "+obj.getIdArticle();
+                         + " WHERE idArticle= '"+obj.getIdArticle()+"'";
         MySQLManager.getInstance().setData(req);
         return obj;
                 
@@ -115,8 +115,8 @@ public static synchronized ArticleDAOMySQL getInstance() {
         return articles;
     }
     
-    public LinkedList<Article> findByRef(String intitule){
-    	String req = "SELECT * From article WHERE reference= "+intitule;
+	public LinkedList<Article> findArticleDeLaFamilleByRef(String intitule){
+    	String req = "SELECT * From article, famille WHERE intitule = '" + intitule + "' AND ID_famille = idFamille";
     	LinkedList<Article> arts= new LinkedList<Article>();
     	ResultSet result = MySQLManager.getInstance().getData(req);
         Article art = null;
@@ -138,8 +138,9 @@ public static synchronized ArticleDAOMySQL getInstance() {
         return arts;
     }
     
-    public Article findArticleByRef(String ref) {
-    	String req = "SELECT * From article WHERE reference= "+ref;
+	public Article findArticleByRef(String ref) {
+		System.out.println("ref dans art : " +ref);
+    	String req = "SELECT * From article WHERE reference = '" + ref + "'";
     	ResultSet result = MySQLManager.getInstance().getData(req);
         Article art = null;
         try {
@@ -159,7 +160,7 @@ public static synchronized ArticleDAOMySQL getInstance() {
     }
     
     public LinkedList<Article> findByFamile(Famille famille){
-    	String req = "SELECT * From article WHERE ID_famille= "+famille.getIdFamille();
+    	String req = "SELECT * From article WHERE ID_famille = '"+famille.getIdFamille() + "'";
     	LinkedList<Article> arts= new LinkedList<Article>();
     	ResultSet result = MySQLManager.getInstance().getData(req);
         Article art = null;

@@ -59,7 +59,7 @@ public class PosteClientFacade implements PosteClientFonctionnalite {
      * @return l'article du magasin
      */
     public RelationArticleMagasin StockArticleDansMagasin(int id_article, int id_magasin) {
-    	return (RelationArticleMagasinDAOMySQL.getInstance().findByArticleMagasin(id_article, id_magasin));
+    	return RelationArticleMagasinDAOMySQL.getInstance().findByArticleMagasin(id_article, id_magasin);
     }
     
     
@@ -69,7 +69,7 @@ public class PosteClientFacade implements PosteClientFonctionnalite {
      * @return liste d'articles de la famille
      */
     public LinkedList<Article> articleDeLaFamilleParRef(String ref) {
-        return ArticleDAOMySQL.getInstance().findByRef(ref);
+        return ArticleDAOMySQL.getInstance().findArticleDeLaFamilleByRef(ref);
     }
     
     /**
@@ -93,10 +93,19 @@ public class PosteClientFacade implements PosteClientFonctionnalite {
     /**
      * 
      * @param ref de l'article
-     * @return l'intitulé de la famille de l'article
+     * @return l'article
      */
     public Article findArticleByRef(String ref) {
+    	System.out.println("heelo compte");
         return ArticleDAOMySQL.getInstance().findArticleByRef(ref);
+    }
+    
+    /**
+     * 
+     * @param article nouvelle valeur de l'article
+     */
+    public void remettreEnStock(Article article) {
+    	ArticleDAOMySQL.getInstance().update(article);
     }
     
     public static void main(String[] args) {
