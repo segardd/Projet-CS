@@ -35,6 +35,13 @@ public interface PosteCaisseFonctionnalite extends Remote{
 	public LinkedList<Article> stock() throws RemoteException;
 	
 	/**
+     * 
+     * @param idFacture , l'identifiant de la facture
+     * @return articles de la facture sous forme de liste
+     */
+	public LinkedList<RelationArticleFacture> consulterFacture(int idFacture) throws RemoteException;
+	
+	/**
 	 * 
      * @param ref , la reference de l'article
      * @return le prix unitaire de l'article.

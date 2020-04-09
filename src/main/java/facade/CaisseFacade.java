@@ -7,6 +7,7 @@ import java.util.Date;
 import java.util.LinkedList;
 
 import dao.ArticleDAOMySQL;
+import dao.RelationArticleFactureDAOMySQL;
 import dao.dao;
 import daoFactory.DAOFactory;
 import daoFactory.DAOFactory.SourcesDonnees;
@@ -100,6 +101,10 @@ public class CaisseFacade implements PosteCaisseFonctionnalite{
      */
     public LinkedList<Facture> ListeFacture(long id){
        return magasinManager.find(id).getFactures(); 
+    }
+    
+    public LinkedList<RelationArticleFacture> consulterFacture(int idFacture){
+    	return RelationArticleFactureDAOMySQL.getInstance().findByFacture(idFacture);
     }
     
     public static void main(String[] args) {

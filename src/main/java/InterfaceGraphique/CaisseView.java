@@ -12,10 +12,10 @@ import java.awt.Graphics;
 import java.awt.Point;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.io.Console;
 import java.rmi.RemoteException;
 import java.rmi.registry.LocateRegistry;
 import java.rmi.registry.Registry;
+import java.util.List;
 
 import javax.swing.BorderFactory;
 import javax.swing.JButton;
@@ -28,15 +28,7 @@ import javax.swing.JTextArea;
 import javax.swing.JTextField;
 
 import Sound.Sound;
-import dao.dao;
-import daoFactory.DAOFactory;
-import daoFactory.DAOFactory.SourcesDonnees;
-import facade.CaisseFacade;
-import modele.Article;
-import modele.CaisseModele;
-import modele.Client;
-import modele.Facture;
-import modele.Magasin;
+import modele.RelationArticleFacture;
 import serveur.magasin.PosteCaisseFonctionnalite;
 
 /**
@@ -260,7 +252,7 @@ public class CaisseView extends JFrame {
         	jop.showMessageDialog(null, 
               "Veuillez indiquer une quantité", 
               "Aucune quantité",
-              JOptionPane.ERROR_MESSAGE);
+              JOptionPane.WARNING_MESSAGE);
     	} else {
     		Double prix_unitaire;
 			try {
@@ -285,7 +277,29 @@ public class CaisseView extends JFrame {
     }
     
     public void consulterFacture(){
-    	
+    	if (txf_id.getText().trim() == "") {
+    		JOptionPane jop = new JOptionPane();    	
+        	jop.showMessageDialog(null, 
+              "Veuillez indiquer un id valide", 
+              "Aucun ID",
+              JOptionPane.WARNING_MESSAGE);
+    	} else {
+    		try {
+    			int ID = (Integer) Integer.parseInt(txf_id.getText().trim());
+    			try {
+    				List<RelationArticleFacture> lesArticles = facadePosteCaisse.consulterFacture(ID);
+    			} catch (RemoteException e) {
+    				System.out.println("chargement facture échoué");
+    			}
+    		} catch(Exception e) {
+    			JOptionPane jop = new JOptionPane();    	
+            	jop.showMessageDialog(null, 
+                  "Veuillez indiquer un entier pour l'ID", 
+                  "ID étrange",
+                  JOptionPane.WARNING_MESSAGE);
+    		}
+    	}
+    	txa_liste_article_droite.setText("");
     }
     
     public class Dessin extends JPanel {

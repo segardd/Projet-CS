@@ -141,6 +141,7 @@ public static synchronized ArticleDAOMySQL getInstance() {
 	public Article findArticleByRef(String ref) {
 		System.out.println("ref dans art : " +ref);
     	String req = "SELECT * From article WHERE reference = '" + ref + "'";
+    	System.out.println("req : " +req);
     	ResultSet result = MySQLManager.getInstance().getData(req);
         Article art = null;
         try {
@@ -150,12 +151,13 @@ public static synchronized ArticleDAOMySQL getInstance() {
                 art.setId_famille(result.getInt("ID_famille"));
                 art.setPrix_unitaire(result.getDouble("prix_unitaire"));
                 art.setNombre_exemplaire(result.getInt("nombre_exemplaire"));
-            }       
+            }
         }
         catch(Exception e){
             System.out.println(e.toString());
             System.out.println("pas compte");
         }
+        System.out.println("art : " +art.getIdArticle());
         return art;
     }
     

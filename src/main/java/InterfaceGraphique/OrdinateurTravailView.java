@@ -12,11 +12,9 @@ import java.awt.Graphics;
 import java.awt.Point;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.rmi.Naming;
 import java.rmi.RemoteException;
 import java.rmi.registry.LocateRegistry;
 import java.rmi.registry.Registry;
-import java.util.ArrayList;
 import java.util.LinkedList;
 
 import javax.swing.BorderFactory;
@@ -28,20 +26,13 @@ import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JTable;
 import javax.swing.JTextField;
-import javax.swing.border.Border;
 import javax.swing.table.JTableHeader;
 import javax.swing.table.TableColumnModel;
 
 import Sound.Sound;
 import dao.ArticleDAOMySQL;
-import dao.dao;
-import daoFactory.DAOFactory;
-import daoFactory.DAOFactory.SourcesDonnees;
-import facade.PosteClientFacade;
 import modele.Article;
-import modele.OrdinateurTravailModele;
 import modele.RelationArticleMagasin;
-import serveur.magasin.PosteCaisseFonctionnalite;
 import serveur.magasin.PosteClientFonctionnalite;
 
 /**
@@ -266,9 +257,7 @@ public class OrdinateurTravailView extends JFrame {
         try {
             // appel grace au serveur
             System.out.println("appel serveur rmi");
-            System.out.println("try");
             Article article = facadePosteClient.findArticleByRef(cmb_ref_article.getSelectedItem().toString());
-            System.out.println("try2");
             article.setNombre_exemplaire(article.getNombre_exemplaire() + (Integer) Integer.parseInt(txf_quantite_article.getText()));
             facadePosteClient.remettreEnStock(article);
             System.out.println("succés");
