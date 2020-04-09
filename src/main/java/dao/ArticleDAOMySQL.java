@@ -12,19 +12,19 @@ import modele.Famille;
 
 
 public class ArticleDAOMySQL extends dao<Article>  implements Serializable{
-	private static dao<Article> instance;
+	private static ArticleDAOMySQL instance;
 	
 	private ArticleDAOMySQL() {
 		
 	}
 	
-	public static synchronized dao<Article> getInstance() {
-		
-		if (instance == null) {
-			instance = new ArticleDAOMySQL();
-		}
-		return instance;		
-	}
+public static synchronized ArticleDAOMySQL getInstance() {
+        
+        if (instance == null) {
+            instance = new ArticleDAOMySQL();
+        }
+        return instance;        
+    }
 
     @Override
     public Article find(long id) {

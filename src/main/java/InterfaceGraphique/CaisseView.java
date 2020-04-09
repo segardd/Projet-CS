@@ -31,6 +31,9 @@ import daoFactory.DAOFactory.SourcesDonnees;
 import facade.CaisseFacade;
 import modele.Article;
 import modele.CaisseModele;
+import modele.Client;
+import modele.Facture;
+import modele.Magasin;
 
 /**
  *
@@ -54,7 +57,11 @@ public class CaisseView extends JFrame {
     private JButton btn_ajouter_article, btn_payer_facture, btn_consulter_facture, btn_quitter;
     
     private DAOFactory factory=DAOFactory.getFactory(SourcesDonnees.mySQL);
-    private dao<Article> ArticlesManager=factory.getArticleDAO();
+    private dao<Article> articleManager=factory.getArticleDAO();
+    /*private dao<Article> articleManager=factory.getArticleDAO();
+    private dao<Client> clienManager= factory.getClientDAO();
+    private dao<Facture> factureManager= factory.getFactureDAO();
+    private dao<Magasin> magasinManager= factory.getMagasinDAO();*/
     //</editor-fold>
     
     //<editor-fold desc="Constructeur">
@@ -113,8 +120,8 @@ public class CaisseView extends JFrame {
         //cmb_ref_article.setSize(200, 40);
         
         cmb_ref_article.addItem("----------------------------");
-        for(int i = 0;i < ArticlesManager.findall().size(); i++){
-            cmb_ref_article.addItem(ArticlesManager.findall().get(i).getReference());
+        for(int i = 0;i < articleManager.findall().size(); i++){
+            cmb_ref_article.addItem(articleManager.findall().get(i).getReference());
         }
         cmb_ref_article.setVisible(true);
         zoneDessin.add(cmb_ref_article);
