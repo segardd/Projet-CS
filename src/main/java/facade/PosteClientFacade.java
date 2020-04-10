@@ -46,6 +46,14 @@ public class PosteClientFacade implements PosteClientFonctionnalite {
      * 
      * @return la liste d'Article du magasin courant
      */
+    public LinkedList<RelationArticleMagasin> findByMagasin(int id_magasin){
+		return RelationArticleMagasinDAOMySQL.getInstance().findByMagasin(id_magasin);
+    }
+    
+    /**
+     * 
+     * @return la liste d'Article de tous les magasins
+     */
     public LinkedList<Article> stock(){
 		return ArticleDAOMySQL.getInstance().findall();
     }
@@ -94,7 +102,6 @@ public class PosteClientFacade implements PosteClientFonctionnalite {
      * @return l'article
      */
     public Article findArticleByRef(String ref) {
-    	//System.out.println("heelo compte");
         return ArticleDAOMySQL.getInstance().findArticleByRef(ref);
     }
     

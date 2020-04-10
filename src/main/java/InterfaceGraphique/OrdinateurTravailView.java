@@ -31,6 +31,7 @@ import javax.swing.table.TableColumnModel;
 
 import Sound.Sound;
 import dao.ArticleDAOMySQL;
+import dao.RelationArticleMagasinDAOMySQL;
 import modele.Article;
 import modele.RelationArticleMagasin;
 import serveur.magasin.PosteClientFonctionnalite;
@@ -254,7 +255,6 @@ public class OrdinateurTravailView extends JFrame {
     // </editor-fold>
 
     private void ajouterArticle() {
-        System.out.println("ajout : " + cmb_ref_article.getSelectedItem().toString());
         try {
             // appel grace au serveur
             System.out.println("appel serveur rmi");
@@ -265,9 +265,7 @@ public class OrdinateurTravailView extends JFrame {
             artMag.setEn_stock(artMag.getEn_stock() + (Integer) Integer.parseInt(txf_quantite_article.getText()));
             
             facadePosteClient.remettreEnStock(artMag, article);
-            System.out.println("succés");
         } catch (RemoteException e) {
-            // TODO Auto-generated catch block
             e.printStackTrace();
         }
         zoneDessin.repaint();
@@ -294,13 +292,13 @@ public class OrdinateurTravailView extends JFrame {
     }
 
     private void consulterStock() {
-        System.out.println("consulter tous");
         
         try {
             // appel grace au serveur
             System.out.println("appel serveur rmi");
+            LinkedList<RelationArticleMagasin> artMags = facadePosteClient.findByMagasin(idMagasin);
             LinkedList<Article> lesArticles = facadePosteClient.stock();
-            for (int i = 0; i < lesArticles.size(); i++) {
+            for (int i = 0; i < artMags.size(); i++) {
                 donnees[i][0] = lesArticles.get(i).getReference();
                 donnees[i][1] = lesArticles.get(i).getPrix_unitaire();
                 donnees[i][2] = lesArticles.get(i).getNombre_exemplaire();

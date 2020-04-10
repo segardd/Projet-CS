@@ -95,7 +95,6 @@ public static synchronized ArticleDAOMySQL getInstance() {
 
     @Override
     public LinkedList<Article> findall() {
-        // TODO Auto-generated method stub
         String req = "SELECT * From article";
         LinkedList<Article> articles= new LinkedList<Article>();
         ResultSet result = MySQLManager.getInstance().getData(req);

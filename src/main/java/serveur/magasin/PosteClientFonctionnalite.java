@@ -5,6 +5,7 @@ import java.rmi.RemoteException;
 import java.util.LinkedList;
 
 import dao.ArticleDAOMySQL;
+import dao.RelationArticleMagasinDAOMySQL;
 import dao.dao;
 import daoFactory.DAOFactory;
 import daoFactory.DAOFactory.SourcesDonnees;
@@ -68,5 +69,12 @@ public interface PosteClientFonctionnalite extends Remote{
      * @param article nouvelle valeur de l'article
      */
     public void remettreEnStock(RelationArticleMagasin artMag, Article article) throws RemoteException;
+    
+    /**
+     * 
+     * @param id_magasin identifiant du magasin
+     * @return la liste d'Article du magasin courant
+     */
+    public LinkedList<RelationArticleMagasin> findByMagasin(int id_magasin) throws RemoteException;
 
 }
