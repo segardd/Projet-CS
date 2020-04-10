@@ -17,7 +17,7 @@ import java.rmi.registry.LocateRegistry;
 import java.rmi.registry.Registry;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Date;
+import java.sql.Date;
 import java.util.List;
 
 import javax.swing.BorderFactory;
@@ -31,6 +31,7 @@ import javax.swing.JTextArea;
 import javax.swing.JTextField;
 
 import Sound.Sound;
+import modele.Article;
 import modele.Facture;
 import modele.ModePaiement;
 import modele.RelationArticleFacture;
@@ -321,7 +322,7 @@ public class CaisseView extends JFrame {
     }
     
     public void payerFacture(){
-    	ModePaiement mode = null;
+    	ModePaiement mode = new ModePaiement(cmb_mode_paiement.getSelectedItem().toString());
 		try {
 			mode = facadePosteCaisse.findModePaiementByRef(cmb_mode_paiement.getSelectedItem().toString());
 		} catch (RemoteException e1) {
@@ -330,16 +331,13 @@ public class CaisseView extends JFrame {
 		
 		Double total = (Double) Double.parseDouble(lbl_total.getText());
 		
-    	Facture facture = null;
+    	Facture facture = new Facture(total, date);
     	facture.setId_magasin(idMagasin);
     	facture.setIdClient(1); //En attendant
     	facture.setId_mode_paiement(mode.getIdMode_paiement());
-    	facture.setTotale_facture(total);
-    	facture.setDate_facture(date);
     	
     	try {
 			facadePosteCaisse.PayerFacture(facture, panier);
-			System.out.println("yes");
 		} catch (RemoteException e) {
 			e.printStackTrace();
 		}
@@ -356,7 +354,15 @@ public class CaisseView extends JFrame {
     		try {
     			int ID = (Integer) Integer.parseInt(txf_id.getText().trim());
     			try {
+    				Facture facture = facadePosteCaisse.findFacture(ID);
     				List<RelationArticleFacture> lesArticles = facadePosteCaisse.consulterFacture(ID);
+    				txa_liste_article_droite.setText("ID : " + ID + "                                                     Date : " + facture.getDate_facture());
+    				for(int i = 0; i < lesArticles.size(); i++) {
+    					Article article = facadePosteCaisse.findArticleByID(lesArticles.get(i).getId_article());
+    					txa_liste_article_droite.setText(txa_liste_article_droite.getText() + "\n      "
+    							+ article.getReference() + "  x" + lesArticles.get(i).getQuantite() + "               " 
+    							+ article.getPrix_unitaire()*lesArticles.get(i).getQuantite());
+    				}
     			} catch (RemoteException e) {
     				System.out.println("chargement facture échoué");
     			}
@@ -368,7 +374,6 @@ public class CaisseView extends JFrame {
                   JOptionPane.WARNING_MESSAGE);
     		}
     	}
-    	txa_liste_article_droite.setText("");
     }
     
     public class Dessin extends JPanel {

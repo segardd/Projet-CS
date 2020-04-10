@@ -107,6 +107,7 @@ public class CaisseFacade implements PosteCaisseFonctionnalite{
     public Facture PayerFacture(Facture facture, List<RelationArticleFacture> panier) {
         facture = FactureDAOMySQL.getInstance().create(facture);
         for (int i = 0; i < panier.size(); i++) {
+        	panier.get(i).setId_facture(facture.getIdFacture());
         	RelationArticleFactureDAOMySQL.getInstance().create(panier.get(i));
         }
         return facture;
@@ -121,8 +122,26 @@ public class CaisseFacade implements PosteCaisseFonctionnalite{
        return magasinManager.find(id).getFactures(); 
     }
     
+    /**
+     * 
+     * @param idFacture , l'identifiant de la facture
+     * @return articles de la facture sous forme de liste
+     */
     public LinkedList<RelationArticleFacture> consulterFacture(int idFacture) {
     	return RelationArticleFactureDAOMySQL.getInstance().findByFacture(idFacture);
+    }
+    
+    /**
+     * 
+     * @param idFacture , l'identifiant de la facture
+     * @return facture la facture correspondante
+     */
+    public Facture findFacture(int idFacture) {
+    	return FactureDAOMySQL.getInstance().find(idFacture);
+    }
+    
+    public Article findArticleByID(int id) {
+    	return ArticleDAOMySQL.getInstance().findArticleById(id);
     }
     
     public static void main(String[] args) {
