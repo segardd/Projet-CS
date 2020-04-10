@@ -411,7 +411,7 @@ public class CaisseView extends JFrame {
         //private Integer menu;
         
         public Dessin() {
-        	Sound = new Sound("/Ressources/musique3.wav");
+        	//Sound = new Sound("/Ressources/musique3.wav");
             //Sound.play();
         }
         

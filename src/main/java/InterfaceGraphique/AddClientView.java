@@ -218,7 +218,7 @@ public class AddClientView extends JFrame {
         // private Integer menu;
 
         public Dessin() {
-            Sound = new Sound("/Ressources/musique3.wav");
+            //Sound = new Sound("/Ressources/musique3.wav");
             // Sound.play();
         }
         @Override public void paintComponent(Graphics g) { 

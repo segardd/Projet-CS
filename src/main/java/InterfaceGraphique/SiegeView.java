@@ -216,8 +216,8 @@ public class SiegeView extends JFrame{
     public class Dessin extends JPanel {
         
         public Dessin() {
-        	Sound = new Sound("/Ressources/musique2.wav");
-            Sound.play();
+        	/*Sound = new Sound("/Ressources/musique2.wav");
+            Sound.play();*/
         }
         
         @Override

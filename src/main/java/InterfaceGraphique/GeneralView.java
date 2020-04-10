@@ -151,7 +151,7 @@ public class GeneralView extends JFrame {
         //private Integer menu;
         
         public Dessin() {
-        	Sound = new Sound("/Ressources/musique1.wav");
+        	//Sound = new Sound("/Ressources/musique1.wav");
             //Sound.play();
         }
         
