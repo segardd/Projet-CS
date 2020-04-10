@@ -253,6 +253,16 @@ public class OrdinateurTravailView extends JFrame {
 
     }
     // </editor-fold>
+    
+    private void cleanTableau() {
+    	for (int i = 0; i < 5; i++) {
+            donnees[i][0] = "" ;
+            donnees[i][1] = "";
+            donnees[i][2] = "";
+            donnees[i][3] = "";
+        }
+    	tab_stock.repaint();
+    }
 
     private void ajouterArticle() {
         try {
@@ -297,6 +307,8 @@ public class OrdinateurTravailView extends JFrame {
             // appel grace au serveur
             System.out.println("appel serveur rmi");
             LinkedList<RelationArticleMagasin> artMags = facadePosteClient.findByMagasin(idMagasin);
+            cleanTableau();
+            
             for (int i = 0; i < artMags.size(); i++) {
             	Article article = facadePosteClient.findArticleById(artMags.get(i).getId_article());
                 donnees[i][0] = article.getReference();//lesArticles.get(i).getReference();
@@ -324,20 +336,14 @@ public class OrdinateurTravailView extends JFrame {
             ArtMag = facadePosteClient.StockArticleDansMagasin(idArticle, idMagasin);
 
             Article Article = ArticleDAOMySQL.getInstance().find(ArtMag.getId_article());
-            System.out.println("reference : " + Article.getReference());
-            // Object[][] donnees2 = {{"" + Article.getReference(),""+
-            // Article.getPrix_unitaire(),""+ ArtMag.getEn_stock(),""
-            // +PosteClientFacade.getInstance().intituleDeLaFamille(Article.getReference())}};
+            cleanTableau();
             donnees[0][0] = Article.getReference();
             donnees[0][1] = Article.getPrix_unitaire();
             donnees[0][2] = ArtMag.getEn_stock();
             donnees[0][3] = facadePosteClient.intituleDeLaFamille(Article.getReference());
-            // tab_stock = new JTable(donnees2, colonnes);
             tab_stock.repaint();
-            // zoneDessin.repaint();
             
         } catch (RemoteException e) {
-            // TODO Auto-generated catch block
             e.printStackTrace();
         }
     }
@@ -353,7 +359,6 @@ public class OrdinateurTravailView extends JFrame {
         @Override
         public void paintComponent(Graphics g) {
             super.paintComponent(g);
-            // header.setBounds(100, 100, 1200, 50);
             lbl_tab_reference.setBounds(250, 60, 100, 40);
             lbl_tab_prix.setBounds(575, 60, 100, 40);
             lbl_tab_quantite.setBounds(750, 60, 100, 40);
