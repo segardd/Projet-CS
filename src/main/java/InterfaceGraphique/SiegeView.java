@@ -36,7 +36,7 @@ import javax.swing.JTextField;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Calendar;
-import java.util.Date;
+import java.sql.Date;
 import javax.swing.ComboBoxModel;
 
 
@@ -176,7 +176,15 @@ public class SiegeView extends JFrame{
         
         btn_calculer_CA.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e){
-            	//facadeSiege.calculCA(new Date(txf_date_AAAA.getText() + "-" + txf_date_MM.getText() + "-" + txf_date_JJ.getText()));
+            	try {
+					Double CA = facadeSiege.calculCA(new Date((Integer) Integer.parseInt(txf_date_AAAA.getText()), 
+							(Integer) Integer.parseInt(txf_date_MM.getText()), (Integer) Integer.parseInt(txf_date_JJ.getText())));
+					System.out.println();
+					lbl_chiffre_affaire_valeur.setText(CA + "");
+				} catch (RemoteException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				}
             	
                 lbl_chiffre_affaire.setVisible(true);
                 zoneDessin.repaint();
@@ -258,14 +266,14 @@ public class SiegeView extends JFrame{
                 btn_calculer_CA.setBounds(largeur/2-100, 300, 200, 40);
                 lbl_chiffre_affaire_valeur.setBounds(largeur/2-100, 250, 200, 40);
                 try {
-                    Date date = new Date(Integer.parseInt(txf_date_JJ.getText()),
-                        Integer.parseInt(txf_date_MM.getText()),
-                        Integer.parseInt(txf_date_AAAA.getText()));
-                    lbl_chiffre_affaire_valeur.setText("" + modele.getChiffreAffaire(date));
-                } catch(Exception e){
-                    //e.printStackTrace();
-                    lbl_chiffre_affaire_valeur.setText("Erreur de date");
-                }
+					Double CA = facadeSiege.calculCA(new Date((Integer) Integer.parseInt(txf_date_AAAA.getText()), 
+							(Integer) Integer.parseInt(txf_date_MM.getText()), (Integer) Integer.parseInt(txf_date_JJ.getText())));
+					System.out.println();
+					lbl_chiffre_affaire_valeur.setText(CA + "");
+				} catch (RemoteException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				}
                 
                 
                 lbl_chiffre_affaire_valeur.setVisible(true);

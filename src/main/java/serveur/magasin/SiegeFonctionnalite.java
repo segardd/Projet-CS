@@ -2,7 +2,7 @@ package serveur.magasin;
 
 import java.rmi.Remote;
 import java.rmi.RemoteException;
-import java.util.Date;
+import java.sql.Date;
 import java.util.LinkedList;
 
 import dao.dao;

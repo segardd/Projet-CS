@@ -4,7 +4,7 @@ import java.rmi.RemoteException;
 import java.rmi.registry.LocateRegistry;
 import java.rmi.registry.Registry;
 import java.rmi.server.UnicastRemoteObject;
-import java.util.Date;
+import java.sql.Date;
 import java.util.LinkedList;
 
 import dao.ClientDAOMySQL;
@@ -80,18 +80,18 @@ public class SiegeFacade implements SiegeFonctionnalite {
  
 	@Override
 	public double calculCA(Date date) {
-	    // TODO Auto-generated method stub
 	    if (date==null) {
 	        date=new Date(System.currentTimeMillis());
 	    }
-	    double somme=0;
+	    double somme=0.0;
 	    LinkedList<Facture> factures= factureManager.findall();
 	    for (Facture facture: factures) {
 	        // on regarde si la facture a un mode de paiement <=> facture payée
-	        if (facture.getId_mode_paiement()!=0 && facture.getDate_facture().compareTo(date)>= 0) {
+	        if (facture.getId_mode_paiement()!=0 && facture.getDate_facture().compareTo(date)<= 0) {
 	            somme+=facture.getTotale_facture();
 	        }
 	    }
+	    System.out.println("som : " + somme);
 	    return somme;
 	}
 }
