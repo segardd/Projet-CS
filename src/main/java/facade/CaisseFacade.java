@@ -103,7 +103,7 @@ public class CaisseFacade implements PosteCaisseFonctionnalite{
        return magasinManager.find(id).getFactures(); 
     }
     
-    public LinkedList<RelationArticleFacture> consulterFacture(int idFacture){
+    public LinkedList<RelationArticleFacture> consulterFacture(int idFacture) {
     	return RelationArticleFactureDAOMySQL.getInstance().findByFacture(idFacture);
     }
     

@@ -10,8 +10,14 @@ package InterfaceGraphique;
  * @author utilisateur
  */
 public class LanceurCaisse {
+    public LanceurCaisse(int ID){
+        CaisseView vue = new CaisseView(ID);
+        vue.pack();
+        vue.setVisible(true);
+    }
+    
     public LanceurCaisse(){
-        CaisseView vue = new CaisseView();
+        CaisseView vue = new CaisseView(1);
         vue.pack();
         vue.setVisible(true);
     }

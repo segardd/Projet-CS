@@ -40,7 +40,7 @@ public class RelationArticleFactureDAOMySQL extends dao<RelationArticleFacture> 
                 artfac=new RelationArticleFacture(
                         result.getInt("quantite")
                         );
-                artfac.setId_art_fac(result.getInt("idRelationArticleFacture"));
+                artfac.setId_art_fac(result.getInt("idRT_Art_Fac"));
                 artfac.setId_article(result.getInt("ID_Article"));
                 artfac.setId_facture(result.getInt("ID_Facture"));
                 
@@ -68,7 +68,7 @@ public class RelationArticleFactureDAOMySQL extends dao<RelationArticleFacture> 
                 artfac=new RelationArticleFacture(
                         result.getInt("quantite")
                         );
-                artfac.setId_art_fac(result.getInt("idRelationArticleFacture"));
+                artfac.setId_art_fac(result.getInt("idRT_Art_Fac"));
                 artfac.setId_article(result.getInt("ID_Article"));
                 artfac.setId_facture(result.getInt("ID_Facture"));
                 
@@ -98,14 +98,14 @@ public class RelationArticleFactureDAOMySQL extends dao<RelationArticleFacture> 
         String req="UPDATE rt_art_fac SET quantite='"+obj.getQuantite()+"',"
                 + "ID_Article= "+obj.getId_article()+","
                 +"ID_Facture= "+obj.getId_facture()
-                         + " WHERE idRelationArticleFacture="+obj.getId_art_fac();
+                         + " WHERE idRT_Art_Fac="+obj.getId_art_fac();
         MySQLManager.getInstance().setData(req);
         return obj;
     }
 
     @Override
     public void delete(RelationArticleFacture obj) {
-        String req="DELETE FROM rt_art_fac WHERE idRelationArticleFacture="+obj.getId_art_fac();
+        String req="DELETE FROM rt_art_fac WHERE idRT_Art_Fac="+obj.getId_art_fac();
         MySQLManager.getInstance().setData(req);
 
     }
@@ -134,7 +134,7 @@ public class RelationArticleFactureDAOMySQL extends dao<RelationArticleFacture> 
                 artfac=new RelationArticleFacture(
                         result.getInt("quantite")
                         );
-                artfac.setId_art_fac(result.getInt("idRelationArticleFacture"));
+                artfac.setId_art_fac(result.getInt("idRT_Art_Fac"));
                 artfac.setId_article(result.getInt("ID_Article"));
                 artfac.setId_facture(result.getInt("ID_Facture"));
              // on verra aussi pour les liens
@@ -159,7 +159,7 @@ public class RelationArticleFactureDAOMySQL extends dao<RelationArticleFacture> 
                 artfac=new RelationArticleFacture(
                         result.getInt("quantite")
                         );
-                artfac.setId_art_fac(result.getInt("idRelationArticleFacture"));
+                artfac.setId_art_fac(result.getInt("idRT_Art_Fac"));
                 artfac.setId_article(result.getInt("ID_Article"));
                 artfac.setId_facture(result.getInt("ID_Facture"));
              // on verra aussi pour les liens
@@ -183,7 +183,7 @@ public class RelationArticleFactureDAOMySQL extends dao<RelationArticleFacture> 
                 artfac=new RelationArticleFacture(
                         result.getInt("quantite")
                         );
-                artfac.setId_art_fac(result.getInt("idRelationArticleFacture"));
+                artfac.setId_art_fac(result.getInt("idRT_Art_Fac"));
                 artfac.setId_article(result.getInt("ID_Article"));
                 artfac.setId_facture(result.getInt("ID_Facture"));
              // on verra aussi pour les liens

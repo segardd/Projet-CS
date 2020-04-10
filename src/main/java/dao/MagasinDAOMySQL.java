@@ -42,7 +42,7 @@ public class MagasinDAOMySQL extends dao<Magasin>  implements Serializable{
                         result.getString("departement"),
                         result.getString("adresse")
                           );
-                  magasin.setIdMagasin(result.getInt("id"));
+                  magasin.setIdMagasin(result.getInt("idMagasin"));
                   
                   magasin.setFactures(factureManager.findByMagasin(magasin.getIdMagasin()));
                 
@@ -99,7 +99,7 @@ public class MagasinDAOMySQL extends dao<Magasin>  implements Serializable{
 
     @Override
     public void delete(Magasin obj) {
-        String req="DELETE FROM magasin WHERE idMagasin="+obj.getIdMagasin();
+        String req="DELETE FROM magasin WHERE idMagasin = "+obj.getIdMagasin();
         MySQLManager.getInstance().setData(req);
 
     }
@@ -130,7 +130,7 @@ public class MagasinDAOMySQL extends dao<Magasin>  implements Serializable{
                       result.getString("departement"),
                       result.getString("adresse")
                         );
-                magasin.setIdMagasin(result.getInt("id"));
+                magasin.setIdMagasin(result.getInt("idMagasin"));
                 
              // lien
                 magasin.setFactures(factureManager.findByMagasin(magasin.getIdMagasin()));
@@ -143,7 +143,21 @@ public class MagasinDAOMySQL extends dao<Magasin>  implements Serializable{
             System.out.println("pas compte");
         }
         return magasins;
-        
+    }
+    
+    public int findByVille(String ville) {
+    	String req = "SELECT * From magasin WHERE ville = '" + ville + "'";
+    	ResultSet result = MySQLManager.getInstance().getData(req);
+    	int ID = 0;
+    	try {
+            while(result.next()) {
+            	ID = result.getInt("idMagasin");
+            }
+    	} catch(Exception e){
+            System.out.println(e.toString());
+            System.out.println("pas compte");
+        }
+        return ID;
     }
 
 }

@@ -42,7 +42,7 @@ import serveur.magasin.PosteClientFonctionnalite;
 public class OrdinateurTravailView extends JFrame {
     // <editor-fold desc="Attributs">
     private Sound Sound;
-    private int idMagasin = 1; // Amiens
+    private int idMagasin;
     private Dessin zoneDessin;
     private int largeur = 1500;
     private int hauteur = 900;
@@ -69,8 +69,9 @@ public class OrdinateurTravailView extends JFrame {
     // </editor-fold>
 
     // <editor-fold desc="Constructeur">
-    public OrdinateurTravailView() {
+    public OrdinateurTravailView(int ID) {
         super();
+        idMagasin = ID;
 
         // On récupère notre connexion à notre façade
         try {

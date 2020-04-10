@@ -38,7 +38,7 @@ import serveur.magasin.PosteCaisseFonctionnalite;
 public class CaisseView extends JFrame {
     //<editor-fold desc="Attributs">
 	private Sound Sound;
-	private int idMagasin = 1; //Amiens
+	private int idMagasin;
     private Dessin zoneDessin;
     private int largeur = 1500;
     private int hauteur = 900;
@@ -55,8 +55,9 @@ public class CaisseView extends JFrame {
     //</editor-fold>
     
     //<editor-fold desc="Constructeur">
-    public CaisseView(){
+    public CaisseView(int ID){
         super();
+        idMagasin = ID;
         
      // On récupère notre connexion à notre façade
         try {

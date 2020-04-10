@@ -10,8 +10,14 @@ package InterfaceGraphique;
  * @author utilisateur
  */
 public class LanceurOrdiTravail {
+    public LanceurOrdiTravail(int ID){
+        OrdinateurTravailView vue = new OrdinateurTravailView(ID);
+        vue.pack();
+        vue.setVisible(true);
+    }
+    
     public LanceurOrdiTravail(){
-        OrdinateurTravailView vue = new OrdinateurTravailView();
+        OrdinateurTravailView vue = new OrdinateurTravailView(1);
         vue.pack();
         vue.setVisible(true);
     }

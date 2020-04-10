@@ -42,19 +42,19 @@ public class testALaMano {
             //System.out.println("response: " + response);
        
         
-        LinkedList<Article> articles=new LinkedList<Article>();
-        articles.add(articleManager.find(1));
-        articles.add(articleManager.find(2));
-        
-        LinkedList<RelationArticleFacture> rel=new LinkedList<RelationArticleFacture>();
-        for (Article art: articles) {
-            RelationArticleFacture relation=new RelationArticleFacture(2);
-            relation.setLarticle(art);
-            rel.add(relation);
-            
-        }
-        
-        System.out.println(stub.editerFacture(rel));
+	        LinkedList<Article> articles=new LinkedList<Article>();
+	        articles.add(articleManager.find(1));
+	        articles.add(articleManager.find(2));
+	        
+	        LinkedList<RelationArticleFacture> rel=new LinkedList<RelationArticleFacture>();
+	        for (Article art: articles) {
+	            RelationArticleFacture relation=new RelationArticleFacture(2);
+	            relation.setLarticle(art);
+	            rel.add(relation);
+	            
+	        }
+	        
+	        System.out.println(stub.editerFacture(rel));
         } catch (Exception e) {
             System.err.println("Client exception: " + e.toString());
             e.printStackTrace();
