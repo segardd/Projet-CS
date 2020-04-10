@@ -18,6 +18,8 @@ public class SiegeFacade implements SiegeFonctionnalite {
     
 private static SiegeFacade instance;
 
+private static SiegeFonctionnalite facadeSiege;
+
     
     private SiegeFacade() {
        
@@ -27,6 +29,15 @@ private static SiegeFacade instance;
        
        if (instance == null) {
            instance = new SiegeFacade();
+           try {
+               Registry registry = LocateRegistry.getRegistry();
+               facadeSiege = (SiegeFonctionnalite) registry.lookup("rmi://localhost/Siege");
+
+           } catch (Exception e) {
+               // TODO: handle exception
+               System.out.println("non connecté au server");
+               e.printStackTrace();
+           }
        }
        return instance;     
     }
