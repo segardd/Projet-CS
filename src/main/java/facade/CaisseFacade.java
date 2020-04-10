@@ -23,7 +23,8 @@ import modele.ModePaiement;
 
 import modele.RelationArticleFacture;
 import serveur.magasin.PosteCaisseFonctionnalite;
-
+import serveur.magasin.PosteClientFonctionnalite;
+import serveur.magasin.SiegeFonctionnalite;
 import modele.RelationArticleFacture;
 
 
@@ -43,6 +44,8 @@ public class CaisseFacade implements PosteCaisseFonctionnalite{
 
     
 	private static CaisseFacade instance;
+	
+	private static SiegeFonctionnalite facadeSiege;
 
     
     private CaisseFacade() {
@@ -53,6 +56,15 @@ public class CaisseFacade implements PosteCaisseFonctionnalite{
        
        if (instance == null) {
            instance = new CaisseFacade();
+           try {
+               Registry registry = LocateRegistry.getRegistry();
+               facadeSiege = (SiegeFonctionnalite) registry.lookup("rmi://localhost/Siege");
+
+           } catch (Exception e) {
+               // TODO: handle exception
+               System.out.println("non connecté au server");
+               e.printStackTrace();
+           }
        }
        return instance;     
     }
@@ -125,6 +137,18 @@ public class CaisseFacade implements PosteCaisseFonctionnalite{
     	return RelationArticleFactureDAOMySQL.getInstance().findByFacture(idFacture);
     }
     
+    
+    @Override
+    public Client createClient(String nom, String prenom, String mail, String codePostal, String ville)
+            throws RemoteException {
+        // TODO Auto-generated method stub
+        Client client= new Client(nom, prenom, mail, codePostal, ville);
+        client=facadeSiege.createClient(client);
+     
+        System.out.println(client.getIdClient()!=0);
+        return client;
+    }
+    
     public static void main(String[] args) {
         
         
@@ -144,4 +168,6 @@ public class CaisseFacade implements PosteCaisseFonctionnalite{
           e.printStackTrace();
       }
     }
+
+
 }

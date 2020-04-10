@@ -87,4 +87,6 @@ public interface PosteCaisseFonctionnalite extends Remote{
      * @return l'article
      */
     public Article findArticleByRef(String ref) throws RemoteException;
+    
+    public Client createClient(String nom, String prenom,String mail,String codePostal, String ville ) throws RemoteException;
 }

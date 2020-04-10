@@ -3,6 +3,7 @@ package main;
 import java.lang.reflect.InvocationTargetException;
 import java.rmi.registry.LocateRegistry;
 import java.rmi.registry.Registry;
+import java.sql.Date;
 import java.util.LinkedList;
 
 import dao.ClientDAOMySQL;
@@ -35,7 +36,7 @@ public class testALaMano {
         System.out.println(factory.getClientDAO().findall().toString());*/
         
         
-        String host = (args.length < 1) ? null : args[0];
+        /*String host = (args.length < 1) ? null : args[0];
         try {
             Registry registry = LocateRegistry.getRegistry(host);
             PosteCaisseFonctionnalite stub = (PosteCaisseFonctionnalite) registry.lookup("rmi://localhost/Caisse");
@@ -58,8 +59,11 @@ public class testALaMano {
         } catch (Exception e) {
             System.err.println("Client exception: " + e.toString());
             e.printStackTrace();
-        }
+        }*/
         
+        Long millis = System.currentTimeMillis();
+        Date date = new Date(millis);
+        System.out.println(date);
         
         
     }
