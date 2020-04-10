@@ -16,9 +16,9 @@ public class SiegeFacade implements SiegeFonctionnalite {
     
     public ClientDAOMySQL clientManager= ClientDAOMySQL.getInstance();
     
-private static SiegeFacade instance;
-
-private static SiegeFonctionnalite facadeSiege;
+	private static SiegeFacade instance;
+	
+	private static SiegeFonctionnalite facadeSiege;
 
     
     private SiegeFacade() {

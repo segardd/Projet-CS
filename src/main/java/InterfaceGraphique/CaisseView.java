@@ -31,6 +31,8 @@ import javax.swing.JTextArea;
 import javax.swing.JTextField;
 
 import Sound.Sound;
+import dao.MagasinDAOMySQL;
+import facade.PosteClientFacade;
 import modele.Article;
 import modele.Facture;
 import modele.ModePaiement;
@@ -57,7 +59,7 @@ public class CaisseView extends JFrame {
     private JLabel lbl_ref_article, lbl_quantite, lbl_saisie_id, lbl_sous_total_indiq, lbl_sous_total,
     				lbl_total_indiq_gauche, lbl_total_gauche, lbl_total_indiq_droite, lbl_total_droite;
     private JTextArea txa_liste_article_gauche, txa_liste_article_droite;
-    private JButton btn_ajouter_article, btn_payer_facture, btn_consulter_facture, btn_quitter;
+    private JButton btn_ajouter_article, btn_ajouter_client, btn_payer_facture, btn_consulter_facture, btn_quitter;
     private List<RelationArticleFacture> panier = new ArrayList<RelationArticleFacture>();
     
     // classe façade qu'on récupère à partir de RMI
@@ -241,6 +243,19 @@ public class CaisseView extends JFrame {
             }
         });
         
+        btn_ajouter_client = new JButton();
+        btn_ajouter_client.setFont(new Font("Calibri", Font.PLAIN, 18));
+        btn_ajouter_client.setForeground(Color.black);
+        btn_ajouter_client.setText("Ajouter Client");
+        btn_ajouter_client.setVisible(true);
+        zoneDessin.add(btn_ajouter_client);
+        btn_ajouter_client.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+            	AddClientView.main(null);
+            	new AddClientView(idMagasin, facadePosteCaisse);
+            }
+        });
+        
         btn_payer_facture = new JButton();
         btn_payer_facture.setFont(new Font("Calibri", Font.PLAIN, 18));
         btn_payer_facture.setForeground(Color.black);
@@ -421,6 +436,7 @@ public class CaisseView extends JFrame {
             txa_liste_article_droite.setBounds(largeur/2+100, 250, 600, 400);
             btn_ajouter_article.setBounds(450, 200, 200, 40);
             cmb_mode_paiement.setBounds(largeur/2-500, hauteur-235, 140, 32);
+            btn_ajouter_client.setBounds(200, 200, 200, 40);
             btn_payer_facture.setBounds(largeur/2-500, hauteur-175, 200, 40);
             btn_consulter_facture.setBounds(largeur/2+300, hauteur-175, 200, 40);
             btn_quitter.setBounds(largeur/2-100, hauteur-100, 200, 40);
