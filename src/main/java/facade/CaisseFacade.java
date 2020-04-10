@@ -1,5 +1,9 @@
 package facade;
 
+import java.io.File;
+import java.io.IOException;
+import java.io.Serializable;
+import java.net.URI;
 import java.rmi.registry.LocateRegistry;
 import java.rmi.registry.Registry;
 import java.rmi.server.UnicastRemoteObject;
@@ -24,7 +28,7 @@ import modele.RelationArticleFacture;
 
 
 
-public class CaisseFacade implements PosteCaisseFonctionnalite{
+public class CaisseFacade implements PosteCaisseFonctionnalite,Serializable{
     
 
     private DAOFactory factory=DAOFactory.getFactory(SourcesDonnees.mySQL);
@@ -49,6 +53,22 @@ public class CaisseFacade implements PosteCaisseFonctionnalite{
        
        if (instance == null) {
            instance = new CaisseFacade();
+           Runtime rt = Runtime.getRuntime();
+           try {
+               ProcessBuilder builder= new ProcessBuilder();
+               builder.command("cmd.exe","%JAVA_HOME%\\bin\\rmiregistry -J-Djava.rmi.server.useCodebaseOnly=false");
+               builder.directory(new File("D:\\Users\\donat\\eclipse-workspace\\ProjetCS\\target\\classes"));
+               Process pr= builder.start();
+               
+            /*Process pr= rt.exec("cmd.exe /c D:");
+            pr =rt.exec("cmd.exe /c cd D:\\Users\\donat\\eclipse-workspace\\ProjetCS\\target\\classes");
+            pr = rt.exec("cmd.exe /c %JAVA_HOME%\\bin\\rmiregistry -J-Djava.rmi.server.useCodebaseOnly=false");*/
+               
+        } catch (IOException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+            
+        }
        }
        return instance;     
     }
@@ -107,7 +127,7 @@ public class CaisseFacade implements PosteCaisseFonctionnalite{
     	return RelationArticleFactureDAOMySQL.getInstance().findByFacture(idFacture);
     }
     
-    public static void main(String[] args) {
+    public static void main(String[] args) throws IOException {
         
         
         System.setProperty("java.rmi.server.hostname", "localhost");
@@ -117,13 +137,17 @@ public class CaisseFacade implements PosteCaisseFonctionnalite{
           PosteCaisseFonctionnalite stub = (PosteCaisseFonctionnalite) UnicastRemoteObject.exportObject(obj, 0);
 
           // Bind the remote object's stub in the registry
-          Registry registry = LocateRegistry.getRegistry();
+          String host = (args.length < 1) ? null : args[0];
+
+          Registry registry = LocateRegistry.getRegistry(host);
           registry.bind("rmi://localhost/Caisse", stub);
 
           System.err.println("Server ready");
       } catch (Exception e) {
           System.err.println("Server exception: " + e.toString());
           e.printStackTrace();
+          Runtime rt = Runtime.getRuntime();
+          Process pr = rt.exec("taskkill /IM \"rmiregistry.exe\" /F");
       }
     }
 
