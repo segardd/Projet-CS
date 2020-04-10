@@ -6,12 +6,7 @@
 package InterfaceGraphique;
 
 import Sound.Sound;
-import dao.dao;
-import daoFactory.DAOFactory;
-import daoFactory.DAOFactory.SourcesDonnees;
-import modele.Article;
 import modele.SiegeModele;
-import serveur.magasin.PosteCaisseFonctionnalite;
 import serveur.magasin.SiegeFonctionnalite;
 
 import java.awt.Color;
@@ -33,11 +28,7 @@ import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Calendar;
 import java.sql.Date;
-import javax.swing.ComboBoxModel;
 
 
 /**
@@ -191,19 +182,6 @@ public class SiegeView extends JFrame{
             }
         });
         
-        /*btn_ajouter = new JButton();
-        btn_ajouter.setFont(new Font("Calibri", Font.PLAIN, 18));
-        btn_ajouter.setForeground(Color.black);
-        btn_ajouter.setText("Remettre en stock");
-        btn_ajouter.setVisible(true);
-        zoneDessin.add(btn_ajouter);
-        
-        btn_ajouter.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				ajouterArticle();
-			}
-		});*/
-        
         btn_quitter = new JButton();
         btn_quitter.setFont(new Font("Calibri", Font.PLAIN, 18));
         btn_quitter.setForeground(Color.black);
@@ -226,8 +204,6 @@ public class SiegeView extends JFrame{
             }
         });
         //</editor-fold>
-           
-        //zoneDessin.add(dtp);
         
         zoneDessin.setVisible(true);
         this.getContentPane().add(zoneDessin);
@@ -237,16 +213,9 @@ public class SiegeView extends JFrame{
     }
     //</editor-fold>
     
-    /*private void ajouterArticle()
-	{
-		
-	}*/
-    
     public class Dessin extends JPanel {
-        //private Integer menu;
         
         public Dessin() {
-            //image = Toolkit.getDefaultToolkit().getImage("src/ResourcesTicTacToe/image_fond_quadrillage.png");
         	Sound = new Sound("/Ressources/musique2.wav");
             Sound.play();
         }
@@ -280,12 +249,6 @@ public class SiegeView extends JFrame{
             } else {
                 btn_calculer_CA.setBounds(largeur/2-100, 250, 200, 40);
             }
-            /*lbl_ajouter_produit.setBounds(100, 400, 200, 40);
-            lbl_ref_article.setBounds(200, 450, 400, 40);
-            lbl_quantite_article.setBounds(200, 500, 400, 40);
-            cmb_ref_article.setBounds(largeur/2-100, 450, 200, 32);
-            txf_quantite_article.setBounds(largeur/2-100, 500, 200, 40);
-            btn_ajouter.setBounds(largeur/2-100, 550, 200, 40);*/
             btn_quitter.setBounds(largeur/2-100, hauteur-100, 200, 40);
             
         }
