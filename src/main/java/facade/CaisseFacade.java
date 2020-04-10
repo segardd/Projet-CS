@@ -12,6 +12,7 @@ import dao.ArticleDAOMySQL;
 import dao.FactureDAOMySQL;
 import dao.ModePaiementDAOMySQL;
 import dao.RelationArticleFactureDAOMySQL;
+import dao.RelationArticleMagasinDAOMySQL;
 import dao.dao;
 import daoFactory.DAOFactory;
 import daoFactory.DAOFactory.SourcesDonnees;
@@ -22,6 +23,7 @@ import modele.Magasin;
 import modele.ModePaiement;
 
 import modele.RelationArticleFacture;
+import modele.RelationArticleMagasin;
 import serveur.magasin.PosteCaisseFonctionnalite;
 import serveur.magasin.PosteClientFonctionnalite;
 import serveur.magasin.SiegeFonctionnalite;
@@ -89,9 +91,7 @@ public class CaisseFacade implements PosteCaisseFonctionnalite{
     	return ArticleDAOMySQL.getInstance().prixArticle(ref);
     }
     
-    public String editerFacture(LinkedList<RelationArticleFacture> articles) {   //
-        
-        //TODO 
+    public String editerFacture(LinkedList<RelationArticleFacture> articles) {
         System.out.println("");
         Facture facture= new Facture(0, new Date(System.currentTimeMillis()));
         facture.setArticles(articles);
@@ -118,9 +118,18 @@ public class CaisseFacade implements PosteCaisseFonctionnalite{
      */
     public Facture PayerFacture(Facture facture, List<RelationArticleFacture> panier) {
         facture = FactureDAOMySQL.getInstance().create(facture);
+        
         for (int i = 0; i < panier.size(); i++) {
         	panier.get(i).setId_facture(facture.getIdFacture());
         	RelationArticleFactureDAOMySQL.getInstance().create(panier.get(i));
+        	
+        	RelationArticleMagasin artMag = RelationArticleMagasinDAOMySQL.getInstance().findByArticleMagasin(panier.get(i).getId_article(), facture.getId_magasin());
+        	artMag.setEn_stock(artMag.getEn_stock() - panier.get(i).getQuantite());
+        	RelationArticleMagasinDAOMySQL.getInstance().update(artMag);
+        	
+        	Article article = ArticleDAOMySQL.getInstance().findArticleById(panier.get(i).getId_article());
+        	article.setNombre_exemplaire(article.getNombre_exemplaire() - panier.get(i).getQuantite());
+        	ArticleDAOMySQL.getInstance().update(article);
         }
         return facture;
     }
@@ -143,7 +152,7 @@ public class CaisseFacade implements PosteCaisseFonctionnalite{
     	return RelationArticleFactureDAOMySQL.getInstance().findByFacture(idFacture);
     }
     
-<<<<<<< HEAD
+
     
     @Override
     public Client createClient(String nom, String prenom, String mail, String codePostal, String ville)
@@ -154,7 +163,8 @@ public class CaisseFacade implements PosteCaisseFonctionnalite{
      
         System.out.println(client.getIdClient()!=0);
         return client;
-=======
+    }
+
     /**
      * 
      * @param idFacture , l'identifiant de la facture
@@ -166,7 +176,6 @@ public class CaisseFacade implements PosteCaisseFonctionnalite{
     
     public Article findArticleByID(int id) {
     	return ArticleDAOMySQL.getInstance().findArticleById(id);
->>>>>>> 3a544ee5074232f181b2bd3f91ccf24bec2b360a
     }
     
     public static void main(String[] args) {
