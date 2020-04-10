@@ -69,7 +69,7 @@ public class CaisseView extends JFrame {
         super();
         idMagasin = ID;
         
-     // On récupère notre connexion à notre façade
+        // On récupère notre connexion à notre façade
         try {
             Registry registry = LocateRegistry.getRegistry();
             facadePosteCaisse = (PosteCaisseFonctionnalite) registry.lookup("rmi://localhost/Caisse");

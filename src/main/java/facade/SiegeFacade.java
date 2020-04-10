@@ -4,6 +4,7 @@ import java.rmi.RemoteException;
 import java.rmi.registry.LocateRegistry;
 import java.rmi.registry.Registry;
 import java.rmi.server.UnicastRemoteObject;
+import java.util.LinkedList;
 
 import dao.ClientDAOMySQL;
 import modele.Article;
@@ -37,6 +38,11 @@ private static SiegeFacade instance;
         client=clientManager.create(client);
         
         return client;
+    }
+    
+    public LinkedList<Article> stock() throws RemoteException {
+    	
+    	return null;
     }
 
     
