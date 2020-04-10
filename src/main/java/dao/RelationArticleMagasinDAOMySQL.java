@@ -122,7 +122,7 @@ public class RelationArticleMagasinDAOMySQL extends dao<RelationArticleMagasin> 
     @Override
     public LinkedList<RelationArticleMagasin> findall() {
         // TODO Auto-generated method stub
-        String req = "SELECT * From artmag";
+        String req = "SELECT * From rt_art_mag";
         LinkedList<RelationArticleMagasin> artmags= new LinkedList<RelationArticleMagasin>();
         ResultSet result = MySQLManager.getInstance().getData(req);
         RelationArticleMagasin artmag = null;
@@ -166,7 +166,7 @@ public class RelationArticleMagasinDAOMySQL extends dao<RelationArticleMagasin> 
     }
     
     public LinkedList<RelationArticleMagasin> findByArticle(long id){
-        String req = "SELECT * From artmag WHERE ID_article= '"+id +"'";
+        String req = "SELECT * From rt_art_mag WHERE ID_article= '"+id +"'";
         LinkedList<RelationArticleMagasin> artmags= new LinkedList<RelationArticleMagasin>();
         ResultSet result = MySQLManager.getInstance().getData(req);
         RelationArticleMagasin artmag = null;
@@ -188,7 +188,7 @@ public class RelationArticleMagasinDAOMySQL extends dao<RelationArticleMagasin> 
     }
     
     public LinkedList<RelationArticleMagasin> findByMagasin(long id){
-        String req = "SELECT * From artmag WHERE ID_magasin= '"+id+"'";
+        String req = "SELECT * From rt_art_mag WHERE ID_magasin= '"+id+"'";
         LinkedList<RelationArticleMagasin> artmags= new LinkedList<RelationArticleMagasin>();
         ResultSet result = MySQLManager.getInstance().getData(req);
         RelationArticleMagasin artmag = null;

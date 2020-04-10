@@ -1,12 +1,16 @@
 package facade;
 
+import java.rmi.RemoteException;
 import java.rmi.registry.LocateRegistry;
 import java.rmi.registry.Registry;
 import java.rmi.server.UnicastRemoteObject;
 import java.util.Date;
 import java.util.LinkedList;
+import java.util.List;
 
 import dao.ArticleDAOMySQL;
+import dao.FactureDAOMySQL;
+import dao.ModePaiementDAOMySQL;
 import dao.RelationArticleFactureDAOMySQL;
 import dao.dao;
 import daoFactory.DAOFactory;
@@ -61,6 +65,14 @@ public class CaisseFacade implements PosteCaisseFonctionnalite{
 		return ArticleDAOMySQL.getInstance().findall();
     }
     
+    public LinkedList<ModePaiement> moyensPaiement(){
+    	return ModePaiementDAOMySQL.getInstance().findall();
+    }
+    
+	public ModePaiement findModePaiementByRef(String ref) {
+		return ModePaiementDAOMySQL.getInstance().findModePaiementByRef(ref);
+	}
+    
     public Double prixArticle(String ref) {
     	return ArticleDAOMySQL.getInstance().prixArticle(ref);
     }
@@ -82,16 +94,22 @@ public class CaisseFacade implements PosteCaisseFonctionnalite{
         return factureManager.create(facture).toString();
     }
     
+	public Article findArticleByRef(String ref){
+		return ArticleDAOMySQL.getInstance().findArticleByRef(ref);
+	}
+    
     /**
      * 
      * @param facture , facture à payer
      * @param mode , mode de paiement choisis
      * @return la facture payée
      */
-    public Facture PayerFacture(Facture facture, ModePaiement mode) {
-        facture.setId_mode_paiement(mode.getIdMode_paiement());
-        facture=factureManager.update(facture);
-        return null;
+    public Facture PayerFacture(Facture facture, List<RelationArticleFacture> panier) {
+        facture = FactureDAOMySQL.getInstance().create(facture);
+        for (int i = 0; i < panier.size(); i++) {
+        	RelationArticleFactureDAOMySQL.getInstance().create(panier.get(i));
+        }
+        return facture;
     }
 
     /**
@@ -126,5 +144,4 @@ public class CaisseFacade implements PosteCaisseFonctionnalite{
           e.printStackTrace();
       }
     }
-
 }

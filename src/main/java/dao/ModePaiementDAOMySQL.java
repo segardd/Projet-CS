@@ -8,6 +8,7 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.LinkedList;
 import datasourceManagement.MySQLManager;
+import modele.Article;
 import modele.ModePaiement;
 
 
@@ -111,5 +112,22 @@ public class ModePaiementDAOMySQL extends dao<ModePaiement>  implements Serializ
         return modePaiements;
         
     }
+
+	public ModePaiement findModePaiementByRef(String ref) {
+		String req = "SELECT * From mode_paiement WHERE intitule_paiement = '" + ref + "'";
+    	ResultSet result = MySQLManager.getInstance().getData(req);
+    	ModePaiement mode = null;
+        try {
+            while(result.next()) {
+            	mode.setIdMode_paiement(result.getInt("mode_paiement"));
+            	mode.setIntitule_paiement(result.getString("intitule_paiement"));
+            }
+        }
+        catch(Exception e){
+            System.out.println(e.toString());
+            System.out.println("pas compte");
+        }
+        return mode;
+	}
 
 }

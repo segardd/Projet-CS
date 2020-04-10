@@ -65,6 +65,13 @@ public interface PosteClientFonctionnalite extends Remote{
     
     /**
      * 
+     * @param ID de l'article
+     * @return l'article
+     */
+    public Article findArticleById(int ID) throws RemoteException;
+    
+    /**
+     * 
      * @param artMag nouvelle valeur de l'article dans le magasin
      * @param article nouvelle valeur de l'article
      */

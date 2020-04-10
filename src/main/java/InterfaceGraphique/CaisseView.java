@@ -16,6 +16,7 @@ import java.rmi.RemoteException;
 import java.rmi.registry.LocateRegistry;
 import java.rmi.registry.Registry;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -30,6 +31,8 @@ import javax.swing.JTextArea;
 import javax.swing.JTextField;
 
 import Sound.Sound;
+import modele.Facture;
+import modele.ModePaiement;
 import modele.RelationArticleFacture;
 import serveur.magasin.PosteCaisseFonctionnalite;
 
@@ -45,12 +48,15 @@ public class CaisseView extends JFrame {
     private int largeur = 1500;
     private int hauteur = 900;
     private Dimension dimension = new Dimension(largeur,hauteur);
+    private Long millis = System.currentTimeMillis();
+    private Date date = new Date(millis);
     private JTextField txf_quantite = new JTextField(10);
     private JTextField txf_id = new JTextField(5);
-    private JComboBox cmb_ref_article;
+    private JComboBox cmb_ref_article, cmb_mode_paiement;
     private JLabel lbl_ref_article, lbl_quantite, lbl_saisie_id, lbl_sous_total_indiq, lbl_sous_total, lbl_total_indiq, lbl_total;
     private JTextArea txa_liste_article_gauche, txa_liste_article_droite;
     private JButton btn_ajouter_article, btn_payer_facture, btn_consulter_facture, btn_quitter;
+    private List<RelationArticleFacture> panier = new ArrayList<RelationArticleFacture>();
     
     // classe façade qu'on récupère à partir de RMI
     PosteCaisseFonctionnalite facadePosteCaisse = null;
@@ -145,6 +151,20 @@ public class CaisseView extends JFrame {
 		}
         cmb_ref_article.setVisible(true);
         zoneDessin.add(cmb_ref_article);
+        
+        cmb_mode_paiement = new JComboBox();
+        cmb_mode_paiement.setFont(new Font("Calibri", Font.PLAIN, 18));
+        
+        try {
+			for (int i = 0; i < facadePosteCaisse.moyensPaiement().size(); i++) {
+				cmb_mode_paiement.addItem(facadePosteCaisse.moyensPaiement().get(i).getIntitule_paiement());
+			}
+		} catch (RemoteException e1) {
+			// TODO Auto-generated catch block
+			//e1.printStackTrace();
+		}
+        cmb_mode_paiement.setVisible(true);
+        zoneDessin.add(cmb_mode_paiement);
         //</editor-fold>
         
         //<editor-fold desc="JTextArea">
@@ -156,9 +176,6 @@ public class CaisseView extends JFrame {
         
         txa_liste_article_gauche.setForeground(Color.black);
         txa_liste_article_droite.setForeground(Color.black);
-        
-        Long millis = System.currentTimeMillis();
-        Date date = new Date(millis);
         
         txa_liste_article_gauche.setText("Date :                                                                                        " 
         		+ new SimpleDateFormat("dd-MM-yyyy").format(date));
@@ -285,6 +302,14 @@ public class CaisseView extends JFrame {
 	              JOptionPane.ERROR_MESSAGE);
 				//e.printStackTrace();
 			}
+			RelationArticleFacture article = new RelationArticleFacture(0);
+			try {
+				article.setId_article(facadePosteCaisse.findArticleByRef(cmb_ref_article.getSelectedItem().toString()).getIdArticle());
+			} catch (RemoteException e) {
+				e.printStackTrace();
+			}
+			article.setQuantite((Integer) Integer.parseInt(txf_quantite.getText()));
+			panier.add(article);
     		txa_liste_article_gauche.setText(txa_liste_article_gauche.getText() + "\n         " + cmb_ref_article.getSelectedItem().toString() 
     				+ " x" + (Integer) Integer.parseInt(txf_quantite.getText()) + " " + ((Double) Double.parseDouble(txf_quantite.getText()))*prix_unitaire);
     		lbl_sous_total.setText("" + ((Double) Double.parseDouble(txf_quantite.getText()))*prix_unitaire);
@@ -296,7 +321,28 @@ public class CaisseView extends JFrame {
     }
     
     public void payerFacture(){
+    	ModePaiement mode = null;
+		try {
+			mode = facadePosteCaisse.findModePaiementByRef(cmb_mode_paiement.getSelectedItem().toString());
+		} catch (RemoteException e1) {
+			e1.printStackTrace();
+		}
+		
+		Double total = (Double) Double.parseDouble(lbl_total.getText());
+		
+    	Facture facture = null;
+    	facture.setId_magasin(idMagasin);
+    	facture.setIdClient(1); //En attendant
+    	facture.setId_mode_paiement(mode.getIdMode_paiement());
+    	facture.setTotale_facture(total);
+    	facture.setDate_facture(date);
     	
+    	try {
+			facadePosteCaisse.PayerFacture(facture, panier);
+			System.out.println("yes");
+		} catch (RemoteException e) {
+			e.printStackTrace();
+		}
     }
     
     public void consulterFacture(){
@@ -351,6 +397,7 @@ public class CaisseView extends JFrame {
             txa_liste_article_gauche.setBounds(100, 250, 600, 400);
             txa_liste_article_droite.setBounds(largeur/2+100, 250, 600, 400);
             btn_ajouter_article.setBounds(450, 200, 200, 40);
+            cmb_mode_paiement.setBounds(largeur/2-500, hauteur-235, 140, 32);
             btn_payer_facture.setBounds(largeur/2-500, hauteur-175, 200, 40);
             btn_consulter_facture.setBounds(largeur/2+300, hauteur-175, 200, 40);
             btn_quitter.setBounds(largeur/2-100, hauteur-100, 200, 40);

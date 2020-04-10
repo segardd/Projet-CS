@@ -3,8 +3,6 @@ package serveur.magasin;
 import java.rmi.Remote;
 import java.rmi.RemoteException;
 
-import java.util.LinkedList;
-
 import dao.dao;
 import daoFactory.DAOFactory;
 import daoFactory.DAOFactory.SourcesDonnees;
@@ -35,6 +33,19 @@ public interface PosteCaisseFonctionnalite extends Remote{
 	public LinkedList<Article> stock() throws RemoteException;
 	
 	/**
+    * 
+    * @return la liste des moyens de paiements.
+    */
+	public LinkedList<ModePaiement> moyensPaiement() throws RemoteException;
+	
+	/**
+     * 
+     * @param ref , intitule du mode de paiement
+     * @return le mode de paiement
+     */
+	public ModePaiement findModePaiementByRef(String ref) throws RemoteException;
+	
+	/**
      * 
      * @param idFacture , l'identifiant de la facture
      * @return articles de la facture sous forme de liste
@@ -58,10 +69,10 @@ public interface PosteCaisseFonctionnalite extends Remote{
     /**
      * 
      * @param facture , facture à payer
-     * @param mode , mode de paiement choisis
+     * @param panier , liste des articles dans le panier
      * @return la facture payée
      */
-    public Facture PayerFacture(Facture facture, ModePaiement mode ) throws RemoteException;
+    public Facture PayerFacture(Facture facture, List<RelationArticleFacture> panier ) throws RemoteException;
     
     /**
      * 
@@ -69,4 +80,11 @@ public interface PosteCaisseFonctionnalite extends Remote{
      * @return liste des factures de cce magasin
      */
     public LinkedList<Facture> ListeFacture(long id) throws RemoteException;
+    
+    /**
+     * 
+     * @param ref de l'article
+     * @return l'article
+     */
+    public Article findArticleByRef(String ref) throws RemoteException;
 }

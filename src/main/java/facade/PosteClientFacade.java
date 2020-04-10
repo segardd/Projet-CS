@@ -105,6 +105,10 @@ public class PosteClientFacade implements PosteClientFonctionnalite {
         return ArticleDAOMySQL.getInstance().findArticleByRef(ref);
     }
     
+	public Article findArticleById(int ID) {
+		return ArticleDAOMySQL.getInstance().findArticleById(ID);
+	}
+    
     /**
      * 
      * @param article nouvelle valeur de l'article

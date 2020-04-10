@@ -1,6 +1,7 @@
 package dao;
 
 import java.io.Serializable;
+import java.rmi.RemoteException;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.LinkedList;
@@ -156,6 +157,26 @@ public static synchronized ArticleDAOMySQL getInstance() {
         }
         return art;
     }
+	
+	public Article findArticleById(int ID) {
+		String req = "SELECT * From article WHERE idArticle = '" + ID + "'";
+    	ResultSet result = MySQLManager.getInstance().getData(req);
+        Article art = new Article("waow", 0.0, 1);
+        try {
+            while(result.next()) {
+            	art.setIdArticle(result.getInt("idArticle"));
+                art.setReference(result.getString("reference"));
+                art.setId_famille(result.getInt("ID_famille"));
+                art.setPrix_unitaire(result.getDouble("prix_unitaire"));
+                art.setNombre_exemplaire(result.getInt("nombre_exemplaire"));
+            }
+        }
+        catch(Exception e){
+            System.out.println(e.toString());
+            System.out.println("pas compte");
+        }
+        return art;
+	}
     
     public LinkedList<Article> findByFamile(Famille famille){
     	String req = "SELECT * From article WHERE ID_famille = '"+famille.getIdFamille() + "'";

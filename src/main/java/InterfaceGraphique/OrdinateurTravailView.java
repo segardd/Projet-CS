@@ -297,12 +297,12 @@ public class OrdinateurTravailView extends JFrame {
             // appel grace au serveur
             System.out.println("appel serveur rmi");
             LinkedList<RelationArticleMagasin> artMags = facadePosteClient.findByMagasin(idMagasin);
-            LinkedList<Article> lesArticles = facadePosteClient.stock();
             for (int i = 0; i < artMags.size(); i++) {
-                donnees[i][0] = lesArticles.get(i).getReference();
-                donnees[i][1] = lesArticles.get(i).getPrix_unitaire();
-                donnees[i][2] = lesArticles.get(i).getNombre_exemplaire();
-                donnees[i][3] = facadePosteClient.intituleDeLaFamille(lesArticles.get(i).getReference());
+            	Article article = facadePosteClient.findArticleById(artMags.get(i).getId_article());
+                donnees[i][0] = article.getReference();//lesArticles.get(i).getReference();
+                donnees[i][1] = article.getPrix_unitaire();
+                donnees[i][2] = artMags.get(i).getEn_stock();
+                donnees[i][3] = facadePosteClient.intituleDeLaFamille(article.getReference());
             }
             tab_stock.repaint();
         } catch (RemoteException e) {
