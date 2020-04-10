@@ -229,7 +229,7 @@ public class SiegeView extends JFrame{
                   JOptionPane.QUESTION_MESSAGE);
 
                 if(option == JOptionPane.OK_OPTION){
-                    System.exit(0);
+                	SiegeView.this.dispose();
                 }
             }
         });

@@ -113,19 +113,19 @@ public class PosteClientFacade implements PosteClientFonctionnalite {
         try {
           
             PosteClientFacade obj = PosteClientFacade.getInstance();
-          PosteClientFonctionnalite stub = (PosteClientFonctionnalite) UnicastRemoteObject.exportObject(obj, 0);
-
-          // Bind the remote object's stub in the registry
-          Registry registry = LocateRegistry.getRegistry();
-          // il faudrait indiquer le  n° du magasin dans le lien
-          // ou faire en sorte qu'on puisse instancier un registry pour chacun des
-          // magasins
-          registry.bind("rmi://localhost/Client", stub);
-
-          System.err.println("Server ready");
-      } catch (Exception e) {
-          System.err.println("Server exception: " + e.toString());
-          e.printStackTrace();
-      }
+	          PosteClientFonctionnalite stub = (PosteClientFonctionnalite) UnicastRemoteObject.exportObject(obj, 0);
+	
+	          // Bind the remote object's stub in the registry
+	          Registry registry = LocateRegistry.getRegistry();
+	          // il faudrait indiquer le  n° du magasin dans le lien
+	          // ou faire en sorte qu'on puisse instancier un registry pour chacun des
+	          // magasins
+	          registry.bind("rmi://localhost/Client", stub);
+	
+	          System.err.println("Server ready");
+	      } catch (Exception e) {
+	          System.err.println("Server exception: " + e.toString());
+	          e.printStackTrace();
+	      }
     }
 }

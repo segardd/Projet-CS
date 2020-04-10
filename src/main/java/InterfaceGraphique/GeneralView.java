@@ -77,9 +77,18 @@ public class GeneralView extends JFrame {
         zoneDessin.add(btn_ordinateur);
         btn_ordinateur.addActionListener(new ActionListener(){
             public void actionPerformed(ActionEvent evt){
-            	int ID = MagasinDAOMySQL.getInstance().findByVille(cmb_magasin.getSelectedItem().toString());
-            	PosteClientFacade.main(null);
-            	new LanceurOrdiTravail(ID);
+            	if(cmb_magasin.getSelectedIndex() == 0) {
+		        	JOptionPane jop = new JOptionPane();    	
+		        	jop.showMessageDialog(null, 
+		              "Veuillez sélectionner un magasin", 
+		              "Aucune sélection",
+		              JOptionPane.ERROR_MESSAGE);
+		
+		        } else {
+		        	int ID = MagasinDAOMySQL.getInstance().findByVille(cmb_magasin.getSelectedItem().toString());
+	            	PosteClientFacade.main(null);
+	            	new LanceurOrdiTravail(ID);
+		        }
             }
         });
         
@@ -91,9 +100,18 @@ public class GeneralView extends JFrame {
         zoneDessin.add(btn_caisse);
         btn_caisse.addActionListener(new ActionListener(){
             public void actionPerformed(ActionEvent evt){
-            	int ID = MagasinDAOMySQL.getInstance().findByVille(cmb_magasin.getSelectedItem().toString());
-            	CaisseFacade.main(null);
-            	new LanceurCaisse(ID);
+            	if(cmb_magasin.getSelectedIndex() == 0) {
+		        	JOptionPane jop = new JOptionPane();    	
+		        	jop.showMessageDialog(null, 
+		              "Veuillez sélectionner un magasin", 
+		              "Aucune sélection",
+		              JOptionPane.ERROR_MESSAGE);
+		
+		        } else {
+	            	int ID = MagasinDAOMySQL.getInstance().findByVille(cmb_magasin.getSelectedItem().toString());
+	            	CaisseFacade.main(null);
+	            	new LanceurCaisse(ID);
+		        }
             }
         });
         

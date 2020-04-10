@@ -225,7 +225,7 @@ public class OrdinateurTravailView extends JFrame {
                         JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE);
 
                 if (option == JOptionPane.OK_OPTION) {
-                    System.exit(0);
+                	OrdinateurTravailView.this.dispose();
                 }
             }
         });
