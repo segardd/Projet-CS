@@ -53,7 +53,7 @@ public class ModePaiementDAOMySQL extends dao<ModePaiement>  implements Serializ
     @Override
     public ModePaiement create(ModePaiement obj) {
         String req= 
-                "INSERT INTO modePaiement (intitule_paiement)"
+                "INSERT INTO mode_paiement (intitule_paiement)"
                 + " VALUES('"+obj.getIntitule_paiement()+"')";
         
                     
@@ -63,7 +63,7 @@ public class ModePaiementDAOMySQL extends dao<ModePaiement>  implements Serializ
 
     @Override
     public ModePaiement update(ModePaiement obj) {
-        String req="UPDATE mode_paiement SET nom='"+obj.getIntitule_paiement()+"'"
+        String req="UPDATE mode_paiement SET intitule_paiement='"+obj.getIntitule_paiement()+"'"
                 + " WHERE idMode_paiement="+obj.getIdMode_paiement();
         MySQLManager.getInstance().setData(req);
         return obj;
@@ -116,10 +116,10 @@ public class ModePaiementDAOMySQL extends dao<ModePaiement>  implements Serializ
 	public ModePaiement findModePaiementByRef(String ref) {
 		String req = "SELECT * From mode_paiement WHERE intitule_paiement = '" + ref + "'";
     	ResultSet result = MySQLManager.getInstance().getData(req);
-    	ModePaiement mode = null;
+    	ModePaiement mode = new ModePaiement("paypal");
         try {
             while(result.next()) {
-            	mode.setIdMode_paiement(result.getInt("mode_paiement"));
+            	mode.setIdMode_paiement(result.getInt("idMode_paiement"));
             	mode.setIntitule_paiement(result.getString("intitule_paiement"));
             }
         }

@@ -17,7 +17,7 @@ import java.rmi.registry.LocateRegistry;
 import java.rmi.registry.Registry;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Date;
+import java.sql.Date;
 import java.util.List;
 
 import javax.swing.BorderFactory;
@@ -31,6 +31,7 @@ import javax.swing.JTextArea;
 import javax.swing.JTextField;
 
 import Sound.Sound;
+import modele.Article;
 import modele.Facture;
 import modele.ModePaiement;
 import modele.RelationArticleFacture;
@@ -53,7 +54,8 @@ public class CaisseView extends JFrame {
     private JTextField txf_quantite = new JTextField(10);
     private JTextField txf_id = new JTextField(5);
     private JComboBox cmb_ref_article, cmb_mode_paiement;
-    private JLabel lbl_ref_article, lbl_quantite, lbl_saisie_id, lbl_sous_total_indiq, lbl_sous_total, lbl_total_indiq, lbl_total;
+    private JLabel lbl_ref_article, lbl_quantite, lbl_saisie_id, lbl_sous_total_indiq, lbl_sous_total,
+    				lbl_total_indiq_gauche, lbl_total_gauche, lbl_total_indiq_droite, lbl_total_droite;
     private JTextArea txa_liste_article_gauche, txa_liste_article_droite;
     private JButton btn_ajouter_article, btn_payer_facture, btn_consulter_facture, btn_quitter;
     private List<RelationArticleFacture> panier = new ArrayList<RelationArticleFacture>();
@@ -92,48 +94,60 @@ public class CaisseView extends JFrame {
         lbl_saisie_id = new JLabel();
         lbl_sous_total_indiq = new JLabel();
         lbl_sous_total = new JLabel();
-        lbl_total_indiq = new JLabel();
-        lbl_total = new JLabel();
+        lbl_total_indiq_gauche = new JLabel();
+        lbl_total_gauche = new JLabel();
+        lbl_total_indiq_droite = new JLabel();
+        lbl_total_droite = new JLabel();
         
         lbl_ref_article.setFont(new Font("Calibri", Font.PLAIN, 24));
         lbl_quantite.setFont(new Font("Calibri", Font.PLAIN, 18));
         lbl_saisie_id.setFont(new Font("Calibri", Font.PLAIN, 18));
         lbl_sous_total_indiq.setFont(new Font("Calibri", Font.PLAIN, 18));
         lbl_sous_total.setFont(new Font("Calibri", Font.PLAIN, 18));
-        lbl_total_indiq.setFont(new Font("Calibri", Font.PLAIN, 18));
-        lbl_total.setFont(new Font("Calibri", Font.PLAIN, 18));
+        lbl_total_indiq_gauche.setFont(new Font("Calibri", Font.PLAIN, 18));
+        lbl_total_gauche.setFont(new Font("Calibri", Font.PLAIN, 18));
+        lbl_total_indiq_droite.setFont(new Font("Calibri", Font.PLAIN, 18));
+        lbl_total_droite.setFont(new Font("Calibri", Font.PLAIN, 18));
         
         lbl_ref_article.setForeground(Color.black);
         lbl_quantite.setForeground(Color.black);
         lbl_saisie_id.setForeground(Color.black);
         lbl_sous_total_indiq.setForeground(Color.black);
         lbl_sous_total.setForeground(Color.black);
-        lbl_total_indiq.setForeground(Color.black);
-        lbl_total.setForeground(Color.black);
+        lbl_total_indiq_gauche.setForeground(Color.black);
+        lbl_total_gauche.setForeground(Color.black);
+        lbl_total_indiq_droite.setForeground(Color.black);
+        lbl_total_droite.setForeground(Color.black);
         
         lbl_ref_article.setText("Veuillez selectionner l'article : ");
         lbl_quantite.setText("Veuillez indiquer la quantité : ");
         lbl_saisie_id.setText("Veuillez saisir l'ID de la facture : ");
         lbl_sous_total_indiq.setText("Sous-Total : ");
         lbl_sous_total.setText("0.0");
-        lbl_total_indiq.setText("Total : ");
-        lbl_total.setText("0.0");
+        lbl_total_indiq_gauche.setText("Total : ");
+        lbl_total_gauche.setText("0.0");
+        lbl_total_indiq_droite.setText("Total : ");
+        lbl_total_droite.setText("0.0");
         
         lbl_ref_article.setVisible(true);
         lbl_quantite.setVisible(true);
         lbl_saisie_id.setVisible(true);
         lbl_sous_total_indiq.setVisible(true);
         lbl_sous_total.setVisible(true);
-        lbl_total_indiq.setVisible(true);
-        lbl_total.setVisible(true);
+        lbl_total_indiq_gauche.setVisible(true);
+        lbl_total_gauche.setVisible(true);
+        lbl_total_indiq_droite.setVisible(true);
+        lbl_total_droite.setVisible(true);
         
         zoneDessin.add(lbl_ref_article);
         zoneDessin.add(lbl_quantite);
         zoneDessin.add(lbl_saisie_id);
         zoneDessin.add(lbl_sous_total_indiq);
         zoneDessin.add(lbl_sous_total);
-        zoneDessin.add(lbl_total_indiq);
-        zoneDessin.add(lbl_total);
+        zoneDessin.add(lbl_total_indiq_gauche);
+        zoneDessin.add(lbl_total_gauche);
+        zoneDessin.add(lbl_total_indiq_droite);
+        zoneDessin.add(lbl_total_droite);
         //</editor-fold>
         
       //<editor-fold desc="JComboBox">
@@ -313,33 +327,30 @@ public class CaisseView extends JFrame {
     		txa_liste_article_gauche.setText(txa_liste_article_gauche.getText() + "\n         " + cmb_ref_article.getSelectedItem().toString() 
     				+ " x" + (Integer) Integer.parseInt(txf_quantite.getText()) + " " + ((Double) Double.parseDouble(txf_quantite.getText()))*prix_unitaire);
     		lbl_sous_total.setText("" + ((Double) Double.parseDouble(txf_quantite.getText()))*prix_unitaire);
-    		Double total = ((Double) Double.parseDouble(lbl_total.getText())) + ((Double) Double.parseDouble(txf_quantite.getText()))*prix_unitaire;
-    		lbl_total.setText(total + "");
+    		Double total = ((Double) Double.parseDouble(lbl_total_gauche.getText())) + ((Double) Double.parseDouble(txf_quantite.getText()))*prix_unitaire;
+    		lbl_total_gauche.setText(total + "");
     		//zoneDessin.repaint();
     	}
     	
     }
     
     public void payerFacture(){
-    	ModePaiement mode = null;
+    	ModePaiement mode = new ModePaiement(cmb_mode_paiement.getSelectedItem().toString());
 		try {
 			mode = facadePosteCaisse.findModePaiementByRef(cmb_mode_paiement.getSelectedItem().toString());
 		} catch (RemoteException e1) {
 			e1.printStackTrace();
 		}
 		
-		Double total = (Double) Double.parseDouble(lbl_total.getText());
+		Double total = (Double) Double.parseDouble(lbl_total_gauche.getText());
 		
-    	Facture facture = null;
+    	Facture facture = new Facture(total, date);
     	facture.setId_magasin(idMagasin);
     	facture.setIdClient(1); //En attendant
     	facture.setId_mode_paiement(mode.getIdMode_paiement());
-    	facture.setTotale_facture(total);
-    	facture.setDate_facture(date);
     	
     	try {
 			facadePosteCaisse.PayerFacture(facture, panier);
-			System.out.println("yes");
 		} catch (RemoteException e) {
 			e.printStackTrace();
 		}
@@ -356,7 +367,18 @@ public class CaisseView extends JFrame {
     		try {
     			int ID = (Integer) Integer.parseInt(txf_id.getText().trim());
     			try {
+    				Facture facture = facadePosteCaisse.findFacture(ID);
     				List<RelationArticleFacture> lesArticles = facadePosteCaisse.consulterFacture(ID);
+    				txa_liste_article_droite.setText("ID : " + ID + "                                                                             Date : " + facture.getDate_facture());
+    				Double total = 0.0;
+    				for(int i = 0; i < lesArticles.size(); i++) {
+    					Article article = facadePosteCaisse.findArticleByID(lesArticles.get(i).getId_article());
+    					txa_liste_article_droite.setText(txa_liste_article_droite.getText() + "\n        "
+    							+ article.getReference() + "  x" + lesArticles.get(i).getQuantite() + "                                                        " 
+    							+ article.getPrix_unitaire()*lesArticles.get(i).getQuantite());
+    					total = total + article.getPrix_unitaire()*lesArticles.get(i).getQuantite();
+    				}
+    				lbl_total_droite.setText(total + "");
     			} catch (RemoteException e) {
     				System.out.println("chargement facture échoué");
     			}
@@ -368,7 +390,6 @@ public class CaisseView extends JFrame {
                   JOptionPane.WARNING_MESSAGE);
     		}
     	}
-    	txa_liste_article_droite.setText("");
     }
     
     public class Dessin extends JPanel {
@@ -392,8 +413,10 @@ public class CaisseView extends JFrame {
             lbl_saisie_id.setBounds(largeur/2+100, 150, 300, 40);
             lbl_sous_total_indiq.setBounds(100, 150, 200, 40);
             lbl_sous_total.setBounds(450, 150, 350, 40);
-            lbl_total_indiq.setBounds(105, 610, 100, 40);
-            lbl_total.setBounds(650, 610, 350, 40);
+            lbl_total_indiq_gauche.setBounds(105, 610, 100, 40);
+            lbl_total_gauche.setBounds(650, 610, 350, 40);
+            lbl_total_indiq_droite.setBounds(largeur/2+105, 610, 100, 40);
+            lbl_total_droite.setBounds(largeur/2+650, 610, 350, 40);
             txa_liste_article_gauche.setBounds(100, 250, 600, 400);
             txa_liste_article_droite.setBounds(largeur/2+100, 250, 600, 400);
             btn_ajouter_article.setBounds(450, 200, 200, 40);
