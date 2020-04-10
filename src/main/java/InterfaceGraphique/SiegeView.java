@@ -155,13 +155,13 @@ public class SiegeView extends JFrame{
         cmb_ref_article.setFont(new Font("Calibri", Font.PLAIN, 18));
         
         cmb_ref_article.addItem("----------------------------");
-        try {
+        /*try {
 			for(int i = 0;i < facadeSiege.stock().size(); i++){
 			    cmb_ref_article.addItem(facadeSiege.stock().get(i).getReference());
 			}
 		} catch (RemoteException e1) {
 			e1.printStackTrace();
-		}
+		}*/
         cmb_ref_article.setVisible(true);
         zoneDessin.add(cmb_ref_article);
         //</editor-fold>
@@ -176,6 +176,8 @@ public class SiegeView extends JFrame{
         
         btn_calculer_CA.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e){
+            	//facadeSiege.calculCA(new Date(txf_date_AAAA.getText() + "-" + txf_date_MM.getText() + "-" + txf_date_JJ.getText()));
+            	
                 lbl_chiffre_affaire.setVisible(true);
                 zoneDessin.repaint();
             }

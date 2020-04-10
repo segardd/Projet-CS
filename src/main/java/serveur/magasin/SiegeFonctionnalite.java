@@ -24,6 +24,6 @@ public interface SiegeFonctionnalite extends Remote{
 	public LinkedList<Article> stock() throws RemoteException;
 	
 
-    double calculCA(Date date);
+    double calculCA(Date date) throws RemoteException;
 
 }

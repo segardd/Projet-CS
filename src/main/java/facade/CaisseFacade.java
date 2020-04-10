@@ -155,8 +155,7 @@ public class CaisseFacade implements PosteCaisseFonctionnalite{
 
     
     @Override
-    public Client createClient(String nom, String prenom, String mail, String codePostal, String ville)
-            throws RemoteException {
+    public Client createClient(String nom, String prenom, String mail, String codePostal, String ville) throws RemoteException {
         // TODO Auto-generated method stub
         Client client= new Client(nom, prenom, mail, codePostal, ville);
         client=facadeSiege.createClient(client);

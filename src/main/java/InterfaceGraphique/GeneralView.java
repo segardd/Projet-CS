@@ -21,6 +21,7 @@ import Sound.Sound;
 import dao.MagasinDAOMySQL;
 import facade.CaisseFacade;
 import facade.PosteClientFacade;
+import facade.SiegeFacade;
 import modele.Magasin;
 
 public class GeneralView extends JFrame {
@@ -65,6 +66,7 @@ public class GeneralView extends JFrame {
         zoneDessin.add(btn_siege);
         btn_siege.addActionListener(new ActionListener(){
             public void actionPerformed(ActionEvent evt){
+            	SiegeFacade.main(null);
             	new LanceurSiege();
             }
         });

@@ -32,15 +32,14 @@ public class SiegeFacade implements SiegeFonctionnalite {
        
        if (instance == null) {
            instance = new SiegeFacade();
-           try {
+           /*try {
                Registry registry = LocateRegistry.getRegistry();
                facadeSiege = (SiegeFonctionnalite) registry.lookup("rmi://localhost/Siege");
 
            } catch (Exception e) {
-               // TODO: handle exception
                System.out.println("non connecté au server");
                e.printStackTrace();
-           }
+           }*/
        }
        return instance;     
     }
@@ -60,41 +59,40 @@ public class SiegeFacade implements SiegeFonctionnalite {
     }
 
     
- public static void main(String[] args) {
+    public static void main(String[] args) {
         
         
-        System.setProperty("java.rmi.server.hostname", "localhost");
-        try {
-          
-            SiegeFacade obj = SiegeFacade.getInstance();
-          SiegeFonctionnalite stub = (SiegeFonctionnalite) UnicastRemoteObject.exportObject(obj, 0);
-
-          // Bind the remote object's stub in the registry
-          Registry registry = LocateRegistry.getRegistry();
-          registry.bind("rmi://localhost/Siege", stub);
-
-          System.err.println("Server Siege ready");
-      } catch (Exception e) {
-          System.err.println("Server exception: " + e.toString());
-          e.printStackTrace();
-      }
+	 	System.setProperty("java.rmi.server.hostname", "localhost");
+	    try {
+	          SiegeFacade obj = SiegeFacade.getInstance();
+	          SiegeFonctionnalite stub = (SiegeFonctionnalite) UnicastRemoteObject.exportObject(obj, 0);
+	
+	          // Bind the remote object's stub in the registry
+	          Registry registry = LocateRegistry.getRegistry();
+	          registry.bind("rmi://localhost/Siege", stub);
+	
+	          System.err.println("Server Siege ready");
+	    } catch (Exception e) {
+	          System.err.println("Server exception: " + e.toString());
+	          e.printStackTrace();
+	    }
     }
  
-@Override
-public double calculCA(Date date) {
-    // TODO Auto-generated method stub
-    if (date==null) {
-        date=new Date(System.currentTimeMillis());
-    }
-    double somme=0;
-    LinkedList<Facture> factures= factureManager.findall();
-    for (Facture facture: factures) {
-        // on regarde si la facture a un mode de paiement <=> facture payée
-        if (facture.getId_mode_paiement()!=0 && facture.getDate_facture().compareTo(date)>= 0) {
-            somme+=facture.getTotale_facture();
-        }
-    }
-    return somme;
-}
+	@Override
+	public double calculCA(Date date) {
+	    // TODO Auto-generated method stub
+	    if (date==null) {
+	        date=new Date(System.currentTimeMillis());
+	    }
+	    double somme=0;
+	    LinkedList<Facture> factures= factureManager.findall();
+	    for (Facture facture: factures) {
+	        // on regarde si la facture a un mode de paiement <=> facture payée
+	        if (facture.getId_mode_paiement()!=0 && facture.getDate_facture().compareTo(date)>= 0) {
+	            somme+=facture.getTotale_facture();
+	        }
+	    }
+	    return somme;
+	}
 }
 

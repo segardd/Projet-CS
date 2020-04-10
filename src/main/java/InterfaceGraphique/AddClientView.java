@@ -65,7 +65,7 @@ public class AddClientView extends JFrame {
      */
     private static final long serialVersionUID = -2481480541092085292L;
 
-    public AddClientView(int ID,PosteCaisseFonctionnalite facade) {
+    public AddClientView(int ID,final PosteCaisseFonctionnalite facade) {
         super();
         idMagasin = ID;
 
@@ -157,10 +157,13 @@ public class AddClientView extends JFrame {
         zoneDessin.add(btn_ajouter_client);
         btn_ajouter_client.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
-                //TODO fonction de l'event
-                
+            	try {
+					facade.createClient(txf_nom.getText(), txf_prenom.getText(), txf_mail.getText(), txf_codePostal.getText(), txf_ville.getText());
+				} catch (RemoteException e1) {
+					e1.printStackTrace();
+				}
             }
-          });
+        });
         
         
         btn_quitter = new JButton();
