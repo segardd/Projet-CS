@@ -84,7 +84,7 @@ public class RelationArticleMagasinDAOMySQL extends dao<RelationArticleMagasin> 
     @Override
     public RelationArticleMagasin create(RelationArticleMagasin obj) {
         String req= 
-                "INSERT INTO artmag (en_stock)"
+                "INSERT INTO rt_art_mag (en_stock)"
                 + " VALUES("+obj.getEn_stock()+")";
         
                     
@@ -94,7 +94,7 @@ public class RelationArticleMagasinDAOMySQL extends dao<RelationArticleMagasin> 
 
     @Override
     public RelationArticleMagasin update(RelationArticleMagasin obj) {
-        String req="UPDATE artmag SET en_stock='"+obj.getEn_stock()+"'"
+        String req="UPDATE rt_art_mag SET en_stock='"+obj.getEn_stock()+"'"
                          + " WHERE idRT_Art_Mag="+obj.getId_art_mag();
         MySQLManager.getInstance().setData(req);
         return obj;
@@ -102,7 +102,7 @@ public class RelationArticleMagasinDAOMySQL extends dao<RelationArticleMagasin> 
 
     @Override
     public void delete(RelationArticleMagasin obj) {
-        String req="DELETE FROM artmag WHERE idRT_Art_Mag="+obj.getId_art_mag();
+        String req="DELETE FROM rt_art_mag WHERE idRT_Art_Mag="+obj.getId_art_mag();
         MySQLManager.getInstance().setData(req);
 
     }

@@ -102,7 +102,8 @@ public class PosteClientFacade implements PosteClientFonctionnalite {
      * 
      * @param article nouvelle valeur de l'article
      */
-    public void remettreEnStock(Article article) {
+    public void remettreEnStock(RelationArticleMagasin artMag, Article article) {
+    	RelationArticleMagasinDAOMySQL.getInstance().update(artMag);
     	ArticleDAOMySQL.getInstance().update(article);
     }
     

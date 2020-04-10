@@ -260,7 +260,11 @@ public class OrdinateurTravailView extends JFrame {
             System.out.println("appel serveur rmi");
             Article article = facadePosteClient.findArticleByRef(cmb_ref_article.getSelectedItem().toString());
             article.setNombre_exemplaire(article.getNombre_exemplaire() + (Integer) Integer.parseInt(txf_quantite_article.getText()));
-            facadePosteClient.remettreEnStock(article);
+            
+            RelationArticleMagasin artMag = facadePosteClient.StockArticleDansMagasin(article.getIdArticle(), idMagasin);
+            artMag.setEn_stock(artMag.getEn_stock() + (Integer) Integer.parseInt(txf_quantite_article.getText()));
+            
+            facadePosteClient.remettreEnStock(artMag, article);
             System.out.println("succés");
         } catch (RemoteException e) {
             // TODO Auto-generated catch block

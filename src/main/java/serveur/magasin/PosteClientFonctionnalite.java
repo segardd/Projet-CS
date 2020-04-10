@@ -64,8 +64,9 @@ public interface PosteClientFonctionnalite extends Remote{
     
     /**
      * 
+     * @param artMag nouvelle valeur de l'article dans le magasin
      * @param article nouvelle valeur de l'article
      */
-    public void remettreEnStock(Article article) throws RemoteException;
+    public void remettreEnStock(RelationArticleMagasin artMag, Article article) throws RemoteException;
 
 }
