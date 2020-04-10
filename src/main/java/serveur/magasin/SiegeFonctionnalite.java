@@ -2,6 +2,7 @@ package serveur.magasin;
 
 import java.rmi.Remote;
 import java.rmi.RemoteException;
+import java.util.Date;
 import java.util.LinkedList;
 
 import dao.dao;
@@ -21,5 +22,8 @@ public interface SiegeFonctionnalite extends Remote{
      * @return la liste des articles en stocks.
      */
 	public LinkedList<Article> stock() throws RemoteException;
+	
+
+    double calculCA(Date date);
 
 }
